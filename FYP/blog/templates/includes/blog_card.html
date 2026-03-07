@@ -1,0 +1,45 @@
+<article class="card-premium h-100 d-flex flex-column animate-scale-in">
+  <div class="row g-0 h-100">
+    <div class="col-md-4 card-image-wrapper" style="min-height: 200px;">
+      <a href="/access-blog/{{ blog.id }}" class="text-decoration-none h-100 d-block">
+        {% if blog.cover_image %}
+        <img src="{{ blog.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ blog.title }}">
+        {% else %}
+        <div class="bg-light d-flex align-items-center justify-content-center h-100 text-muted w-100">
+          <i class="bi bi-image fs-1 opacity-25"></i>
+        </div>
+        {% endif %}
+      </a>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body p-4 d-flex flex-column h-100">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="text-primary fw-bold small text-uppercase">{{ blog.category }}</div>
+          <small class="text-muted">{{ blog.created_at|date:"M d, Y" }}</small>
+        </div>
+
+        <h5 class="fw-bold mb-2">
+          <a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark">{{ blog.title }}</a>
+        </h5>
+
+        <p class="text-muted small flex-grow-1 mb-3">{{ blog.short_description|truncatewords:20 }}</p>
+
+        <div class="d-flex align-items-center gap-2 mt-auto pt-3 border-top">
+          {% if blog.author.profile_image %}
+          <img src="{{ blog.author.profile_image.url }}" class="rounded-circle" width="24" height="24">
+          {% else %}
+          <div
+            class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center text-secondary small fw-bold"
+            style="width: 24px; height: 24px;">
+            {{ blog.author.username.0|upper }}
+          </div>
+          {% endif %}
+          <span class="text-muted small">
+            By <a href="{% url 'public_profile' blog.author.username %}"
+              class="text-decoration-none text-dark fw-medium">{{ blog.author.username }}</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

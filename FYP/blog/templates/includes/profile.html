@@ -1,0 +1,119 @@
+{% load static %}
+<h2 class="fw-bold mb-5">Edit Profile</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- ================= PROFILE HEADER ================= -->
+  <div class="border rounded-4 p-4 mb-5 bg-light-subtle">
+
+    <div class="row align-items-center g-4">
+
+      <!-- Avatar -->
+      <div class="col-md-3 text-center">
+        <div class="position-relative d-inline-block">
+
+          {% if request.user.profile_image %}
+          <img src="{{ request.user.profile_image.url }}" class="rounded-circle shadow-sm"
+            style="width:140px;height:140px;object-fit:cover;">
+          {% else %}
+          <img src="{% static 'assets/default-avatar.png' %}" class="rounded-circle shadow-sm"
+            style="width:140px;height:140px;object-fit:cover;">
+          {% endif %}
+
+
+
+          {{ form.profile_image }}
+        </div>
+
+        <div class="small text-muted mt-3">
+          Recommended: Square image, max 2MB
+        </div>
+      </div>
+
+      <!-- Identity Info -->
+      <div class="col-md-9">
+        <h4 class="fw-bold mb-1">{{ request.user.username }}</h4>
+        <div class="text-muted small mb-3">
+          Public Author Name
+        </div>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small text-muted">
+              Full Name
+            </label>
+            {{ form.full_name }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small text-muted">
+              Email Address
+            </label>
+            <input type="email" class="form-control bg-light" value="{{ request.user.email }}" readonly>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= SOCIAL LINKS ================= -->
+  <div class="border rounded-4 p-4 mb-5">
+
+    <h5 class="fw-bold mb-4">Social Links</h5>
+
+    <div class="row g-4">
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold small text-muted">Website</label>
+        {{ form.website }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold small text-muted">Instagram</label>
+        {{ form.instagram_link }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold small text-muted">X (Twitter)</label>
+        {{ form.x_link }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold small text-muted">GitHub</label>
+        {{ form.git_link }}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= BIO ================= -->
+  <div class="border rounded-4 p-4 mb-4">
+
+    <h5 class="fw-bold mb-3">Bio</h5>
+
+    {{ form.bio }}
+
+    <div class="form-text">
+      Brief description for your public profile.
+    </div>
+
+  </div>
+
+  <!-- ================= ACTION AREA ================= -->
+  <div class="d-flex justify-content-center mt-4">
+
+
+    <button type="submit" class="btn btn-success px-5 fw-medium rounded-pill">
+      Save Changes
+    </button>
+
+  </div>
+  <div class="small text-muted text-center mt-4">
+    Last updated: {{ request.user.updated_at|date:"M d, Y" }}
+  </div>
+
+</form>

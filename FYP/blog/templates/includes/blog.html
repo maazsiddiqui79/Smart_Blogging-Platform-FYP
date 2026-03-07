@@ -1,0 +1,306 @@
+{% load static %}
+
+<h2 class="fw-bold mb-4 d-flex align-items-center gap-3">
+  Your Blogs
+  <a href="/create-blog/" class="btn btn-dark btn-sm rounded-pill px-3">
+    <i class="bi bi-plus-lg"></i>
+  </a>
+</h2>
+
+<p class="text-muted mb-4">
+  Published blogs: {{ blogs|length }}
+</p>
+
+<div class="d-flex flex-column gap-4">
+
+{% for blog in blogs %}
+
+<div class="border rounded-4 p-4 shadow-sm bg-white">
+
+  <div class="row align-items-center">
+
+    <div class="col-md-9">
+      <h5 class="fw-bold mb-2">
+        {{ blog.title }}
+      </h5>
+
+      <div class="small text-muted mb-3">
+        {{ blog.slug }}
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+
+        <form action="{% url 'delete' blog.id %}" method="POST"
+              onsubmit="return confirm('Delete this blog?');">
+          {% csrf_token %}
+          <button class="btn btn-light btn-outline-danger btn-sm rounded-pill px-3">
+            Delete
+          </button>
+        </form>
+
+        <button class="btn btn-light btn-sm border rounded-pill px-3"
+                onclick="navigator.share ? navigator.share({title:'{{ blog.title }}',url:window.location.origin + '/access-blog/{{ blog.id }}/'}) : alert('Sharing not supported');">
+          Share
+        </button>
+        <button class="btn btn-dark btn-outline-light btn-sm rounded-pill px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal{{ blog.id }}">
+          Edit
+        </button>
+
+        <div class="dropdown">
+          <button class="btn btn-dark btn-sm rounded-pill px-3 dropdown-toggle"
+                  data-bs-toggle="dropdown">
+            {{ blog.status }}
+          </button>
+          <ul class="dropdown-menu shadow-sm border-0">
+            <li>
+              <a class="dropdown-item"
+                 href="/change-visibility/{{ blog.id }}/PUBLISHED/">
+                Publish
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item"
+                 href="/change-visibility/{{ blog.id }}/DRAFT/">
+                Draft
+              </a>
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mt-2 text-end">
+      {% if blog.cover_image %}
+        <img src="{{ blog.cover_image.url }}"
+             class="rounded-3 img-fluid"
+             >
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= EDIT MODAL ================= -->
+
+<div class="modal fade" id="editModal{{ blog.id }}" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title fw-bold">Edit Blog</h5>
+        <button type="button" class="btn-close"
+                data-bs-dismiss="modal"></button>
+      </div>
+
+      <form method="POST"
+            action="{% url 'edit_blog' blog.id %}"
+            enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="modal-body px-4">
+
+          <div class="row g-4">
+
+            <div class="col-md-8">
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Title
+                </label>
+                <input type="text"
+                       name="title"
+                       class="form-control form-control-lg"
+                       value="{{ blog.title }}"
+                       required>
+              </div>
+
+              <!-- TITLE BACKGROUND -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Title Background
+                </label>
+
+                <div class="d-flex gap-4 mt-2">
+
+                  <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="title_bg_color"
+                           value="BLACK"
+                           id="title_bg_color{{ blog.id }}"
+                           {% if blog.title_background == "BLACK" %}checked{% endif %}>
+                    <label class="form-check-label" for="title_bg_color">
+                      Black
+                    </label>
+                  </div>
+
+                  <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="title_bg_color"
+                           value="WHITE"
+                           id="title_bg_color"
+                           {% if blog.title_background == "WHITE" %}checked{% endif %}>
+                    <label class="form-check-label" for="title_bg_color">
+                      White
+                    </label>
+                  </div>
+
+                  <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="title_bg_color"
+                           value="NONE"
+                           id="title_bg_color"
+                           {% if blog.title_background == "NONE" %}checked{% endif %}>
+                    <label class="form-check-label" for="title_bg_color">
+                      None
+                    </label>
+                  </div>
+
+                </div>
+
+                <div class="form-text">
+                  Controls the background behind the blog title on the cover image.
+                </div>
+              </div>
+
+              <!-- CKEDITOR -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Content
+                </label>
+
+                <textarea name="content"
+                          id="editor-{{ blog.id }}"
+                          class="form-control">{{ blog.content|safe }}</textarea>
+              </div>
+
+            </div>
+
+            <div class="col-md-4 border-start">
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Cover Image
+                </label>
+                <input type="file"
+                       name="cover_image"
+                       class="form-control">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Short Description
+                </label>
+                <textarea name="short_description"
+                          class="form-control"
+                          rows="4">{{ blog.short_description }}</textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Category
+                </label>
+                <input type="text"
+                       name="category"
+                       class="form-control"
+                       value="{{ blog.category }}">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted">
+                  Visibility
+                </label>
+                <select name="visibility"
+                        class="form-select">
+                  <option value="PUBLISHED"
+                          {% if blog.status == "PUBLISHED" %}selected{% endif %}>
+                    Published
+                  </option>
+                  <option value="DRAFT"
+                          {% if blog.status == "DRAFT" %}selected{% endif %}>
+                    Draft
+                  </option>
+                </select>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer bg-light border-top-0">
+          <button type="button"
+                  class="btn btn-light border rounded-pill px-4"
+                  data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit"
+                  class="btn btn-success rounded-pill px-4">
+            Save Changes
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% empty %}
+<p class="text-muted">You have not written any blogs yet.</p>
+{% endfor %}
+
+</div>
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const modals = document.querySelectorAll(".modal");
+
+  modals.forEach(modal => {
+
+    modal.addEventListener("shown.bs.modal", function () {
+
+      const textarea = modal.querySelector("textarea[id^='editor-']");
+      if (!textarea) return;
+
+      const editorId = textarea.id;
+
+      if (!CKEDITOR.instances[editorId]) {
+        CKEDITOR.replace(editorId, {
+          height: 400,
+          removePlugins: 'elementspath',
+          resize_enabled: false
+        });
+      }
+
+    });
+
+    modal.addEventListener("hidden.bs.modal", function () {
+
+      const textarea = modal.querySelector("textarea[id^='editor-']");
+      if (!textarea) return;
+
+      const editorId = textarea.id;
+
+      if (CKEDITOR.instances[editorId]) {
+        CKEDITOR.instances[editorId].destroy(true);
+      }
+
+    });
+
+  });
+
+});
+</script>

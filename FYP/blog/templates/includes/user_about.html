@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Account Settings | Smart Blogger{% endblock %}
+
+{% block style %}
+<style>
+
+/* ================= Layout ================= */
+
+.settings-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+/* Sidebar */
+.settings-sidebar {
+  position: sticky;
+  top: 90px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-header {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-light);
+}
+
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-menu-li {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-menu-li:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+.sidebar-menu-li.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-left-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Content Area */
+.settings-content {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  min-height: 600px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Tabs */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header section inside tabs */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.tab-header h4 {
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Clean cards */
+.clean-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .settings-sidebar {
+    margin-bottom: 1rem;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container settings-container">
+
+  <div class="row g-4">
+
+    <!-- Sidebar -->
+    <aside class="col-md-3">
+      <div class="settings-sidebar">
+
+        <div class="sidebar-header">
+          <h6 class="fw-bold mb-0">Account</h6>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li class="sidebar-menu-li active" data-tab="profile">
+            <i class="bi bi-person-gear"></i> Edit Profile
+          </li>
+
+          <li class="sidebar-menu-li" data-tab="about">
+            <i class="bi bi-card-text"></i> Overview
+          </li>
+
+          <li class="sidebar-menu-li" data-tab="followers">
+            <i class="bi bi-people"></i> Network
+          </li>
+
+          <li class="sidebar-menu-li" data-tab="blogs">
+            <i class="bi bi-journals"></i> My Stories
+          </li>
+
+          <li class="sidebar-menu-li" data-tab="security">
+            <i class="bi bi-shield-lock"></i> Security
+          </li>
+        </ul>
+
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <section class="col-md-9">
+      <div class="settings-content">
+
+        {% include "includes/profile.html" %}
+        {% include "includes/about.html" %}
+        {% include "includes/followers.html" %}
+        {% include "includes/blog.html" %}
+        {% include "includes/security.html" %}
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ================= TAB SWITCHING SCRIPT ================= -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const tabs = document.querySelectorAll(".sidebar-menu-li");
+  const contents = document.querySelectorAll(".tab-content");
+
+  function switchTab(tabId) {
+    tabs.forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.tab === tabId);
+    });
+
+    contents.forEach(content => {
+      content.classList.toggle("active", content.id === tabId);
+    });
+
+    localStorage.setItem("activeProfileTab", tabId);
+  }
+
+  const savedTab = localStorage.getItem("activeProfileTab");
+  if (savedTab) {
+    switchTab(savedTab);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      switchTab(tab.dataset.tab);
+    });
+  });
+
+});
+</script>
+
+{% endblock %}

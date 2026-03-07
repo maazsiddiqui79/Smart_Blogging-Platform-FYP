@@ -1,0 +1,149 @@
+{% load static %}
+
+<style>
+  /* ================= MOBILE LAYOUT FIX ================= */
+
+  @media (max-width: 991px) {
+
+    /* Make heading full width */
+    .network-heading-wrapper {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* Make columns full width */
+    .row.g-5>div {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    .row.g-5 {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .network-card {
+      flex-direction: column;
+      align-items: flex-start !important;
+      gap: 12px;
+    }
+
+    .network-card .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .network-card img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .network-card .fw-bold {
+      font-size: 15px;
+    }
+
+    .network-card small {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<div class="network-heading-wrapper">
+  <h2 class="fw-bold mb-5">Network</h2>
+</div>
+
+<div class="row">
+
+  <!-- ================= FOLLOWING ================= -->
+  <div class="col-12 col-lg-6">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0">Following</h5>
+      <span class="badge bg-light text-dark rounded-pill px-3">
+        {{ following_users.count }}
+      </span>
+    </div>
+
+    {% if following_users %}
+    {% for user in following_users %}
+    <div class="border rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between network-card">
+
+      <div class="d-flex align-items-center gap-3">
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" width="55" height="55" class="rounded-circle" style="object-fit:cover;">
+        {% else %}
+        <img src="{% static 'assets/default-avatar.png' %}" width="55" height="55" class="rounded-circle">
+        {% endif %}
+
+        <div>
+          <div class="fw-bold">{{ user.username }}</div>
+          <small class="text-muted">
+            {{ user.full_name|default:"Smart Blogger User" }}
+          </small>
+        </div>
+      </div>
+
+      <a href="{% url 'follow_user' user.username %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+        Unfollow
+      </a>
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="text-muted">You are not following anyone yet.</p>
+    {% endif %}
+
+  </div>
+
+  <!-- ================= FOLLOWERS ================= -->
+  <div class="col-12 col-lg-6">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0">Followers</h5>
+      <span class="badge bg-light text-dark rounded-pill px-3">
+        {{ followers.count }}
+      </span>
+    </div>
+
+    {% if followers %}
+    {% for user in followers %}
+    <div class="border rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between network-card">
+
+      <div class="d-flex align-items-center gap-3">
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" width="55" height="55" class="rounded-circle" style="object-fit:cover;">
+        {% else %}
+        <img src="{% static 'assets/default-avatar.png' %}" width="55" height="55" class="rounded-circle">
+        {% endif %}
+
+        <div>
+          <div class="fw-bold">{{ user.username }}</div>
+          <small class="text-muted">
+            {{ user.full_name|default:"Smart Blogger User" }}
+          </small>
+        </div>
+      </div>
+
+      {% if request.user != user %}
+      {% if request.user in user.followers.all %}
+      <a href="{% url 'follow_user' user.username %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+        Unfollow
+      </a>
+      {% else %}
+      <a href="{% url 'follow_user' user.username %}" class="btn btn-dark btn-sm rounded-pill px-3">
+        Follow Back
+      </a>
+      {% endif %}
+      {% endif %}
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="text-muted">No followers yet.</p>
+    {% endif %}
+
+  </div>
+
+</div>

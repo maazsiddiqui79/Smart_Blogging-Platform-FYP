@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign In | Smart Blogger{% endblock %}
+
+{% block style %}
+<style>
+  .auth-wrapper {
+    min-height: calc(100vh - 70px);
+    /* Adjust for header */
+    display: flex;
+    align-items: stretch;
+  }
+
+  .auth-form-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: #fff;
+  }
+
+  .auth-image-side {
+    flex: 1;
+    background: url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
+    position: relative;
+  }
+
+  .auth-image-side::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  @media (max-width: 900px) {
+    .auth-image-side {
+      display: none;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+  <!-- Left: Form -->
+  <div class="auth-form-side">
+    
+    <div class="login-container animate-fade-in">
+          {% if messages %}
+        <div class="container-custom mt-3">
+          {% for message in messages %}
+             <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="mb-5">
+        <h1 class="h2 fw-bold mb-2">Welcome back</h1>
+        <p class="text-muted">Please enter your details to sign in.</p>
+      </div>
+
+      <form method="post" action="{% url 'sign_in' %}">
+        {% csrf_token %}
+
+        <div class="mb-4">
+          <label class="form-label fw-medium">Email or Username</label>
+          <input type="text" name="email" class="form-control form-control-lg bg-light border-0"
+            placeholder="Enter your email" required autocapitalize="off">
+        </div>
+
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label fw-medium mb-0">Password</label>
+            <a href="{% url 'forget-id-pass' %}" class="small text-primary text-decoration-none">Forgot password?</a>
+          </div>
+          <input type="password" name="password" class="form-control form-control-lg bg-light border-0"
+            placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">Sign in</button>
+
+        <p class="text-center text-muted small">
+          Don't have an account?
+          <a href="{% url 'sign_up' %}" class="text-primary fw-semibold text-decoration-none">Sign up</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right: Image -->
+  <div class="auth-image-side">
+    <div class="position-absolute top-0 start-0 p-5 z-2 text-white">
+      <h2 class="display-6 fw-bold mb-3 text-white">Share your story with the world.</h2>
+      <p class="lead opacity-75 text-white text-center">Join our community of writers and readers</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

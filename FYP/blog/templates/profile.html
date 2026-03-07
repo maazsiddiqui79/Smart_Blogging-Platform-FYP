@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Account Settings | Smart Blogger{% endblock %}
+
+{% block style %}
+<style>
+  .profile-wrapper {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  /* ================= SIDEBAR ================= */
+
+  .profile-sidebar {
+    position: sticky;
+    top: 90px;
+  }
+
+  .profile-sidebar h5 {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-tab {
+    padding: 0.9rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    transition: 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .profile-tab:hover {
+    background: #f3f4f6;
+  }
+
+  .profile-tab.active {
+    background: #e7e2d6;
+    font-weight: 600;
+  }
+
+  /* ================= CONTENT ================= */
+
+  .profile-content {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    padding: 2.5rem;
+    min-height: 650px;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+    animation: fadeIn 0.25s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ================= MOBILE FIX ================= */
+
+  @media (max-width: 991px) {
+
+    /* Make whole layout full width */
+    .container.profile-wrapper {
+      max-width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .row.g-5 {
+      margin: 0;
+    }
+
+    .col-lg-9 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* Sidebar horizontal */
+    .profile-sidebar {
+      position: relative;
+      top: unset;
+      margin-bottom: 1rem;
+      display: flex;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 0 1rem 0.5rem 1rem;
+      scrollbar-width: none;
+    }
+
+    .profile-sidebar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-sidebar h5 {
+      display: none;
+    }
+
+    .profile-tab {
+      margin-bottom: 0;
+      flex: 0 0 auto;
+    }
+
+    /* Content should take full width but keep slight spacing */
+    .profile-content {
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 0.9rem;
+      /* margin: 0 10px; */
+      /* slight side spacing */
+    }
+
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container profile-wrapper">
+  <div class="row g-5">
+
+    <!-- SIDEBAR -->
+    <div class="col-lg-3 profile-sidebar">
+      <h5>Account Settings</h5>
+
+      <div class="profile-tab active" data-tab="profile">Edit Profile</div>
+      <div class="profile-tab" data-tab="about">About</div>
+      <div class="profile-tab" data-tab="followers">Following</div>
+      <div class="profile-tab" data-tab="blogs">Your Blogs</div>
+      <div class="profile-tab" data-tab="security">Security</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="col-lg-9">
+
+      <div class="profile-content">
+
+        <div class="tab-pane active" id="profile">
+          {% include "includes/profile.html" %}
+        </div>
+
+        <div class="tab-pane" id="about">
+          {% include "includes/about.html" %}
+        </div>
+
+        <div class="tab-pane" id="followers">
+          {% include "includes/followers.html" %}
+        </div>
+
+        <div class="tab-pane" id="blogs">
+          {% include "includes/blog.html" %}
+        </div>
+
+        <div class="tab-pane" id="security">
+          {% include "includes/security.html" %}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".profile-tab");
+    const panes = document.querySelectorAll(".tab-pane");
+
+    function switchTab(tabId) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.tab === tabId);
+      });
+      panes.forEach(pane => {
+        pane.classList.toggle("active", pane.id === tabId);
+      });
+      localStorage.setItem("activeProfileTab", tabId);
+    }
+
+    const saved = localStorage.getItem("activeProfileTab");
+    if (saved) switchTab(saved);
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+    });
+  });
+</script>
+
+{% endblock %}

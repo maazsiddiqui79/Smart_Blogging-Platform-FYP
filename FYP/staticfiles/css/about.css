@@ -1,0 +1,109 @@
+
+/* ===== HERO ===== */
+.about-hero {
+  height: 55vh;
+  background: url("/static/assets/home-bg.jpg") center / cover no-repeat;
+  position: relative;
+}
+
+.hero-overlay {
+  height: 100%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.65)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-overlay p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ===== LAYOUT ===== */
+.about-wrapper {
+  margin-top: -60px;
+  background: #f6f7fb;
+  border-radius: 16px 16px 0 0;
+  padding-top: 2rem;
+}
+
+/* ===== MOBILE HEADER ===== */
+.about-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #1e1e2f;
+  color: #fff;
+}
+
+/* ===== SIDEBAR ===== */
+.about-sidebar {
+  background: #ffffff;
+  min-height: 100%;
+  border-right: 1px solid #e5e7eb;
+  padding: 1.5rem 1rem;
+}
+
+.about-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-menu li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.about-menu li:hover {
+  background: #f1f5f9;
+}
+
+.about-menu li.active {
+  background: #1e1e2f;
+  color: #ffffff;
+}
+
+/* ===== CONTENT ===== */
+.about-content {
+  padding: 2.5rem;
+  background: #ffffff;
+  min-height: 500px;
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 2.2rem;
+  }
+
+  .about-content {
+    padding: 1.5rem;
+  }
+}

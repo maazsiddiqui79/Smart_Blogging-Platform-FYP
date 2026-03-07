@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}Terms & Conditions | Smart Blogger{% endblock %}
+
+{% block style %}
+<style>
+  .legal-hero {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .legal-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+  }
+
+  .legal-card h2 {
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .legal-card p {
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  .legal-card ul {
+    padding-left: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .legal-card li {
+    margin-bottom: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .legal-card {
+      padding: 2rem 1.5rem;
+      border-radius: 16px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="legal-hero text-center">
+  <div class="container">
+    <h1 class="fw-bold display-5">Terms & Conditions</h1>
+    <p class="text-muted mt-3">Effective Date: [Add Date]</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="legal-card">
+
+    <p>
+      Welcome to Smart Blogging. These Terms and Conditions govern your access to and use of this platform.
+      By creating an account, accessing, or using Smart Blogging, you agree to be bound by these Terms.
+      If you do not agree with any part of these Terms, you must discontinue use of the platform immediately.
+    </p>
+
+    <p>
+      Smart Blogging is an academic final year project developed for educational and demonstration purposes.
+      The platform allows users to publish blog posts, interact with other users, follow profiles,
+      and engage with content through likes and comments.
+    </p>
+
+    <h2>1. Eligibility and Account Registration</h2>
+    <p>
+      To use certain features of Smart Blogging, users must create an account.
+      By registering, you confirm that the information provided is accurate and complete.
+    </p>
+    <ul>
+      <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+      <li>You agree not to share your account with others.</li>
+      <li>You are fully responsible for all activities conducted under your account.</li>
+      <li>You must notify the platform immediately if unauthorized use of your account occurs.</li>
+    </ul>
+
+    <h2>2. User Responsibilities</h2>
+    <p>
+      Users are expected to behave responsibly and ethically while using the platform.
+      You agree not to misuse the platform or engage in activities that harm other users.
+    </p>
+    <ul>
+      <li>Do not publish unlawful, abusive, or harmful content.</li>
+      <li>Do not engage in harassment, hate speech, or discrimination.</li>
+      <li>Do not impersonate other individuals or entities.</li>
+      <li>Do not attempt to gain unauthorized access to platform systems.</li>
+      <li>Do not distribute spam or misleading information.</li>
+    </ul>
+
+    <h2>3. User-Generated Content</h2>
+    <p>
+      Users retain ownership of the content they create and publish, including blog posts,
+      profile information, comments, and uploaded media.
+    </p>
+    <p>
+      By publishing content on Smart Blogging, you grant the platform a non-exclusive,
+      royalty-free license to display, reproduce, and distribute your content within the platform
+      for operational and academic purposes.
+    </p>
+    <p>
+      You are solely responsible for ensuring that your content does not violate intellectual property rights
+      or applicable laws.
+    </p>
+
+    <h2>4. Intellectual Property Rights</h2>
+    <p>
+      All platform elements including design, branding, layout, logos, and source code are the property of Smart Blogging,
+      unless otherwise stated. These materials are protected under applicable intellectual property laws.
+    </p>
+    <p>
+      Users may not copy, modify, reproduce, distribute, or exploit platform materials
+      without prior written permission.
+    </p>
+
+    <h2>5. Content Moderation and Enforcement</h2>
+    <p>
+      Smart Blogging reserves the right to review, remove, or restrict access to content
+      that violates these Terms or community standards.
+    </p>
+    <p>
+      Repeated violations may result in temporary suspension or permanent termination of accounts.
+    </p>
+
+    <h2>6. Third-Party Links</h2>
+    <p>
+      The platform may contain links to third-party websites or services.
+      Smart Blogging does not control or endorse external sites and is not responsible
+      for their content, privacy policies, or practices.
+    </p>
+
+    <h2>7. Limitation of Liability</h2>
+    <p>
+      Smart Blogging is provided on an “as is” basis.
+      The platform does not guarantee uninterrupted or error-free operation.
+    </p>
+    <ul>
+      <li>The platform is not responsible for user-generated content.</li>
+      <li>The platform is not liable for data loss due to technical issues.</li>
+      <li>The platform is not responsible for damages arising from misuse.</li>
+    </ul>
+
+    <h2>8. Termination of Services</h2>
+    <p>
+      Users may delete their accounts at any time.
+      Smart Blogging reserves the right to suspend or terminate access
+      if these Terms are violated or if misuse is detected.
+    </p>
+
+    <h2>9. Amendments to Terms</h2>
+    <p>
+      These Terms and Conditions may be updated periodically.
+      Continued use of the platform following updates constitutes acceptance of the revised Terms.
+    </p>
+
+    <h2>10. Governing Nature of Project</h2>
+    <p>
+      Smart Blogging is developed as an academic project.
+      While reasonable efforts are made to ensure reliability and security,
+      it is not a commercial service and is intended primarily for educational evaluation.
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}

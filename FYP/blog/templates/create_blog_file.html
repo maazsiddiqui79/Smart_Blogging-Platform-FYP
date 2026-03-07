@@ -1,0 +1,523 @@
+{% extends "base.html" %} {% block head %} {% endblock head %} {% block body %}
+<style>
+  /*--------------------------- CHAT BOT ----------------------------*/
+  /* =========================
+   Floating Chatbot UI
+   ========================= */
+  .chatbot-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+
+  /* Hamburger Button */
+  .chatbot-toggle:hover {
+    background-color: #a99985;
+    color: black;
+    box-shadow: 0px 6px 18px rgb(0, 0, 0);
+  }
+  .chatbot-toggle {
+    width: 55px;
+    transition: all 0.3s ease-in-out;
+    height: 55px;
+    border-radius: 50%;
+    background: #252323;
+    color: #f5f1ed;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Chat Panel */
+  .chatbot-panel {
+    position: fixed;
+    bottom: -100%;
+    right: 20px;
+    width: 440px;
+    max-height: 70vh;
+    background: #ffffff;
+    border-radius: 16px 16px 8px 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+  }
+
+  /* Active State */
+  .chatbot-panel.active {
+    bottom: 100px;
+  }
+
+  /* Header */
+  .chatbot-header {
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    background: #f5f1ed;
+    color: #000000;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Messages Area */
+  .chatbot-body {
+    padding: 0.8rem;
+    flex: 1;
+    overflow-y: auto;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  /* Input Area */
+  .chatbot-footer {
+    padding: 0.7rem;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .chatbot-footer textarea {
+    flex: 1;
+    resize: none;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .chatbot-footer button {
+    background: #252323;
+    color: #f5f1ed;
+    border: none;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /*--------------------------- CHAT BOT END --------------------*/
+  /*--------------------------- PUBLISH MESSAGE --------------------*/
+  .copy-message {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #126941;
+  display: none;
+}
+
+  .publish-success-box {
+    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    background: #D1E7DD;
+    border-left: 6px solid #126941;
+    border-radius: 10px;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .success-icon {
+    font-size: 24px;
+    font-weight: bold;
+    color: #198754;
+  }
+
+  .success-content h4 {
+    margin: 0;
+    font-weight: 600;
+    color: #145c32;
+  }
+
+  .success-content p {
+    margin: 0.4rem 0 0.8rem 0;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  .link-box {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .link-box input {
+    flex: 1;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+
+  .link-box button {
+    background: #198754;
+    color: white;
+    border: none;
+    padding: 0 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .link-box a {
+    background: #252323;
+    color: #fff;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+
+  .link-box button:hover {
+    background: #157347;
+  }
+
+  .link-box a:hover {
+    background: #000;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /*--------------------------- END PUBLISH MESSAGE --------------------*/
+
+  /* Hero Section */
+  .fullscreen-img {
+    width: 100%;
+    min-height: 100vh;
+    background: url("/static/assets/about-bg.jpg") center center / cover
+      no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .fullscreen-img h1,
+  .fullscreen-img h3 {
+    color: #ffffff;
+    text-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    margin: 0.3rem 0;
+  }
+
+  /* Form Container */
+  .blog-form-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .blog-form-container h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #0d6efd;
+  }
+
+  textarea#editor {
+    min-height: 220px;
+  }
+
+  .submit-btn {
+    background: #0d6efd;
+    color: #fff;
+    padding: 0.6rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .submit-btn:hover {
+    background: #0b5ed7;
+  }
+
+  @media (max-width: 768px) {
+    .blog-form-container {
+      margin: 1.2rem;
+      padding: 1rem;
+    }
+  }
+</style>
+
+<!-- Hero -->
+<div class="fullscreen-img">
+  <h1>New Post</h1>
+  <h3>You’re going to make a great blog post</h3>
+</div>
+
+<!-- Form -->
+<div class="blog-form-container">
+  <h2>Create Blog Post</h2>
+  {% if messages %}
+  <div class="messages-container">
+    {% for message in messages %}
+    <div
+      class="alert 
+            {% if message.tags == 'error' %}
+              alert-danger
+            {% else %}
+              alert-{{ message.tags }}
+            {% endif %}
+            alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" action="/create-blog/">
+    {% if blog %}
+    <div class="publish-success-box">
+      <div class="success-icon">✓</div>
+      <div class="success-content">
+        <h4>Blog Published Successfully</h4>
+        <p>Your post is now live and accessible at <span type="text"
+            value="{{ request.scheme }}://{{ request.get_host }}{% url 'access_blog_slug' blog.slug %}"
+            readonly
+            id="publishedLink">{{ request.scheme }}://{{ request.get_host }}{% url 'access_blog_slug' blog.slug %}</span> </p>
+
+        
+          
+
+          <button type="button" class="btn btn-dark btn-outline-light" onclick="copyBlogLink()">Copy</button>
+          <a href="{% url 'access_blog_slug' blog.slug %}" class="btn btn-light btn-outline-dark" target="_blank">
+            Open
+          </a>
+        <p id="copyMessage" class="copy-message container bg-body-secondary px-3 py-2 mt-2 rounded "></p>
+
+      </div>
+    </div>
+    {% endif %} {% csrf_token %}
+
+    <div class="form-group">
+      <label>Blog Title</label>
+      <input type="text" name="title" class="form-control" required />
+    </div>
+    <div class="form-group">
+      <label class="d-block mb-2">Title BackGround Color</label>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="color"
+          id="colorBlack"
+          value="BLACK"
+          required
+        />
+        <label class="form-check-label" for="colorBlack">Black</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="color"
+          id="colorWhite"
+          value="WHITE"
+        />
+        <label class="form-check-label" for="colorWhite">White</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="color"
+          id="colorNone"
+          value="NONE"
+          checked
+        />
+        <label class="form-check-label" for="colorNone">None</label>
+      </div>
+
+      <small class="text-muted d-block mt-2">
+        <strong>Black:</strong> Choose this for a bold, premium look with high
+        contrast. Avoid if your content uses dark images or needs a light,
+        minimal appearance.
+      </small>
+
+      <small class="text-muted d-block mt-1">
+        <strong>White:</strong> Best for clean, readable layouts and long-form
+        content. Avoid if you want a dramatic or dark-themed presentation.
+      </small>
+
+      <small class="text-muted d-block mt-1">
+        <strong>None:</strong> Uses the default theme styling. Choose this if
+        you don’t want to override the system or page design.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Slug</label>
+      <input type="text" name="slug" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label>Short Description</label>
+      <textarea
+        name="short_description"
+        rows="3"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <input type="text" name="category" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Keywords (comma separated)</label>
+      <input
+        type="text"
+        name="keywords"
+        class="form-control"
+        placeholder="django, ai, blogging"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Cover Image</label>
+      <input type="file" name="cover_image" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Blog Content</label>
+      <textarea name="content" id="editor"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="fw-bold">Visibility</label>
+
+      <div>
+        <input type="radio" name="visibility" value="DRAFT" checked /> Draft
+      </div>
+      <div>
+        <input type="radio" name="visibility" value="PUBLISHED" /> Published
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Publish</button>
+  </form>
+  <!---------------------- Chatbot UI ---------------------->
+  <div class="chatbot-wrapper">
+    <button class="chatbot-toggle" onclick="toggleChatbot()">☰</button>
+  </div>
+
+  <div class="chatbot-panel" id="chatbotPanel">
+    <div class="chatbot-header">AI Assistant</div>
+
+    <div class="chatbot-body">
+      <p>
+        <strong>Bot:</strong> Ask me to improve your blog, rewrite content, or
+        generate ideas.
+      </p>
+    </div>
+
+    <div class="chatbot-footer">
+      <textarea rows="2" placeholder="Write your prompt..."></textarea>
+      <button>Send</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+
+<script>
+  // publish blog msg
+  function copyBlogLink() {
+  const text = document.getElementById("publishedLink").innerText;
+  const message = document.getElementById("copyMessage");
+
+  navigator.clipboard.writeText(text).then(function () {
+    message.innerText = "Link copied successfully.";
+    message.style.display = "block";
+
+    setTimeout(function () {
+      message.style.display = "none";
+    }, 3000);
+  });
+}
+
+
+
+  // publish blog msg
+  CKEDITOR.replace("editor", {
+    height: 350,
+
+    allowedContent: true,
+
+    toolbar: [
+      ["Source"],
+      ["Format", "Font", "FontSize"],
+      ["Bold", "Italic", "Underline", "-", "Strike", "RemoveFormat"],
+      ["TextColor", "BGColor"],
+      ["Superscript", "Subscript"],
+      ["NumberedList", "BulletedList", "-", "Outdent", "Indent"],
+      [
+        "NumberedList",
+        "BulletedList",
+        "-",
+        "Outdent",
+        "Indent",
+        "-",
+        "Blockquote",
+        "JustifyLeft",
+        "JustifyCenter",
+        "JustifyRight",
+      ],
+      ["Link", "Unlink"],
+      ["Image", "Table", "HorizontalRule", "CodeSnippet"],
+      ["Undo", "Redo"],
+      ["Cut", "Copy", "Paste"],
+      ["Preview", "Print"],
+      ["Maximize"],
+    ],
+  });
+
+  function toggleChatbot() {
+    const panel = document.getElementById("chatbotPanel");
+    panel.classList.toggle("active");
+  }
+</script>
+
+<!-- CKEditor 5 (FULL FREE BUILD) -->
+
+{% endblock %}

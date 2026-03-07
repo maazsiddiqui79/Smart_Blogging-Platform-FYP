@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container" style="margin-top: 100px; min-height: 60vh;">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="fw-bold">
+                Search Results for: <span class="text-primary">"{{ query }}"</span>
+            </h2>
+            <p class="text-muted">Found {{ blogs|length }} matching post(s)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            {% for blog in blogs %}
+            <div class="mb-4">
+                {% include 'includes/blog_card.html' %}
+            </div>
+            {% empty %}
+            <div class="text-center py-5">
+                <div class="mb-3 opacity-25">
+                    <i class="bi bi-search" style="font-size: 4rem; color: var(--text-muted);"></i>
+                </div>
+                <h4 class="text-muted fw-bold">No results found for "{{ query }}"</h4>
+                <p class="text-muted">Try searching for different keywords or checking for typos.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary rounded-pill px-4 mt-3">Back to Home</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

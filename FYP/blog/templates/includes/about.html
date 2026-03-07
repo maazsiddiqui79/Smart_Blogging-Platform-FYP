@@ -1,0 +1,141 @@
+{% load static %}
+
+<!-- ================= PROFILE HEADER ================= -->
+<div class="border rounded-4 p-4 mb-5">
+
+  <div class="row align-items-center g-4">
+
+    <!-- Avatar -->
+    <div class="col-md-2 text-center">
+      {% if request.user.profile_image %}
+        <img src="{{ request.user.profile_image.url }}"
+             class="rounded-circle shadow-sm"
+             style="width:120px;height:120px;object-fit:cover;">
+      {% else %}
+        <img src="{% static 'assets/default-avatar.png' %}"
+             class="rounded-circle shadow-sm"
+             style="width:120px;height:120px;object-fit:cover;">
+      {% endif %}
+    </div>
+
+    <!-- Identity -->
+    <div class="col-md-10">
+
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <h4 class="fw-bold mb-0">@{{ request.user.username }}</h4>
+        <i class="bi bi-patch-check-fill text-primary"></i>
+      </div>
+
+      <div class="text-muted mb-3">
+        {{ request.user.full_name }}
+      </div>
+
+      <!-- Stats -->
+      <div class="d-flex gap-5 mb-3">
+
+        <div>
+          <h6 class="fw-bold mb-0">{{ blogs|length }}</h6>
+          <small class="text-muted">Blogs</small>
+        </div>
+
+        <div>
+          <h6 class="fw-bold mb-0">{{ request.user.followers.count }}</h6>
+          <small class="text-muted">Followers</small>
+        </div>
+
+        <div>
+          <h6 class="fw-bold mb-0">{{ request.user.following.count }}</h6>
+          <small class="text-muted">Following</small>
+        </div>
+
+      </div>
+
+      <!-- Social Links -->
+      <div class="d-flex flex-wrap gap-2">
+
+        {% if request.user.website %}
+        <a href="{{ request.user.website }}"
+           target="_blank"
+           class="btn btn-light btn-sm rounded-pill border">
+          <i class="bi bi-globe me-1"></i> Website
+        </a>
+        {% endif %}
+
+        {% if request.user.x_link %}
+        <a href="{{ request.user.x_link }}"
+           target="_blank"
+           class="btn btn-light btn-sm rounded-pill border">
+          <i class="bi bi-twitter-x me-1"></i> X
+        </a>
+        {% endif %}
+
+        {% if request.user.git_link %}
+        <a href="{{ request.user.git_link }}"
+           target="_blank"
+           class="btn btn-light btn-sm rounded-pill border">
+          <i class="bi bi-github me-1"></i> GitHub
+        </a>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= ABOUT SECTION ================= -->
+<div class="mb-5">
+  <h6 class="fw-bold text-uppercase text-muted mb-3">About</h6>
+
+  <div class="border rounded-4 p-4 bg-light">
+    {{ request.user.bio|default:"This user hasn’t added a bio yet." }}
+  </div>
+</div>
+
+<!-- ================= BLOG GRID ================= -->
+<h5 class="fw-bold mb-4">Published Blogs</h5>
+
+<div class="row g-4">
+
+  {% for blog in blogs %}
+  <div class="col-md-6 col-lg-4">
+
+    <div class="card border-0 shadow-sm h-100">
+
+      {% if blog.cover_image %}
+      <img src="{{ blog.cover_image.url }}"
+           class="card-img-top"
+           style="height:180px;object-fit:cover;">
+      {% endif %}
+
+      <div class="card-body d-flex flex-column">
+
+        <h6 class="fw-bold">
+          <a href="/access-blog/{{ blog.id }}"
+             class="text-decoration-none text-dark">
+            {{ blog.title|truncatechars:60 }}
+          </a>
+        </h6>
+
+        <p class="small text-muted flex-grow-1">
+          {{ blog.short_description|truncatewords:18 }}
+        </p>
+
+        <div class="d-flex justify-content-between small text-muted mt-3">
+          <span>❤️ {{ blog.likes.count }}</span>
+          <span>💬 {{ blog.comments.count }}</span>
+          <span>{{ blog.created_at|date:"M d" }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  {% empty %}
+  <div class="col-12 text-center py-5">
+    <p class="text-muted">No blogs published yet.</p>
+  </div>
+  {% endfor %}
+
+</div>

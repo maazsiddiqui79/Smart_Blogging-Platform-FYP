@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ author.username }} | Profile{% endblock %}
+
+{% block style %}
+<style>
+  .profile-header {
+    background: linear-gradient(to bottom, var(--bg-light) 60%, transparent 60%);
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  .profile-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .profile-avatar-xl {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: var(--shadow-lg);
+    object-fit: cover;
+  }
+
+  .social-link-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: white;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+  }
+
+  .social-link-btn:hover {
+    transform: translateY(-3px);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .stat-box {
+    background: #f9fafb;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+    min-width: 110px;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ================= RESPONSIVE ================= */
+
+  @media (max-width: 768px) {
+
+    .profile-card {
+      padding: 2rem 1.2rem;
+      border-radius: 0;
+      box-shadow: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    .profile-avatar-xl {
+      width: 120px;
+      height: 120px;
+    }
+
+    .stat-box {
+      min-width: auto;
+      flex: 1;
+    }
+
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<!-- HEADER AREA -->
+<div class="profile-header">
+  <div class="container">
+    <div class="profile-card text-center">
+
+      <div class="position-relative d-inline-block mb-3">
+        {% if author.profile_image %}
+        <img src="{{ author.profile_image.url }}" class="profile-avatar-xl">
+        {% else %}
+        <img src="{% static 'assets/default-avatar.png' %}" class="profile-avatar-xl">
+        {% endif %}
+
+        {% if author.email_verified %}
+        <div
+          class="position-absolute bottom-0 end-0 bg-primary text-white p-2 rounded-circle border border-2 border-white d-flex align-items-center justify-content-center"
+          style="width: 32px; height: 32px;" title="Verified Author">
+          <i class="bi bi-check-lg small"></i>
+        </div>
+        {% endif %}
+      </div>
+
+      <h1 class="fw-bold mb-1 d-flex align-items-center justify-content-center gap-2">
+        {{ author.full_name }}
+        {% if author.is_staff %}
+        <i class="bi bi-patch-check-fill text-primary" title="Staff"></i>
+        {% endif %}
+      </h1>
+
+      <p class="text-muted fw-medium fs-5 mb-3">@{{ author.username }}</p>
+
+      {% if author.bio %}
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-8">
+          <p class="text-muted">{{ author.bio }}</p>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+        <div class="stat-box">
+          <h4 class="fw-bold mb-0">{{ blogs.count }}</h4>
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Posts</small>
+        </div>
+        <div class="stat-box">
+          <h4 class="fw-bold mb-0">{{ author.followers.count }}</h4>
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Followers</small>
+        </div>
+        <div class="stat-box">
+          <h4 class="fw-bold mb-0">{{ author_likes }}</h4>
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Likes</small>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
+        {% if request.user.is_authenticated and request.user != author %}
+        <a href="{% url 'follow_user' author.username %}"
+          class="btn {% if request.user in author.followers.all %}btn-outline-primary{% else %}btn-primary{% endif %} px-4 rounded-pill fw-bold">
+          {% if request.user in author.followers.all %}
+          <i class="bi bi-person-check-fill me-1"></i> Following
+          {% else %}
+          <i class="bi bi-person-plus-fill me-1"></i> Follow
+          {% endif %}
+        </a>
+        {% endif %}
+
+        <button class="btn btn-light border px-4 rounded-pill fw-bold" onclick="shareProfile()">
+          <i class="bi bi-share-fill me-1"></i> Share
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 flex-wrap">
+        {% if author.website %}
+        <a href="{{ author.website }}" class="social-link-btn" target="_blank"><i class="bi bi-globe"></i></a>
+        {% endif %}
+        {% if author.instagram_link %}
+        <a href="{{ author.instagram_link }}" class="social-link-btn" target="_blank"><i class="bi bi-instagram"></i></a>
+        {% endif %}
+        {% if author.x_link %}
+        <a href="{{ author.x_link }}" class="social-link-btn" target="_blank"><i class="bi bi-twitter-x"></i></a>
+        {% endif %}
+        {% if author.git_link %}
+        <a href="{{ author.git_link }}" class="social-link-btn" target="_blank"><i class="bi bi-github"></i></a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <hr class="my-5 opacity-10">
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h3 class="fw-bold">Stories by {{ author.username }}</h3>
+  </div>
+
+  <div class="blog-grid">
+    {% for blog in blogs %}
+    <article class="card-premium h-100 d-flex flex-column animate-scale-in">
+      <a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark flex-grow-1">
+        <div class="card-image-wrapper">
+          {% if blog.cover_image %}
+          <img src="{{ blog.cover_image.url }}" class="card-img-top" alt="{{ blog.title }}">
+          {% else %}
+          <div class="bg-light d-flex align-items-center justify-content-center h-100 text-muted">
+            <i class="bi bi-image fs-1 opacity-25"></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-body p-4">
+          <div class="text-primary fw-bold small text-uppercase mb-2">{{ blog.category }}</div>
+          <h5 class="fw-bold mb-3">{{ blog.title }}</h5>
+          <p class="text-muted small">{{ blog.short_description|truncatewords:20 }}</p>
+        </div>
+      </a>
+      <div class="card-footer bg-transparent border-top p-3 text-muted small">
+        {{ blog.created_at|date:"M d, Y" }}
+      </div>
+    </article>
+    {% empty %}
+    <div class="col-12 py-5 text-center" style="grid-column: 1 / -1;">
+      <div class="mb-3 text-muted opacity-25">
+        <i class="bi bi-journal-x" style="font-size: 4rem;"></i>
+      </div>
+      <h4 class="text-muted fw-bold">No stories published yet.</h4>
+      <p class="text-muted">This author hasn't written any stories.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  function shareProfile() {
+    if (navigator.share) {
+      navigator.share({
+        title: '{{ author.full_name }} on Smart Blogger',
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Profile link copied to clipboard!');
+    }
+  }
+</script>
+
+{% endblock %}

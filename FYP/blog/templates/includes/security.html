@@ -1,0 +1,178 @@
+<div class="tab-content" id="security">
+
+  <h3 class="mb-5 fw-semibold">Security Settings</h3>
+
+
+  <div class="d-flex flex-column gap-4">
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div class="mb-3">
+      {% for message in messages %}
+      <div class="alert
+              {% if message.tags == 'error' %}
+                alert-danger
+              {% else %}
+                alert-{{ message.tags }}
+              {% endif %}
+              alert-dismissible fade show small" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ================================================= -->
+    <!-- EMAIL VERIFICATION -->
+    <!-- ================================================= -->
+    {% if not request.user.email_verified %}
+    <div class="border rounded-4 p-4 shadow-sm bg-white">
+
+      <div class="d-flex align-items-start gap-3">
+
+        <div class="bg-light rounded-circle p-2 border border-dark">
+          <i class="bi bi-envelope-check fs-5"></i>
+        </div>
+
+        <div class="flex-grow-1">
+
+          <h5 class="fw-bold mb-2">Email Verification</h5>
+
+          <p class="text-muted small mb-3">
+            Verify your email to unlock full account access and improve security.
+          </p>
+
+
+
+          <!-- Verify Button -->
+          <form method="GET" action="{% url 'email_verify' %}">
+            <button type="submit" class="btn btn-success btn-outline-light btn-sm rounded-pill px-4">
+              Verify Email
+            </button>
+          </form>
+
+
+          <!-- OTP FORM -->
+          <form method="POST" id="otpForm" class="d-none"
+            data-has-messages="{% if messages %}true{% else %}false{% endif %}" action="{% url 'email_verify' %}">
+
+            {% csrf_token %}
+
+            <div style="max-width: 300px;">
+              <input type="number" class="form-control mb-2 mt-2" name="otp" placeholder="Enter 6-digit OTP" required>
+
+              <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                Submit OTP
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showOtpForm() {
+        document.getElementById("otpForm").classList.remove("d-none");
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const otpForm = document.getElementById("otpForm");
+        if (otpForm && otpForm.dataset.hasMessages === "true") {
+          showOtpForm();
+        }
+      });
+    </script>
+
+    {% else %}
+    <!-- If Already Verified -->
+    <div class="border rounded-4 p-4 shadow-sm bg-white">
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-light rounded-circle p-3">
+          <i class="bi bi-check-circle fs-5"></i>
+        </div>
+
+        <div>
+          <h5 class="fw-bold mb-1">Email Verified</h5>
+          <p class="text-muted small mb-0">
+            Your email address is successfully verified.
+          </p>
+        </div>
+      </div>
+
+    </div>
+    {% endif %}
+
+
+    <!-- ================================================= -->
+    <!-- CHANGE PASSWORD -->
+    <!-- ================================================= -->
+
+    <div class="border rounded-4 p-4 shadow-sm bg-white">
+
+      <div class="d-flex align-items-start gap-3">
+        <div class="bg-light rounded-circle p-2 border border-dark">
+          <i class="bi bi-key fs-6"></i>
+        </div>
+
+        <div>
+          <h5 class="fw-bold mb-2">Change Password</h5>
+          <p class="text-muted small mb-3">
+            Update your password regularly to keep your account secure.
+          </p>
+
+          <a href="/forget-id-pass" class="btn btn-dark btn-outline-light btn-sm rounded-pill px-4">
+            Reset Password
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ACCOUNT ACTIONS -->
+    <!-- ================================================= -->
+
+    <div class="border rounded-4 p-4 shadow-sm bg-white">
+
+      <div class="d-flex align-items-start gap-3">
+        <div class="bg-light rounded-circle p-2 border border-dark">
+          <i class="bi bi-shield-lock fs-5"></i>
+        </div>
+
+        <div class="flex-grow-1">
+
+          <h5 class="fw-bold mb-3">Account Actions</h5>
+
+          <div class="d-flex flex-wrap gap-3">
+
+            <!-- Sign Out -->
+            <a href="/logout" class="btn btn-outline-dark border rounded-pill px-4">
+              Sign Out
+            </a>
+
+            <!-- Delete Account -->
+            <form method="POST" action="{% url 'delete_acc' %}"
+              onsubmit="return confirm('This will permanently delete your account. Continue?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-dark btn-outline-light rounded-pill px-4">
+                Delete Account
+              </button>
+            </form>
+
+          </div>
+
+          <p class="text-muted small mt-3 mb-0">
+            Deleting your account will permanently remove all blogs and profile data.
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
