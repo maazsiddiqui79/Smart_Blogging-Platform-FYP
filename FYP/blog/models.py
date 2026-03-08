@@ -143,6 +143,7 @@ class Blog(models.Model):
     is_comments_enabled = models.BooleanField(default=True)
 
     # Metrics (denormalized for performance)
+    views = models.IntegerField(default=0)
     total_views = models.PositiveBigIntegerField(default=0)
     total_likes = models.PositiveBigIntegerField(default=0)
     total_comments = models.PositiveBigIntegerField(default=0)
@@ -223,3 +224,20 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.user.username} bookmarked {self.blog.title}"
+
+class BlogView(models.Model):
+    """
+    Tracks individual blog views strictly for traffic time and new/returning reader analytics.
+    """
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name="view_events")
+    session_key = models.CharField(max_length=40, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['blog', 'session_key']),
+            models.Index(fields=['created_at']),
+        ]
+        
+    def __str__(self):
+        return f"View for {self.blog.title} at {self.created_at}"

@@ -1,0 +1,341 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .stat-card {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .stat-card h3 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1f2937;
+        margin: 0;
+    }
+
+    .stat-card p {
+        font-size: 0.85rem;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+    }
+
+    .chart-container {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .blog-list-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #f3f4f6;
+        align-items: center;
+    }
+
+    .blog-list-item:last-child {
+        border-bottom: none;
+    }
+
+    .trending-score {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Analytics Dashboard</h3>
+    <span class="badge bg-primary text-white rounded-pill px-3 py-2">
+        Engagement Rate: {{ engagement_rate }}%
+    </span>
+</div>
+
+<!-- Overview Statistics (Cards) -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h3>{{ total_blogs }}</h3>
+            <p>Total Blogs</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h3>{{ total_views }}</h3>
+            <p>Total Views</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h3>{{ total_likes }}</h3>
+            <p>Total Likes</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h3>{{ total_comments }}</h3>
+            <p>Total Comments</p>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Analytics (Cards) -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="stat-card">
+            <h3 class="text-primary">{{ peak_traffic_time|default:"N/A" }}</h3>
+            <p>Most Active Reading Time</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="stat-card d-flex justify-content-center gap-4 align-items-center">
+            <div>
+                <h3 class="text-success">{{ returning_readers_pct }}%</h3>
+                <p class="mb-0">Returning Readers</p>
+            </div>
+            <div class="vr"></div>
+            <div>
+                <h3 class="text-info">{{ new_readers_pct }}%</h3>
+                <p class="mb-0">New Readers</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="chart-container h-100">
+            <h6 class="fw-bold mb-3">Views Growth</h6>
+            <canvas id="viewsChart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="chart-container h-100">
+            <h6 class="fw-bold mb-3">Engagement Comparison</h6>
+            <canvas id="engagementChart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="chart-container h-100">
+            <h6 class="fw-bold mb-3">Traffic by Hour</h6>
+            <canvas id="trafficHourChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Lists -->
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="chart-container h-100 mb-0">
+            <h6 class="fw-bold mb-3">🔥 Trending Blogs</h6>
+            <div>
+                {% for blog in trending_blogs %}
+                <div class="blog-list-item d-flex gap-2">
+                    <a href="/access-blog/{{ blog.id }}" class="text-dark text-decoration-none text-truncate fw-medium"
+                        style="max-width: 200px;" title="{{ blog.title }}">{{ blog.title }}</a>
+                    <span class="trending-score">Views: {{ blog.views }}</span>
+                </div>
+                {% empty %}
+                <p class="text-muted small">No trending blogs yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="chart-container h-100 mb-0">
+            <h6 class="fw-bold mb-3">🏆 Top Performing Blogs</h6>
+            <div>
+                {% if top_by_views %}
+                <div class="blog-list-item d-flex gap-3">
+                    <span class="text-muted small fw-bold" style="min-width: 100px;">Most Viewed</span>
+                    <a href="/access-blog/{{ top_by_views.id }}"
+                        class="fw-bold text-dark text-decoration-none text-truncate"
+                        title="{{ top_by_views.title }}">{{top_by_views.title }}</a>
+                </div>
+                {% endif %}
+
+                {% if top_by_likes %}
+                <div class="blog-list-item d-flex gap-3">
+                    <span class="text-muted small fw-bold" style="min-width: 100px;">Most Liked</span>
+                    <a href="/access-blog/{{ top_by_likes.id }}"
+                        class="fw-bold text-dark text-decoration-none text-truncate"
+                        title="{{ top_by_likes.title }}">{{top_by_likes.title }}</a>
+                </div>
+                {% endif %}
+
+                {% if top_by_comments %}
+                <div class="blog-list-item d-flex gap-3">
+                    <span class="text-muted small fw-bold" style="min-width: 100px;">Most Discussed</span>
+                    <a href="/access-blog/{{ top_by_comments.id }}"
+                        class="fw-bold text-dark text-decoration-none text-truncate"
+                        title="{{ top_by_comments.title }}">{{ top_by_comments.title }}</a>
+                </div>
+                {% endif %}
+
+                {% if not top_by_views and not top_by_likes and not top_by_comments %}
+                <p class="text-muted small">No data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- All Blogs Performance Table -->
+<div class="row mt-4 mb-4">
+    <div class="col-12">
+        <div class="chart-container mb-0" style="overflow-x: auto;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0">📊 Total Performance Breakdown</h6>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-funnel"></i> Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <h6 class="dropdown-header">Views</h6>
+                        </li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'views_desc' %}active{% endif %}"
+                                href="?sort_by=views_desc">Views &mdash; Descending</a></li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'views_asc' %}active{% endif %}"
+                                href="?sort_by=views_asc">Views &mdash; Ascending</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <h6 class="dropdown-header">Likes</h6>
+                        </li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'likes_desc' %}active{% endif %}"
+                                href="?sort_by=likes_desc">Likes &mdash; Descending</a></li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'likes_asc' %}active{% endif %}"
+                                href="?sort_by=likes_asc">Likes &mdash; Ascending</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <h6 class="dropdown-header">Comments</h6>
+                        </li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'comments_desc' %}active{% endif %}"
+                                href="?sort_by=comments_desc">Comments &mdash; Descending</a></li>
+                        <li><a class="dropdown-item {% if request.GET.sort_by == 'comments_asc' %}active{% endif %}"
+                                href="?sort_by=comments_asc">Comments &mdash; Ascending</a></li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Blog Title</th>
+                        <th scope="col" class="text-center">Views <i class="bi bi-eye ms-1"></i></th>
+                        <th scope="col" class="text-center">Likes <i class="bi bi-heart ms-1"></i></th>
+                        <th scope="col" class="text-center">Comments <i class="bi bi-chat ms-1"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for blog in all_blogs %}
+                    <tr>
+                        <td>
+                            <a href="/access-blog/{{ blog.id }}"
+                                class="text-dark fw-bold text-decoration-none d-block text-truncate"
+                                style="max-width: 250px;" title="{{ blog.title }}">{{ blog.title }}</a>
+                            <div class="small text-muted">{{ blog.published_at|date:"M d, Y"|default:"Draft" }}</div>
+                        </td>
+                        <td class="text-center fw-medium text-primary">{{ blog.views }}</td>
+                        <td class="text-center fw-medium text-danger">{{ blog.total_likes }}</td>
+                        <td class="text-center fw-medium text-warning">{{ blog.total_comments }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-3">No blogs published yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+        new Chart(viewsCtx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels| safe }},
+        datasets: [{
+            label: 'Views Growth',
+            data: {{ chart_views_data| safe }},
+        borderColor: '#4f46e5',
+        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+    });
+
+    const engCtx = document.getElementById('engagementChart').getContext('2d');
+    new Chart(engCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Views', 'Likes', 'Comments'],
+            datasets: [{
+                label: 'Metrics',
+                data: [{{ total_views }}, {{ total_likes }}, {{ total_comments }}],
+        backgroundColor: ['#3b82f6', '#ec4899', '#f59e0b'],
+        borderRadius: 6
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+    });
+
+    const trafficHourCtx = document.getElementById('trafficHourChart').getContext('2d');
+    new Chart(trafficHourCtx, {
+        type: 'bar',
+        data: {
+            labels: ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'],
+            datasets: [{
+                label: 'Views',
+                data: {{ traffic_by_hour| safe }
+    },
+        backgroundColor: '#10b981',
+        borderRadius: 4
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
+    });
+
+});
+</script>

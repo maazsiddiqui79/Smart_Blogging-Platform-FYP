@@ -27,6 +27,7 @@ urlpatterns = [
     path('terms-n-condtion/', views.terms_n_condtion, name='terms_n_condtion'),
     path('privacy/', views.privacy, name='privacy'),
     path('add_blog_bm/<int:id>/', views.add_blog_bm, name='add_blog_bm'),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

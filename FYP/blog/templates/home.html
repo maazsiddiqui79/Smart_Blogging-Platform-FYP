@@ -5,210 +5,254 @@
 
 {% block style %}
 <style>
+    .hero-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        padding: 8rem 0;
+        padding-top: 2rem;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+    }
 
-.hero-section{
-background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
-padding:8rem 0;
-padding-top:2rem;
-border-bottom:1px solid var(--border-color);
-position:relative;
-overflow:hidden;
-}
+    /* Idea Network */
 
-/* Idea Network */
+    .idea-network {
+        position: absolute;
+        right: -60px;
+        top: 40px;
+        width: 720px;
+        height: 420px;
+        opacity: .35;
+        pointer-events: none;
+    }
 
-.idea-network{
-position:absolute;
-right:-60px;
-top:40px;
-width:720px;
-height:420px;
-opacity:.35;
-pointer-events:none;
-}
+    /* Glass Editor */
 
-/* Glass Editor */
+    .editor-preview {
+        backdrop-filter: blur(18px);
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, .6);
+        border-radius: 18px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+        padding: 1.2rem;
+        max-width: 320px;
+        position: absolute;
+        right: 190px;
+        top: 70px;
+        /*animation:floatCard 6s ease-in-out infinite;*/
+        z-index: 3;
+    }
 
-.editor-preview{
-backdrop-filter:blur(18px);
-background:rgba(255,255,255,0.6);
-border:1px solid rgba(255,255,255,.6);
-border-radius:18px;
-box-shadow:0 20px 40px rgba(0,0,0,.08);
-padding:1.2rem;
-max-width:320px;
-position:absolute;
-right:190px;
-top:70px;
-/*animation:floatCard 6s ease-in-out infinite;*/
-z-index:3;
-}
+    .editor-header {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
 
-.editor-header{
-display:flex;
-gap:6px;
-margin-bottom:10px;
-}
+    .editor-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
 
-.editor-dot{
-width:10px;
-height:10px;
-border-radius:50%;
-}
+    .editor-dot:nth-child(1) {
+        background: #ff5f56
+    }
 
-.editor-dot:nth-child(1){background:#ff5f56}
-.editor-dot:nth-child(2){background:#ffbd2e}
-.editor-dot:nth-child(3){background:#27c93f}
+    .editor-dot:nth-child(2) {
+        background: #ffbd2e
+    }
 
-.editor-title{
-font-size:14px;
-font-weight:600;
-margin-bottom:8px;
-}
+    .editor-dot:nth-child(3) {
+        background: #27c93f
+    }
 
-.editor-text{
-font-size:12px;
-color:#475569;
-line-height:1.5;
-}
+    .editor-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
 
-.editor-actions{
-margin-top:10px;
-display:flex;
-gap:8px;
-}
+    .editor-text {
+        font-size: 12px;
+        color: #475569;
+        line-height: 1.5;
+    }
 
-.editor-actions span{
-font-size:11px;
-padding:3px 8px;
-border-radius:6px;
-background:#f1f5f9;
-}
+    .editor-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+    }
 
-/* Floating topic cards */
+    .editor-actions span {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #f1f5f9;
+    }
 
-.mini-card{
-position:absolute;
-padding:8px 14px;
-background:white;
-border-radius:12px;
-box-shadow:0 10px 20px rgba(0,0,0,.08);
-font-size:12px;
-font-weight:500;
-animation:floatSmall 7s ease-in-out infinite;
-}
+    /* Floating topic cards */
 
-.card1{top:120px;right:460px;}
-.card2{top:210px;right:380px;}
-.card3{top:60px;right:280px;}
-.card4{top:260px;right:180px;}
+    .mini-card {
+        position: absolute;
+        padding: 8px 14px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+        font-size: 12px;
+        font-weight: 500;
+        animation: floatSmall 7s ease-in-out infinite;
+    }
 
-@keyframes floatCard{
-0%{transform:translateY(0)}
-50%{transform:translateY(-12px)}
-100%{transform:translateY(0)}
-}
+    .card1 {
+        top: 120px;
+        right: 460px;
+    }
 
-@keyframes floatSmall{
-0%{transform:translateY(0)}
-50%{transform:translateY(-8px)}
-100%{transform:translateY(0)}
-}
+    .card2 {
+        top: 210px;
+        right: 380px;
+    }
 
-/* Typing animation */
+    .card3 {
+        top: 60px;
+        right: 280px;
+    }
 
-.typing-wrapper{
-font-size:1.25rem;
-font-weight:500;
-margin-bottom:1.5rem;
-color:#334155;
-height:30px;
-}
+    .card4 {
+        top: 260px;
+        right: 180px;
+    }
 
-.typing-cursor{
-border-right:2px solid #6366f1;
-margin-left:2px;
-animation:blink 1s infinite;
-}
+    @keyframes floatCard {
+        0% {
+            transform: translateY(0)
+        }
 
-@keyframes blink{
-0%,100%{opacity:1}
-50%{opacity:0}
-}
+        50% {
+            transform: translateY(-12px)
+        }
 
-/* CTA */
+        100% {
+            transform: translateY(0)
+        }
+    }
 
-.hero-cta{
-display:flex;
-gap:1rem;
-}
+    @keyframes floatSmall {
+        0% {
+            transform: translateY(0)
+        }
 
-.hero-cta .btn{
-padding:.8rem 1.6rem;
-font-weight:600;
-border-radius:12px;
-}
+        50% {
+            transform: translateY(-8px)
+        }
 
-/* Cards */
+        100% {
+            transform: translateY(0)
+        }
+    }
 
-.card-img-top{
-height:220px;
-object-fit:cover;
-transition:transform .3s ease;
-}
+    /* Typing animation */
 
-.card-premium:hover .card-img-top{
-transform:scale(1.05);
-}
+    .typing-wrapper {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        color: #334155;
+        height: 30px;
+    }
 
-.card-image-wrapper{
-overflow:hidden;
-border-top-left-radius:var(--radius-xl);
-border-top-right-radius:var(--radius-xl);
-}
+    .typing-cursor {
+        border-right: 2px solid #6366f1;
+        margin-left: 2px;
+        animation: blink 1s infinite;
+    }
 
-.author-avatar{
-width:24px;
-height:24px;
-object-fit:cover;
-border-radius:50%;
-}
+    @keyframes blink {
 
-/* Sidebar sticky */
+        0%,
+        100% {
+            opacity: 1
+        }
 
-.sidebar-wrapper{
-position:sticky;
-top:120px;
-}
+        50% {
+            opacity: 0
+        }
+    }
 
-/* Mobile */
+    /* CTA */
 
-@media (max-width:992px){
+    .hero-cta {
+        display: flex;
+        gap: 1rem;
+    }
 
-.sidebar-col{
-order:-1;
-margin-bottom:2rem;
-}
+    .hero-cta .btn {
+        padding: .8rem 1.6rem;
+        font-weight: 600;
+        border-radius: 12px;
+    }
 
-.sidebar-wrapper{
-position:relative;
-top:unset;
-}
+    /* Cards */
 
-.idea-network{
-display:none;
-}
+    .card-img-top {
+        height: 220px;
+        object-fit: cover;
+        transition: transform .3s ease;
+    }
 
-.editor-preview{
-display:none;
-}
+    .card-premium:hover .card-img-top {
+        transform: scale(1.05);
+    }
 
-.mini-card{
-display:none;
-}
+    .card-image-wrapper {
+        overflow: hidden;
+        border-top-left-radius: var(--radius-xl);
+        border-top-right-radius: var(--radius-xl);
+    }
 
-}
+    .author-avatar {
+        width: 24px;
+        height: 24px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
 
+    /* Sidebar sticky */
+
+    .sidebar-wrapper {
+        position: sticky;
+        top: 120px;
+    }
+
+    /* Mobile */
+
+    @media (max-width:992px) {
+
+        .sidebar-col {
+            order: -1;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-wrapper {
+            position: relative;
+            top: unset;
+        }
+
+        .idea-network {
+            display: none;
+        }
+
+        .editor-preview {
+            display: none;
+        }
+
+        .mini-card {
+            display: none;
+        }
+
+    }
 </style>
 {% endblock %}
 
@@ -216,283 +260,291 @@ display:none;
 
 <section class="hero-section">
 
-<!-- Idea network visualization -->
+    <!-- Idea network visualization -->
 
-<svg class="idea-network" viewBox="0 0 720 420">
+    <svg class="idea-network" viewBox="0 0 720 420">
 
-<line x1="15" y1="320" x2="220" y2="120" stroke="#94a3b8"/>
-<line x1="220" y1="120" x2="360" y2="200" stroke="#94a3b8"/>
-<line x1="360" y1="200" x2="520" y2="110" stroke="#94a3b8"/>
-<line x1="360" y1="200" x2="480" y2="300" stroke="#94a3b8"/>
-<line x1="220" y1="120" x2="260" y2="400" stroke="#94a3b8"/>
-<line x1="520" y1="110" x2="640" y2="210" stroke="#94a3b8"/>
+        <line x1="15" y1="320" x2="220" y2="120" stroke="#94a3b8" />
+        <line x1="220" y1="120" x2="360" y2="200" stroke="#94a3b8" />
+        <line x1="360" y1="200" x2="520" y2="110" stroke="#94a3b8" />
+        <line x1="360" y1="200" x2="480" y2="300" stroke="#94a3b8" />
+        <line x1="220" y1="120" x2="260" y2="400" stroke="#94a3b8" />
+        <line x1="520" y1="110" x2="640" y2="210" stroke="#94a3b8" />
 
-<circle cx="15" cy="320" r="7" fill="#6366f1"/>
-<circle cx="220" cy="120" r="9" fill="#6366f1"/>
-<circle cx="360" cy="200" r="7" fill="#6366f1"/>
-<circle cx="520" cy="110" r="7" fill="#6366f1"/>
-<circle cx="480" cy="300" r="7" fill="#6366f1"/>
-<circle cx="260" cy="400" r="7" fill="#6366f1"/>
-<circle cx="640" cy="210" r="7" fill="#6366f1"/>
+        <circle cx="15" cy="320" r="7" fill="#6366f1" />
+        <circle cx="220" cy="120" r="9" fill="#6366f1" />
+        <circle cx="360" cy="200" r="7" fill="#6366f1" />
+        <circle cx="520" cy="110" r="7" fill="#6366f1" />
+        <circle cx="480" cy="300" r="7" fill="#6366f1" />
+        <circle cx="260" cy="400" r="7" fill="#6366f1" />
+        <circle cx="640" cy="210" r="7" fill="#6366f1" />
 
-</svg>
+    </svg>
 
-<div class="container-custom">
-<div class="row align-items-center">
+    <div class="container-custom">
+        <div class="row align-items-center">
 
-<div class="col-lg-7">
+            <div class="col-lg-7">
 
-<span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-bold">
-New Era of Blogging
-</span>
+                <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-bold">
+                    New Era of Blogging
+                </span>
 
-<h1 class="display-3 fw-bold mb-4">
-Where Good Ideas <br>
-<span class="text-gradient">Find You.</span>
-</h1>
+                <h1 class="display-3 fw-bold mb-4">
+                    Where Good Ideas <br>
+                    <span class="text-gradient">Find You.</span>
+                </h1>
 
-<div class="typing-wrapper">
-Write about <span id="typing-text"></span><span class="typing-cursor"></span>
-</div>
+                <div class="typing-wrapper">
+                    Write about <span id="typing-text"></span><span class="typing-cursor"></span>
+                </div>
 
-<p class="lead text-muted mb-4" style="max-width:500px;">
-Read and share new perspectives on about any topic.
-</p>
+                <p class="lead text-muted mb-4" style="max-width:500px;">
+                    Read and share new perspectives on about any topic.
+                </p>
 
-<div class="hero-cta">
+                <div class="hero-cta">
 
-<a href="{% url 'create_blog' %}" class="btn btn-primary">
-Start Writing
-</a>
+                    <a href="{% url 'create_blog' %}" class="btn btn-primary">
+                        Start Writing
+                    </a>
 
-<a href="#latest" class="btn btn-outline-dark">
-Explore Blogs
-</a>
+                    <a href="#latest" class="btn btn-outline-dark">
+                        Explore Blogs
+                    </a>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-<div class="col-lg-5 position-relative">
+            <div class="col-lg-5 position-relative">
 
 
-<!-- Editor preview -->
+                <!-- Editor preview -->
 
-<div class="editor-preview">
+                <div class="editor-preview">
 
-<div class="editor-header">
-<div class="editor-dot"></div>
-<div class="editor-dot"></div>
-<div class="editor-dot"></div>
-</div>
+                    <div class="editor-header">
+                        <div class="editor-dot"></div>
+                        <div class="editor-dot"></div>
+                        <div class="editor-dot"></div>
+                    </div>
 
-<div class="editor-title">New Blog Draft</div>
+                    <div class="editor-title">New Blog Draft</div>
 
-<div class="editor-text">
-The future of storytelling spans geopolitics, culture, technology and personal experiences shared across the internet.
-</div>
+                    <div class="editor-text">
+                        The future of storytelling spans geopolitics, culture, technology and personal experiences
+                        shared across the internet.
+                    </div>
 
-<div class="editor-actions">
-<span>Publish</span>
-<span>Preview</span>
-</div>
+                    <div class="editor-actions">
+                        <span>Publish</span>
+                        <span>Preview</span>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
-</div>
+        </div>
+    </div>
 
 </section>
 
 
 <div class="container-custom py-5">
-<div class="row g-5">
+    <div class="row g-5">
 
-<!-- Blog Feed -->
+        <!-- Blog Feed -->
 
-<div class="col-lg-8">
+        <div class="col-lg-8">
 
-<h3 id="latest" class="fw-bold mb-4">Latest Stories</h3>
+            <h3 id="latest" class="fw-bold mb-4">Latest Stories</h3>
 
-<div class="row g-4">
+            <div class="row g-4">
 
-{% for blog in blogs %}
+                {% for blog in blogs %}
 
-<div class="col-md-6">
+                <div class="col-md-6">
 
-<article class="card-premium h-100 d-flex flex-column">
+                    <article class="card-premium h-100 d-flex flex-column">
 
-<a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark flex-grow-1">
+                        <a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark flex-grow-1">
 
-<div class="card-image-wrapper">
+                            <div class="card-image-wrapper">
 
-{% if blog.cover_image %}
-<img src="{{ blog.cover_image.url }}" class="card-img-top">
-{% else %}
-<div class="card-img-top bg-light d-flex align-items-center justify-content-center">
-<i class="bi bi-image fs-1 opacity-25"></i>
-</div>
-{% endif %}
+                                {% if blog.cover_image %}
+                                <img src="{{ blog.cover_image.url }}" class="card-img-top">
+                                {% else %}
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-image fs-1 opacity-25"></i>
+                                </div>
+                                {% endif %}
 
-</div>
+                            </div>
 
-<div class="card-body p-4 d-flex flex-column h-100">
+                            <div class="card-body p-4 d-flex flex-column h-100">
 
-<h5 class="fw-bold">{{ blog.title|truncatechars:50 }}</h5>
+                                <h5 class="fw-bold">{{ blog.title|truncatechars:50 }}</h5>
 
-<p class="text-muted small flex-grow-1">
-{{ blog.short_description|truncatewords:20 }}
-</p>
+                                <p class="text-muted small flex-grow-1">
+                                    {{ blog.short_description|truncatewords:20 }}
+                                </p>
 
-</div>
+                            </div>
 
-</a>
+                        </a>
 
-<div class="card-footer bg-transparent border-top p-3">
+                        <div class="card-footer bg-transparent border-top p-3">
 
-<div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center justify-content-between">
 
-<a href="{% url 'public_profile' blog.author.username %}" class="d-flex align-items-center text-decoration-none">
+                                <a href="{% url 'public_profile' blog.author.username %}"
+                                    class="d-flex align-items-center text-decoration-none">
 
-{% if blog.author.profile_image %}
-<img src="{{ blog.author.profile_image.url }}" class="author-avatar me-2">
-{% else %}
-<div class="author-avatar bg-secondary text-white d-flex align-items-center justify-content-center me-2" style="font-size:10px;">
-{{ blog.author.username|first|upper }}
-</div>
-{% endif %}
+                                    {% if blog.author.profile_image %}
+                                    <img src="{{ blog.author.profile_image.url }}" class="author-avatar me-2">
+                                    {% else %}
+                                    <div class="author-avatar bg-secondary text-white d-flex align-items-center justify-content-center me-2"
+                                        style="font-size:10px;">
+                                        {{ blog.author.username|first|upper }}
+                                    </div>
+                                    {% endif %}
 
-<span class="small fw-medium text-dark">{{ blog.author.username }}</span>
+                                    <span class="small fw-medium text-dark">{{ blog.author.username }}</span>
 
-{% if blog.author.email_verified %}
-<i class="bi bi-patch-check-fill ms-1" style="font-size:12px;"></i>
-{% endif %}
+                                    {% if blog.author.email_verified %}
+                                    <i class="bi bi-patch-check-fill ms-1" style="font-size:12px;"></i>
+                                    {% endif %}
 
-</a>
+                                </a>
 
-<div class="d-flex gap-3 text-muted small">
+                                <div class="d-flex gap-3 text-muted small">
 
-<span>
-<i class="bi bi-heart me-1"></i>
-{{ blog.total_likes|default:0 }}
-</span>
+                                    <span>
+                                        <i class="bi bi-eye me-1"></i>
+                                        {{ blog.views|default:0 }}
+                                    </span>
 
-<span>
-<i class="bi bi-chat me-1"></i>
-{{ blog.total_comments|default:0 }}
-</span>
+                                    <span>
+                                        <i class="bi bi-heart me-1"></i>
+                                        {{ blog.total_likes|default:0 }}
+                                    </span>
 
-</div>
+                                    <span>
+                                        <i class="bi bi-chat me-1"></i>
+                                        {{ blog.total_comments|default:0 }}
+                                    </span>
 
-</div>
+                                </div>
 
-</div>
+                            </div>
 
-</article>
+                        </div>
 
-</div>
+                    </article>
 
-{% endfor %}
+                </div>
 
-</div>
+                {% endfor %}
 
-</div>
+            </div>
 
-<!-- Sidebar -->
+        </div>
 
-<div class="col-lg-4 sidebar-col">
+        <!-- Sidebar -->
 
-<div class="sidebar-wrapper">
+        <div class="col-lg-4 sidebar-col">
 
-<div class="bg-white rounded-4 p-4 shadow-sm border mb-4">
+            <div class="sidebar-wrapper">
 
-<h5 class="fw-bold mb-3">⚡ Trending Now</h5>
+                <div class="bg-white rounded-4 p-4 shadow-sm border mb-4">
 
-{% for blog in latest_blogs %}
+                    <h5 class="fw-bold mb-3">⚡ Trending Now</h5>
 
-<a href="/access-blog/{{ blog.id }}" class="text-decoration-none d-block mb-3">
+                    {% for blog in latest_blogs %}
 
-<h6 class="mb-1 text-dark fw-medium">
-{{ blog.title|truncatechars:40 }}
-</h6>
+                    <a href="/access-blog/{{ blog.id }}" class="text-decoration-none d-block mb-3">
 
-<span class="small text-muted">
-{{ blog.author.username }}
-</span>
+                        <h6 class="mb-1 text-dark fw-medium">
+                            {{ blog.title|truncatechars:40 }}
+                        </h6>
 
-</a>
+                        <span class="small text-muted">
+                            {{ blog.author.username }}
+                        </span>
 
-{% empty %}
+                    </a>
 
-<p class="text-muted small">No trending posts yet.</p>
+                    {% empty %}
 
-{% endfor %}
+                    <p class="text-muted small">No trending posts yet.</p>
 
-</div>
+                    {% endfor %}
 
-<div class="bg-white rounded-4 p-4 shadow-sm border">
+                </div>
 
-<h5 class="fw-bold mb-3">Recommended Topics</h5>
+                <div class="bg-white rounded-4 p-4 shadow-sm border">
 
-<div class="d-flex flex-wrap gap-2">
+                    <h5 class="fw-bold mb-3">Recommended Topics</h5>
 
-<span class="badge bg-light text-dark border p-2 fw-normal">Technology</span>
-<span class="badge bg-light text-dark border p-2 fw-normal">Lifestyle</span>
-<span class="badge bg-light text-dark border p-2 fw-normal">AI</span>
+                    <div class="d-flex flex-wrap gap-2">
 
-</div>
+                        <span class="badge bg-light text-dark border p-2 fw-normal">Technology</span>
+                        <span class="badge bg-light text-dark border p-2 fw-normal">Lifestyle</span>
+                        <span class="badge bg-light text-dark border p-2 fw-normal">AI</span>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
+        </div>
+
+    </div>
 </div>
 
 <script>
 
-const words=[
-"AI",
-"Programming",
-"Geopolitics",
-"Content Creation",
-"Lifestyle",
-"Cybersecurity"
-];
+    const words = [
+        "AI",
+        "Programming",
+        "Geopolitics",
+        "Content Creation",
+        "Lifestyle",
+        "Cybersecurity"
+    ];
 
-let i=0;
-let j=0;
-let current="";
-let isDeleting=false;
+    let i = 0;
+    let j = 0;
+    let current = "";
+    let isDeleting = false;
 
-function type(){
+    function type() {
 
-current=words[i];
+        current = words[i];
 
-if(!isDeleting){
-document.getElementById("typing-text").textContent=current.substring(0,j++);
-if(j>current.length){
-isDeleting=true;
-setTimeout(type,1200);
-return;
-}
-}
-else{
-document.getElementById("typing-text").textContent=current.substring(0,j--);
-if(j===0){
-isDeleting=false;
-i=(i+1)%words.length;
-}
-}
+        if (!isDeleting) {
+            document.getElementById("typing-text").textContent = current.substring(0, j++);
+            if (j > current.length) {
+                isDeleting = true;
+                setTimeout(type, 1200);
+                return;
+            }
+        }
+        else {
+            document.getElementById("typing-text").textContent = current.substring(0, j--);
+            if (j === 0) {
+                isDeleting = false;
+                i = (i + 1) % words.length;
+            }
+        }
 
-setTimeout(type,isDeleting?40:80);
-}
+        setTimeout(type, isDeleting ? 40 : 80);
+    }
 
-type();
+    type();
 
 </script>
 

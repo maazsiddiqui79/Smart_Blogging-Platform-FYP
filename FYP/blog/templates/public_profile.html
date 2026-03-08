@@ -110,13 +110,21 @@
           style="width: 32px; height: 32px;" title="Verified Author">
           <i class="bi bi-check-lg small"></i>
         </div>
+        {% else %}
+        <div
+class="position-absolute bottom-0 end-0 bg-warning text-dark rounded-circle border border-2 border-white d-flex align-items-center justify-content-center"
+style="width: 30px; height: 30px;"
+title="Account Not Verified">
+<i class="bi bi-exclamation-lg"></i>
+</div>
         {% endif %}
+
       </div>
 
       <h1 class="fw-bold mb-1 d-flex align-items-center justify-content-center gap-2">
         {{ author.full_name }}
         {% if author.is_staff %}
-        <i class="bi bi-patch-check-fill text-primary" title="Staff"></i>
+        <i class="bi bi-person-badge-fill text-primary" title="Staff"></i>
         {% endif %}
       </h1>
 

@@ -4,6 +4,7 @@
 {% block title %}Account Settings | Smart Blogger{% endblock %}
 
 {% block style %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   .profile-wrapper {
     padding-top: 2rem;
@@ -143,6 +144,7 @@
       <div class="profile-tab" data-tab="about">About</div>
       <div class="profile-tab" data-tab="followers">Following</div>
       <div class="profile-tab" data-tab="blogs">Your Blogs</div>
+      <div class="profile-tab" data-tab="analytics">Analytics</div>
       <div class="profile-tab" data-tab="security">Security</div>
     </div>
 
@@ -169,6 +171,10 @@
 
         <div class="tab-pane" id="security">
           {% include "includes/security.html" %}
+        </div>
+
+        <div class="tab-pane" id="analytics">
+          {% include "includes/analytics.html" %}
         </div>
 
       </div>

@@ -3,214 +3,211 @@
 {% block body %}
 
 <style>
+  /* ================= GLOBAL FIX ================= */
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
 
-/* ================= GLOBAL FIX ================= */
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
+  /* ================= HERO ================= */
+  .fullscreen-img {
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+  }
 
-/* ================= HERO ================= */
-.fullscreen-img {
-  width: 100%;
-  min-height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  text-align: center;
-  position: relative;
-}
-
-.fullscreen-img::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom,
-      rgba(0,0,0,0.35),
-      rgba(0,0,0,0.55));
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.08);
-  padding: 2rem 3rem;
-  border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-}
-
-.hero-content h1 {
-  color: #fff;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 800;
-  margin-bottom: .6rem;
-}
-
-.hero-content h3 {
-  color: #e5e7eb;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  opacity: 0.9;
-}
-
-/* ================= BOOKMARK ================= */
-.bookmark-on-image {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(6px);
-  border-radius: 50%;
-  padding: 10px 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.3);
-  z-index: 5;
-  transition: 0.2s ease;
-}
-
-.bookmark-on-image:hover {
-  transform: scale(1.1);
-}
-
-/* ================= BLOG CONTENT ================= */
-.blog-content {
-  max-width: 1050px;
-  margin: 2.5rem auto;
-  padding: 3rem;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-/* ================= LIKE ================= */
-.like-panel {
-  position: fixed;
-  left: 16px;
-  bottom: 40px;
-  background: #ffffff;
-  border-radius: 999px;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 12px 35px rgba(0,0,0,.18);
-  z-index: 2100;
-  transition: 0.2s ease;
-}
-
-.like-panel:hover {
-  transform: translateY(-3px);
-}
-
-.like-panel span {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-/* ================= COMMENTS ================= */
-.comment-form textarea {
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.card {
-  border-radius: 16px;
-  border: none;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-}
-
-.card-title {
-  font-weight: 600;
-}
-
-.card-text {
-  font-size: 0.95rem;
-}
-
-/* ================= CHATBOT ================= */
-.chatbot-panel {
-  position: fixed;
-  right: 24px;
-  bottom: 140px;
-  width: 380px;
-  max-height: 70vh;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: all 0.3s ease;
-  z-index: 2000;
-}
-
-.chatbot-panel.active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.chatbot-toggle {
-  position: fixed;
-  right: 20px;
-  bottom: 40px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #111;
-  color: #fff;
-  border: none;
-  font-size: 20px;
-  z-index: 2100;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-
-  .blog-content {
-    margin: 1rem;
-    padding: 1.5rem;
+  .fullscreen-img::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.55));
   }
 
   .hero-content {
-    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2rem 3rem;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   }
 
-  .chatbot-panel {
-    right: 10px;
-    left: 10px;
-    width: auto;
-    bottom: 180px;
-    max-height: 60vh;
+  .hero-content h1 {
+    color: #fff;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    margin-bottom: .6rem;
   }
 
+  .hero-content h3 {
+    color: #e5e7eb;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    opacity: 0.9;
+  }
+
+  /* ================= BOOKMARK ================= */
+  .bookmark-on-image {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 50%;
+    padding: 10px 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+    z-index: 5;
+    transition: 0.2s ease;
+  }
+
+  .bookmark-on-image:hover {
+    transform: scale(1.1);
+  }
+
+  /* ================= BLOG CONTENT ================= */
+  .blog-content {
+    max-width: 1050px;
+    margin: 2.5rem auto;
+    padding: 3rem;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  /* ================= LIKE ================= */
   .like-panel {
-    bottom: 100px;
+    position: fixed;
+    left: 16px;
+    bottom: 40px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .18);
+    z-index: 2100;
+    transition: 0.2s ease;
+  }
+
+  .like-panel:hover {
+    transform: translateY(-3px);
+  }
+
+  .like-panel span {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* ================= COMMENTS ================= */
+  .comment-form textarea {
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-title {
+    font-weight: 600;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+  }
+
+  /* ================= CHATBOT ================= */
+  .chatbot-panel {
+    position: fixed;
+    right: 24px;
+    bottom: 140px;
+    width: 380px;
+    max-height: 70vh;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 2000;
+  }
+
+  .chatbot-panel.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .chatbot-toggle {
-    bottom: 100px;
+    position: fixed;
+    right: 20px;
+    bottom: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    z-index: 2100;
   }
 
-}
+  /* ================= MOBILE ================= */
+  @media (max-width: 768px) {
 
+    .blog-content {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+
+    .hero-content {
+      padding: 1.5rem;
+    }
+
+    .chatbot-panel {
+      right: 10px;
+      left: 10px;
+      width: auto;
+      bottom: 180px;
+      max-height: 60vh;
+    }
+
+    .like-panel {
+      bottom: 100px;
+    }
+
+    .chatbot-toggle {
+      bottom: 100px;
+    }
+
+  }
 </style>
 
 <!-- ================= HERO ================= -->
 <!-- ================= HERO ================= -->
-<div class="fullscreen-img"
-     style="background:url('{{ blog.cover_image.url }}') center/cover no-repeat;">
+<div class="fullscreen-img" style="background:url('{{ blog.cover_image.url }}') center/cover no-repeat;">
 
-  <div class="hero-content"
-       style="
+  <div class="hero-content" style="
        {% if blog.title_bg_color == 'BLACK' %}
           background: rgba(0,0,0,0.45);
        {% elif blog.title_bg_color == 'WHITE' %}
@@ -220,8 +217,7 @@ html, body {
        {% endif %}
        ">
 
-    <h1
-      style="
+    <h1 style="
       {% if blog.title_bg_color == 'BLACK' %}
         color: #ffffff;
       {% elif blog.title_bg_color == 'WHITE' %}
@@ -234,8 +230,7 @@ html, body {
       {{ blog.title_bg_color }}
     </h1>
 
-    <h3
-      style="
+    <h3 style="
       {% if blog.title_bg_color == 'BLACK' %}
         color: #e5e7eb;
       {% elif blog.title_bg_color == 'WHITE' %}
@@ -249,13 +244,11 @@ html, body {
 
   </div>
 
-  <a href="{% url 'add_blog_bm' blog.id %}"
-     class="bookmark-on-image"
-     title="Bookmark">
+  <a href="{% url 'add_blog_bm' blog.id %}" class="bookmark-on-image" title="Bookmark">
     {% if is_bookmarked %}
-      <i class="bi bi-bookmark-fill fs-5"></i>
+    <i class="bi bi-bookmark-fill fs-5"></i>
     {% else %}
-      <i class="bi bi-bookmark fs-5"></i>
+    <i class="bi bi-bookmark fs-5"></i>
     {% endif %}
   </a>
 
@@ -265,13 +258,17 @@ html, body {
 <!-- ================= LIKE ================= -->
 <div class="like-panel">
   {% if user.is_authenticated %}
-    <a href="{% url 'like_blog' blog.id %}">
-      {% if request.user in blog.likes.all %} ❤️ {% else %} 🤍 {% endif %}
-    </a>
+  <a href="{% url 'like_blog' blog.id %}" style="text-decoration:none;">
+    {% if request.user in blog.likes.all %} ❤️ {% else %} 🤍 {% endif %}
+  </a>
   {% else %}
-    <a href="{% url 'login' %}">🤍</a>
+  <a href="{% url 'sign_in' %}" style="text-decoration:none;">🤍</a>
   {% endif %}
-  <span>{{ blog.likes.count }}</span>
+  <span class="me-2">{{ blog.total_likes|default:0 }}</span>
+
+  <span style="border-left: 2px solid #e5e7eb; height: 18px; margin: 0 4px;"></span>
+
+  <span class="ms-2 text-muted" title="Views">👁 {{ blog.views|default:0 }}</span>
 </div>
 
 <hr class="my-5 mx-auto" style="width:50%;">
@@ -305,38 +302,38 @@ html, body {
     <h5 class="mb-4">Leave a Comment</h5>
 
     {% if user.is_authenticated %}
-      <form method="POST" class="comment-form">
-        {% csrf_token %}
-        {{ form.content }}
-        <br>
-        <button class="btn btn-dark btn-sm mt-2">
-          Post Comment
-        </button>
-      </form>
+    <form method="POST" class="comment-form">
+      {% csrf_token %}
+      {{ form.content }}
+      <br>
+      <button class="btn btn-dark btn-sm mt-2">
+        Post Comment
+      </button>
+    </form>
     {% else %}
-      <div class="alert alert-info mt-2">
-        Login required to comment.
-      </div>
+    <div class="alert alert-info mt-2">
+      Login required to comment.
+    </div>
     {% endif %}
 
     <h6 class="mt-5">Comments ({{ comments.count }})</h6>
 
     {% for comment in comments %}
-      <div class="card mb-3 p-3">
-        <div class="d-flex justify-content-between mb-2">
-          <span class="card-title">
-            {{ comment.author.full_name|default:comment.author.username }}
-          </span>
-          <small class="text-muted">
-            {{ comment.created_at|date:"M d, Y" }}
-          </small>
-        </div>
-        <p class="card-text mb-0">{{ comment.content }}</p>
+    <div class="card mb-3 p-3">
+      <div class="d-flex justify-content-between mb-2">
+        <span class="card-title">
+          {{ comment.author.full_name|default:comment.author.username }}
+        </span>
+        <small class="text-muted">
+          {{ comment.created_at|date:"M d, Y" }}
+        </small>
       </div>
+      <p class="card-text mb-0">{{ comment.content }}</p>
+    </div>
     {% empty %}
-      <p class="text-muted">
-        No comments yet. Be the first to share your thoughts!
-      </p>
+    <p class="text-muted">
+      No comments yet. Be the first to share your thoughts!
+    </p>
     {% endfor %}
 
   </div>
@@ -365,9 +362,9 @@ html, body {
 <button class="chatbot-toggle" onclick="toggleChat()">☰</button>
 
 <script>
-function toggleChat() {
-  document.getElementById("chatbotPanel").classList.toggle("active");
-}
+  function toggleChat() {
+    document.getElementById("chatbotPanel").classList.toggle("active");
+  }
 </script>
 
 {% endblock body %}

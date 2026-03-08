@@ -5,13 +5,14 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Count, Sum, F
+from django.db.models.functions import ExtractHour
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator
 
 # Local Application Imports
-from .models import Blog, BlogKeyword,Comment,Bookmark
+from .models import Blog, BlogKeyword, Comment, Bookmark, BlogView
 from .forms import ProfileUpdateForm, CommentForm
 from .mail_file import MAIL_SENDIND
 from .Notify_followers import Notify_follower
@@ -267,10 +268,18 @@ def dashboard(request):
         .first()
     )
 
-    # pagination
-    paginator = Paginator(blog_list, 8)
-    page_number = request.GET.get("page")
-    blogs = paginator.get_page(page_number)
+    # sorting
+    sort_param = request.GET.get("sort")
+    if sort_param == "likes_asc":
+        blog_list = blog_list.annotate(likes_count_sort=Count("likes")).order_by("likes_count_sort", "-created_at")
+    elif sort_param == "likes_desc":
+        blog_list = blog_list.annotate(likes_count_sort=Count("likes")).order_by("-likes_count_sort", "-created_at")
+    elif sort_param == "views_asc":
+        blog_list = blog_list.order_by("views", "-created_at")
+    elif sort_param == "views_desc":
+        blog_list = blog_list.order_by("-views", "-created_at")
+
+    blogs = blog_list
 
     user = request.user
     following_users = user.following.all()
@@ -367,6 +376,9 @@ def create_blog_func(request):
 
         # Debugging output (optional)
         print("STATUS:", status)
+
+
+
         print("PLAIN CONTENT:", strip_tags(content))
         if status == "PUBLISHED":
             messages.success(request, "Blog published successfully.")
@@ -443,6 +455,20 @@ def access_blog(request, id):
             comment.save()
             return redirect('access_blog', id=blog.id)
     else:
+        session_key = f'viewed_blog_{blog.id}'
+        if not request.session.get(session_key, False):
+            Blog.objects.filter(id=blog.id).update(views=F("views") + 1)
+            request.session[session_key] = True
+            
+            # Track analytics independently
+            if not request.session.session_key:
+                request.session.save()
+            user_session_key = request.session.session_key
+            
+            from .models import BlogView
+            BlogView.objects.create(blog=blog, session_key=user_session_key)
+            
+        blog.refresh_from_db()
         form = CommentForm()
 
     context = {
@@ -555,12 +581,105 @@ def user_profile(request):
     else:
         form = ProfileUpdateForm(instance=request.user)
 
+    # Analytics data
+    user_blogs = Blog.objects.filter(author=request.user)
+
+    total_blogs = user_blogs.count()
+    total_views = user_blogs.aggregate(t=Sum('views')).get('t') or 0
+    total_likes = user_blogs.aggregate(t=Sum('total_likes')).get('t') or 0
+    total_comments = user_blogs.aggregate(t=Sum('total_comments')).get('t') or 0
+    
+
+    blogs_with_scores = user_blogs.annotate(
+        trending_score=F('views') + (F('total_likes') * 2) + (F('total_comments') * 3)
+    ).order_by('-trending_score')
+    
+    trending_blogs = blogs_with_scores[:5]
+
+    top_by_views = user_blogs.filter(views__gte=0).order_by('-views', '-published_at').first()
+    top_by_likes = user_blogs.filter(total_likes__gte=0).order_by('-total_likes', '-views', '-published_at').first()
+    top_by_comments = user_blogs.filter(total_comments__gte=0).order_by('-total_comments', '-published_at').first() 
+
+    # --- Peak Traffic Time & New/Returning Analytics ---
+    user_blog_views = BlogView.objects.filter(blog__author=request.user)
+    
+    # 1. Peak Traffic Time
+    hourly_counts = user_blog_views.annotate(hour=ExtractHour('created_at')).values('hour').annotate(count=Count('id')).order_by('hour')
+    traffic_by_hour = [0] * 24
+    for entry in hourly_counts:
+        if entry['hour'] is not None:
+            traffic_by_hour[entry['hour']] = entry['count']
+            
+    if user_blog_views.exists():
+        peak_hour = traffic_by_hour.index(max(traffic_by_hour))
+        start_ampm = "AM" if peak_hour < 12 else "PM"
+        end_ampm = "AM" if (peak_hour + 1) % 24 < 12 else "PM"
+        start_12 = peak_hour if peak_hour <= 12 else peak_hour - 12
+        start_12 = 12 if start_12 == 0 else start_12
+        end_12 = (peak_hour + 1) if (peak_hour + 1) <= 12 else (peak_hour + 1) - 12
+        end_12 = 12 if end_12 == 0 else end_12
+        peak_traffic_time = f"{start_12} {start_ampm} - {end_12} {end_ampm}"
+    else:
+        peak_traffic_time = "Not enough data"
+
+    # 2. Returning vs New Readers
+    reader_sessions = user_blog_views.values('session_key').annotate(visits=Count('id'))
+    returning_readers_count = reader_sessions.filter(visits__gt=1).count()
+    new_readers_count = reader_sessions.filter(visits=1).count()
+    total_readers = returning_readers_count + new_readers_count
+    
+    if total_readers > 0:
+        returning_readers_pct = round((returning_readers_count / total_readers) * 100)
+        new_readers_pct = 100 - returning_readers_pct
+    else:
+        returning_readers_pct = 0
+        new_readers_pct = 0
+
+    engagement_rate = 0
+    if total_views > 0:
+        engagement_rate = round(float((total_likes + total_comments) / total_views) * 100.0, 1)
+
+    recent_blogs_for_chart = user_blogs.filter(status='PUBLISHED').order_by('published_at')[:10]
+    chart_labels = [b.published_at.strftime('%b %d') if b.published_at else 'Unknown' for b in recent_blogs_for_chart]
+    chart_views_data = [b.views for b in recent_blogs_for_chart]
+
+    sort_by = request.GET.get('sort_by', 'recent')
+    if sort_by == 'views_asc':
+        all_blogs_stats = user_blogs.order_by('views')
+    elif sort_by == 'views_desc':
+        all_blogs_stats = user_blogs.order_by('-views')
+    elif sort_by == 'likes_asc':
+        all_blogs_stats = user_blogs.order_by('total_likes')
+    elif sort_by == 'likes_desc':
+        all_blogs_stats = user_blogs.order_by('-total_likes')
+    elif sort_by == 'comments_asc':
+        all_blogs_stats = user_blogs.order_by('total_comments')
+    elif sort_by == 'comments_desc':
+        all_blogs_stats = user_blogs.order_by('-total_comments')
+    else:
+        all_blogs_stats = user_blogs.order_by('-published_at')
+
     context = {
         'blogs': blogs,
         'form': form,
         'following_users': following_users,
         'followers': followers,
-
+        'total_blogs': total_blogs,
+        'total_views': total_views,
+        'total_likes': total_likes,
+        'total_comments': total_comments,
+        'trending_blogs': trending_blogs,
+        'top_by_views': top_by_views,
+        'top_by_likes': top_by_likes,
+        'top_by_comments': top_by_comments,
+        'peak_traffic_time': peak_traffic_time,
+        'traffic_by_hour': traffic_by_hour,
+        'returning_readers_pct': returning_readers_pct,
+        'new_readers_pct': new_readers_pct,
+        'engagement_rate': engagement_rate,
+        'chart_labels': chart_labels,
+        'chart_views_data': chart_views_data,
+        'all_blogs': all_blogs_stats,
     }
 
     return render(request, 'profile.html', context)
@@ -889,3 +1008,9 @@ def custom_404_view(request, exception=None):
 </html>
 
 """, status=404)
+
+from django.db.models import Sum, F
+
+
+
+

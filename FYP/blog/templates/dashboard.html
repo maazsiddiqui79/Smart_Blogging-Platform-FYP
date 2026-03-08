@@ -5,598 +5,643 @@
 
 {% block style %}
 <style>
+    body {
+        background: linear-gradient(to bottom right, #eef2f7, #dbe4f0);
+    }
 
-body{
-background:linear-gradient(to bottom right,#eef2f7,#dbe4f0);
-}
+    .dashboard-container {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+    }
 
-.dashboard-container{
-padding-top:2rem;
-padding-bottom:4rem;
-}
+    /* glass sidebar */
 
-/* glass sidebar */
+    .dashboard-sidebar {
+        position: sticky;
+        top: 90px;
+        padding: 1.5rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        margin-bottom: 1.5rem;
+    }
 
-.dashboard-sidebar{
-position:sticky;
-top:90px;
-padding:1.5rem;
-border-radius:18px;
-background:rgba(255,255,255,0.55);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,0.35);
-box-shadow:
-0 10px 25px rgba(0,0,0,0.08),
-inset 0 1px 0 rgba(255,255,255,0.6);
-margin-bottom:1.5rem;
-}
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        padding: .7rem 1rem;
+        border-radius: 10px;
+        transition: .25s;
+        text-decoration: none;
+        color: #1e293b;
+        font-weight: 500;
+        margin-bottom: .4rem;
+    }
 
-.sidebar-link{
-display:flex;
-align-items:center;
-padding:.7rem 1rem;
-border-radius:10px;
-transition:.25s;
-text-decoration:none;
-color:#1e293b;
-font-weight:500;
-margin-bottom:.4rem;
-}
+    .sidebar-link i {
+        margin-right: .6rem;
+    }
 
-.sidebar-link i{
-margin-right:.6rem;
-}
+    .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.7);
+        color: #2563eb;
+        transform: translateX(4px);
+    }
 
-.sidebar-link:hover{
-background:rgba(255,255,255,0.7);
-color:#2563eb;
-transform:translateX(4px);
-}
+    /* mobile quick menu */
 
-/* mobile quick menu */
+    .mobile-menu {
+        display: flex;
+        justify-content: space-between;
+        background: white;
+        border-radius: 14px;
+        padding: .8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+    }
 
-.mobile-menu{
-display:flex;
-justify-content:space-between;
-background:white;
-border-radius:14px;
-padding:.8rem;
-margin-bottom:1rem;
-border:1px solid #e2e8f0;
-}
+    .mobile-menu a {
+        flex: 1;
+        text-align: center;
+        text-decoration: none;
+        color: #334155;
+        font-size: .8rem;
+    }
 
-.mobile-menu a{
-flex:1;
-text-align:center;
-text-decoration:none;
-color:#334155;
-font-size:.8rem;
-}
+    .mobile-menu i {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 3px;
+    }
 
-.mobile-menu i{
-display:block;
-font-size:18px;
-margin-bottom:3px;
-}
+    /* trending */
 
-/* trending */
+    .dashboard-sidebar1 {
+        padding: 1.5rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        margin-bottom: 1.5rem;
+    }
 
-.dashboard-sidebar1{
-padding:1.5rem;
-border-radius:18px;
-background:rgba(255,255,255,0.55);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,0.35);
-box-shadow:
-0 10px 25px rgba(0,0,0,0.08),
-inset 0 1px 0 rgba(255,255,255,0.6);
-margin-bottom:1.5rem;
-}
+    .trending-card {
+        display: flex;
+        gap: 1rem;
+        background: rgba(255, 255, 255, 0);
+        border-radius: 16px;
+        padding: 1rem;
+        border: 1px solid #e2e8f0;
+    }
 
-.trending-card{
-display:flex;
-gap:1rem;
-background:rgba(255,255,255,0);
-border-radius:16px;
-padding:1rem;
-border:1px solid #e2e8f0;
-}
+    .trending-img {
+        width: 60px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
 
-.trending-img{
-width:60px;
-height:70px;
-object-fit:cover;
-border-radius:12px;
-}
+    /* header */
 
-/* header */
+    .dashboard-header {
+        position: relative;
+        overflow: hidden;
+        border-radius: 24px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.1);
+    }
 
-.dashboard-header{
-position:relative;
-overflow:hidden;
-border-radius:24px;
-padding:2.5rem;
-margin-bottom:2rem;
-background:rgba(255,255,255,0.35);
-backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,0.6);
-box-shadow:
-0 15px 35px rgba(0,0,0,0.1);
-}
+    .dashboard-stats {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
 
-.dashboard-stats{
-display:flex;
-gap:1rem;
-margin-top:1rem;
-flex-wrap:wrap;
-}
+    .stat-card {
+        flex: 1;
+        min-width: 110px;
+        padding: .8rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.5);
+        text-align: center;
+    }
 
-.stat-card{
-flex:1;
-min-width:110px;
-padding:.8rem;
-border-radius:10px;
-background:rgba(255,255,255,0.5);
-text-align:center;
-}
+    /* search */
 
-/* search */
+    .search-bar {
+        margin-bottom: 1.5rem;
+    }
 
-.search-bar{
-margin-bottom:1.5rem;
-}
+    /* categories */
 
-/* categories */
+    .category-chips {
+        display: flex;
+        gap: .6rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.6rem;
+    }
 
-.category-chips{
-display:flex;
-gap:.6rem;
-flex-wrap:wrap;
-margin-bottom:1.6rem;
-}
+    .chip {
+        padding: .4rem .9rem;
+        border-radius: 20px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        font-size: .8rem;
+        text-decoration: none;
+        color: #334155;
+    }
 
-.chip{
-padding:.4rem .9rem;
-border-radius:20px;
-background:white;
-border:1px solid #e2e8f0;
-font-size:.8rem;
-text-decoration:none;
-color:#334155;
-}
+    .chip:hover {
+        background: #2563eb;
+        color: white;
+    }
 
-.chip:hover{
-background:#2563eb;
-color:white;
-}
+    /* blog grid */
 
-/* blog grid */
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.4rem;
+    }
 
-.blog-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:1.4rem;
-}
+    .blog-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        transition: .3s;
+    }
 
-.blog-card{
-background:white;
-border-radius:16px;
-overflow:hidden;
-border:1px solid #e2e8f0;
-display:flex;
-flex-direction:column;
-transition:.3s;
-}
+    .blog-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+    }
 
-.blog-card:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(0,0,0,.08);
-}
+    .blog-image {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+    }
 
-.blog-image{
-width:100%;
-height:170px;
-object-fit:cover;
-}
+    .blog-body {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
 
-.blog-body{
-padding:1rem;
-display:flex;
-flex-direction:column;
-flex:1;
-}
+    .blog-title {
+        font-size: .95rem;
+        font-weight: 600;
+        margin-bottom: .4rem;
+    }
 
-.blog-title{
-font-size:.95rem;
-font-weight:600;
-margin-bottom:.4rem;
-}
+    .blog-desc {
+        font-size: .82rem;
+        color: #64748b;
+        margin-bottom: .6rem;
+        flex-grow: 1;
+    }
 
-.blog-desc{
-font-size:.82rem;
-color:#64748b;
-margin-bottom:.6rem;
-flex-grow:1;
-}
+    .blog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #f1f5f9;
+        padding-top: .5rem;
+        font-size: .8rem;
+    }
 
-.blog-footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-top:1px solid #f1f5f9;
-padding-top:.5rem;
-font-size:.8rem;
-}
+    .author-box {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
 
-.author-box{
-display:flex;
-align-items:center;
-gap:6px;
-}
+    .author-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 
-.author-avatar{
-width:28px;
-height:28px;
-border-radius:50%;
-object-fit:cover;
-}
+    .blog-stats {
+        display: flex;
+        gap: 10px;
+        color: #64748b;
+    }
 
-.blog-stats{
-display:flex;
-gap:10px;
-color:#64748b;
-}
+    @media(max-width:992px) {
+        .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 
-@media(max-width:992px){
-.blog-grid{
-grid-template-columns:repeat(2,1fr);
-}
-}
-
-@media(max-width:576px){
-.blog-grid{
-grid-template-columns:1fr;
-}
-}
-
+    @media(max-width:576px) {
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block body %}
 
 <div class="container dashboard-container">
-<div class="row g-4">
+    <div class="row g-4">
 
-<!-- Sidebar Desktop -->
+        <!-- Sidebar Desktop -->
 
-<div class="col-lg-3 d-none d-lg-block">
+        <div class="col-lg-3 d-none d-lg-block">
 
-<aside class="dashboard-sidebar">
+            <aside class="dashboard-sidebar">
 
-<a href="{% url 'home' %}" class="sidebar-link">
-<i class="bi bi-house-door"></i> Home
-</a>
+                <a href="{% url 'home' %}" class="sidebar-link">
+                    <i class="bi bi-house-door"></i> Home
+                </a>
 
-<a href="{% url 'user_profile' %}" class="sidebar-link">
-<i class="bi bi-person"></i> Profile
-</a>
+                <a href="{% url 'user_profile' %}" class="sidebar-link">
+                    <i class="bi bi-person"></i> Profile
+                </a>
 
-<a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
-<i class="bi bi-bookmark"></i> Bookmarks
-</a>
+                <a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+                    <i class="bi bi-bookmark"></i> Bookmarks
+                </a>
 
-<a href="{% url 'create_blog' %}" class="sidebar-link">
-<i class="bi bi-pencil-square"></i> Write Blog
-</a>
+                <a href="{% url 'create_blog' %}" class="sidebar-link">
+                    <i class="bi bi-pencil-square"></i> Write Blog
+                </a>
 
-</aside>
+            </aside>
 
-{% if trending_blog %}
-<div class="dashboard-sidebar1">
+            {% if trending_blog %}
+            <div class="dashboard-sidebar1">
 
-<h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
+                <h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
 
-<a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
+                <a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
 
-<div class="trending-card">
+                    <div class="trending-card">
 
-{% if trending_blog.cover_image %}
-<img src="{{ trending_blog.cover_image.url }}" class="trending-img">
-{% endif %}
+                        {% if trending_blog.cover_image %}
+                        <img src="{{ trending_blog.cover_image.url }}" class="trending-img">
+                        {% endif %}
 
-<div>
-<h6>{{ trending_blog.title }}</h6>
-<small class="text-muted">🔥 {{ trending_blog.likes.count }} likes</small>
-</div>
+                        <div>
+                            <h6>{{ trending_blog.title }}</h6>
+                            <small class="text-muted">🔥 {{ trending_blog.likes.count }} likes &nbsp;•&nbsp; <i
+                                    class="bi bi-eye"></i> {{ trending_blog.views|default:0 }} views</small>
+                        </div>
 
-</div>
+                    </div>
 
-</a>
+                </a>
 
-</div>
-{% endif %}
+            </div>
+            {% endif %}
 
-</div>
+        </div>
 
 
-<!-- Main Content -->
+        <!-- Main Content -->
 
-<div class="col-lg-9">
+        <div class="col-lg-9">
 
-<div class="dashboard-header">
+            <div class="dashboard-header">
 
-<h2>Hello, {{ request.user.full_name }} 👋</h2>
-<p>Welcome back to Smart Blogger</p>
+                <h2>Hello, {{ request.user.full_name }} 👋</h2>
+                <p>Welcome back to Smart Blogger</p>
 
-<div class="dashboard-stats">
+                <div class="dashboard-stats">
 
-<div class="stat-card">
-<strong>{{ blogs.paginator.count }}</strong>
-<br>Blogs
-</div>
+                    <div class="stat-card">
+                        <strong>{{ request.user.blogs.count }}</strong>
+                        <br>Blogs
+                    </div>
 
-<div class="stat-card">
-<strong>{{ bookmarked_blogs|length }}</strong>
-<br>Bookmarks
-</div>
+                    <div class="stat-card">
+                        <strong>{{ bookmarked_blogs|length }}</strong>
+                        <br>Bookmarks
+                    </div>
 
-<div class="stat-card">
-<strong>{{ request.user.followers.count }}</strong>
-<br>Followers
-</div>
+                    <div class="stat-card">
+                        <strong>{{ request.user.followers.count }}</strong>
+                        <br>Followers
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
-<!-- Mobile Menu -->
+            <!-- Mobile Menu -->
 
-<div class="mobile-menu d-lg-none">
+            <div class="mobile-menu d-lg-none">
 
-<a href="{% url 'home' %}">
-<i class="bi bi-house-door"></i>
-Home
-</a>
+                <a href="{% url 'home' %}">
+                    <i class="bi bi-house-door"></i>
+                    Home
+                </a>
 
-<a href="{% url 'user_profile' %}">
-<i class="bi bi-person"></i>
-Profile
-</a>
+                <a href="{% url 'user_profile' %}">
+                    <i class="bi bi-person"></i>
+                    Profile
+                </a>
 
-<a href="#" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
-<i class="bi bi-bookmark"></i>
-Bookmarks
-</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+                    <i class="bi bi-bookmark"></i>
+                    Bookmarks
+                </a>
 
-<a href="{% url 'create_blog' %}">
-<i class="bi bi-pencil-square"></i>
-Write
-</a>
+                <a href="{% url 'create_blog' %}">
+                    <i class="bi bi-pencil-square"></i>
+                    Write
+                </a>
 
-</div>
+            </div>
 
 
-<!-- Trending Blog Mobile -->
+            <!-- Trending Blog Mobile -->
 
-{% if trending_blog %}
-<div class="dashboard-sidebar1 d-lg-none">
+            {% if trending_blog %}
+            <div class="dashboard-sidebar1 d-lg-none">
+
+                <h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
 
-<h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
+                <a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
 
-<a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
+                    <div class="trending-card">
 
-<div class="trending-card">
+                        {% if trending_blog.cover_image %}
+                        <img src="{{ trending_blog.cover_image.url }}" class="trending-img">
+                        {% endif %}
 
-{% if trending_blog.cover_image %}
-<img src="{{ trending_blog.cover_image.url }}" class="trending-img">
-{% endif %}
+                        <div>
+                            <h6>{{ trending_blog.title }}</h6>
+                            <small class="text-muted">🔥 {{ trending_blog.likes.count }} likes &nbsp;•&nbsp; <i
+                                    class="bi bi-eye"></i> {{ trending_blog.views|default:0 }} views</small>
+                        </div>
 
-<div>
-<h6>{{ trending_blog.title }}</h6>
-<small class="text-muted">🔥 {{ trending_blog.likes.count }} likes</small>
-</div>
+                    </div>
 
-</div>
+                </a>
 
-</a>
+            </div>
+            {% endif %}
 
-</div>
-{% endif %}
 
+            <!-- Search -->
 
-<!-- Search -->
+            <div class="search-bar">
 
-<div class="search-bar">
+                <form method="GET">
 
-<form method="GET">
+                    <div class="input-group">
 
-<div class="input-group">
+                        <input type="search" name="q" class="form-control" placeholder="Search blogs..."
+                            value="{{ request.GET.q|default:'' }}">
 
-<input
-type="search"
-name="q"
-class="form-control"
-placeholder="Search blogs..."
-value="{{ request.GET.q|default:'' }}"
->
+                        <button class="btn btn-primary">Search</button>
 
-<button class="btn btn-primary">Search</button>
+                    </div>
 
-</div>
+                </form>
 
-</form>
+            </div>
 
-</div>
+            <!-- categories -->
 
-<!-- categories -->
+            <div class="category-chips">
 
-<div class="category-chips">
+                <a href="?category=all" class="chip">All</a>
+                <a href="?category=DevOps" class="chip">DevOps</a>
+                <a href="?category=Programming" class="chip">Programming</a>
+                <a href="?category=Cybersecurity" class="chip">Cybersecurity</a>
+                <a href="?category=Artificial Intelligence" class="chip">Artificial Intelligence</a>
 
-<a href="?category=all" class="chip">All</a>
-<a href="?category=DevOps" class="chip">DevOps</a>
-<a href="?category=Programming" class="chip">Programming</a>
-<a href="?category=Cybersecurity" class="chip">Cybersecurity</a>
-<a href="?category=Artificial Intelligence" class="chip">Artificial Intelligence</a>
+            </div>
 
-</div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0">Latest Blogs</h4>
 
-<h4 class="fw-bold mb-4">Latest Blogs</h4>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-filter"></i> Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                        <li>
+                            <h6 class="dropdown-header">Views</h6>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {% if request.GET.sort == 'views_desc' %}active{% endif %}"
+                                href="?sort=views_desc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                                <i class="bi bi-sort-numeric-down"></i> Highest First
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {% if request.GET.sort == 'views_asc' %}active{% endif %}"
+                                href="?sort=views_asc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                                <i class="bi bi-sort-numeric-up"></i> Lowest First
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <h6 class="dropdown-header">Likes</h6>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {% if request.GET.sort == 'likes_desc' %}active{% endif %}"
+                                href="?sort=likes_desc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                                <i class="bi bi-sort-down"></i> Most Liked
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {% if request.GET.sort == 'likes_asc' %}active{% endif %}"
+                                href="?sort=likes_asc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                                <i class="bi bi-sort-up"></i> Least Liked
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-<div class="blog-grid">
+            <div class="blog-grid">
 
-{% for blog in blogs %}
+                {% for blog in blogs %}
 
-<div class="blog-card">
+                <div class="blog-card">
 
-<a href="{% url 'access_blog' blog.id %}">
+                    <a href="{% url 'access_blog' blog.id %}">
 
-{% if blog.cover_image %}
-<img src="{{ blog.cover_image.url }}" class="blog-image">
-{% else %}
-<img src="{% static 'assets/default-blog.jpg' %}" class="blog-image">
-{% endif %}
+                        {% if blog.cover_image %}
+                        <img src="{{ blog.cover_image.url }}" class="blog-image">
+                        {% else %}
+                        <img src="{% static 'assets/default-blog.jpg' %}" class="blog-image">
+                        {% endif %}
 
-</a>
+                    </a>
 
-<div class="blog-body">
+                    <div class="blog-body">
 
-<div class="blog-title">{{ blog.title }}</div>
+                        <div class="blog-title">{{ blog.title }}</div>
 
-<div class="blog-desc">
-{{ blog.short_description|truncatewords:18 }}
-</div>
+                        <div class="blog-desc">
+                            {{ blog.short_description|truncatewords:18 }}
+                        </div>
 
-<div class="blog-footer">
+                        <div class="blog-footer">
 
-<a href="{% url 'public_profile' blog.author.username %}" class="author-box text-decoration-none text-dark">
+                            <a href="{% url 'public_profile' blog.author.username %}"
+                                class="author-box text-decoration-none text-dark">
 
-{% if blog.author.profile_image %}
-<img src="{{ blog.author.profile_image.url }}" class="author-avatar">
-{% endif %}
+                                {% if blog.author.profile_image %}
+                                <img src="{{ blog.author.profile_image.url }}" class="author-avatar">
+                                {% endif %}
 
-<span>{{ blog.author.username }}</span>
+                                <span>{{ blog.author.username }}</span>
 
-</a>
+                            </a>
 
-<div class="blog-stats">
+                            <div class="blog-stats">
 
-<span>❤️ {{ blog.likes.count }}</span>
+                                <span><i class="bi bi-eye"></i> {{ blog.views|default:0 }}</span>
 
-<a href="{% url 'add_blog_bm' blog.id %}">
-{% if blog in bookmarked_blogs %}
-<i class="bi bi-bookmark-fill text-primary"></i>
-{% else %}
-<i class="bi bi-bookmark"></i>
-{% endif %}
-</a>
+                                <span>❤️ {{ blog.likes.count }}</span>
 
-</div>
+                                <a href="{% url 'add_blog_bm' blog.id %}">
+                                    {% if blog in bookmarked_blogs %}
+                                    <i class="bi bi-bookmark-fill text-primary"></i>
+                                    {% else %}
+                                    <i class="bi bi-bookmark"></i>
+                                    {% endif %}
+                                </a>
 
-</div>
+                            </div>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-{% endfor %}
+                </div>
 
-</div>
+                {% endfor %}
 
-</div>
+            </div>
 
-</div>
+        </div>
+
+    </div>
 
 </div>
 
 <!-- BookMark Modal -->
- <!-- Bookmark Modal -->
+<!-- Bookmark Modal -->
 
 <div class="modal fade" id="bookmarkModal" tabindex="-1" aria-hidden="true">
 
-<div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
-<div class="modal-content">
+        <div class="modal-content">
 
-<div class="modal-header">
+            <div class="modal-header">
 
-<h5 class="modal-title">📑 Your Bookmarks</h5>
+                <h5 class="modal-title">📑 Your Bookmarks</h5>
 
-<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 
-</div>
+            </div>
 
-<div class="modal-body">
+            <div class="modal-body">
 
-{% if bookmarked_blogs %}
+                {% if bookmarked_blogs %}
 
-<div class="row g-3">
+                <div class="row g-3">
 
-{% for blog in bookmarked_blogs %}
+                    {% for blog in bookmarked_blogs %}
 
-<div class="col-md-6">
+                    <div class="col-md-6">
 
-<div class="card h-100">
+                        <div class="card h-100">
 
-<a href="{% url 'access_blog' blog.id %}">
+                            <a href="{% url 'access_blog' blog.id %}">
 
-{% if blog.cover_image %}
-<img src="{{ blog.cover_image.url }}" class="card-img-top" style="height:150px;object-fit:cover;">
-{% else %}
-<img src="{% static 'assets/default-blog.jpg' %}" class="card-img-top" style="height:150px;object-fit:cover;">
-{% endif %}
+                                {% if blog.cover_image %}
+                                <img src="{{ blog.cover_image.url }}" class="card-img-top"
+                                    style="height:150px;object-fit:cover;">
+                                {% else %}
+                                <img src="{% static 'assets/default-blog.jpg' %}" class="card-img-top"
+                                    style="height:150px;object-fit:cover;">
+                                {% endif %}
 
-</a>
+                            </a>
 
-<div class="card-body">
+                            <div class="card-body">
 
-<h6 class="card-title">{{ blog.title }}</h6>
+                                <h6 class="card-title">{{ blog.title }}</h6>
 
-<p class="card-text text-muted small">
-{{ blog.short_description|truncatewords:12 }}
-</p>
+                                <p class="card-text text-muted small">
+                                    {{ blog.short_description|truncatewords:12 }}
+                                </p>
 
-</div>
+                            </div>
 
-<div class="card-footer d-flex justify-content-between align-items-center">
+                            <div class="card-footer d-flex justify-content-between align-items-center">
 
-<small class="text-muted">
-❤️ {{ blog.likes.count }} likes
-</small>
+                                <small class="text-muted">
+                                    <i class="bi bi-eye"></i> {{ blog.views|default:0 }} &nbsp;
+                                    ❤️ {{ blog.likes.count }} likes
+                                </small>
 
-<a href="{% url 'add_blog_bm' blog.id %}">
-<i class="bi bi-bookmark-fill text-primary"></i>
-</a>
+                                <a href="{% url 'add_blog_bm' blog.id %}">
+                                    <i class="bi bi-bookmark-fill text-primary"></i>
+                                </a>
 
-</div>
+                            </div>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-{% endfor %}
+                    {% endfor %}
 
-</div>
+                </div>
 
-{% else %}
+                {% else %}
 
-<div class="text-center py-4">
+                <div class="text-center py-4">
 
-<i class="bi bi-bookmark fs-2 text-muted"></i>
+                    <i class="bi bi-bookmark fs-2 text-muted"></i>
 
-<p class="text-muted mt-2">
-You haven't bookmarked any blogs yet.
-</p>
+                    <p class="text-muted mt-2">
+                        You haven't bookmarked any blogs yet.
+                    </p>
 
-</div>
+                </div>
 
-{% endif %}
+                {% endif %}
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div>
 
