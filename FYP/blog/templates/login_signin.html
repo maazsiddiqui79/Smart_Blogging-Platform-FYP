@@ -5,103 +5,226 @@
 
 {% block style %}
 <style>
-  .auth-wrapper {
-    min-height: calc(100vh - 70px);
-    /* Adjust for header */
-    display: flex;
-    align-items: stretch;
-  }
 
-  .auth-form-side {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem;
-    background: #fff;
-  }
+input{
+background-color:#ffffff00;
+color:white;
+padding:15px;
+width:100%;
+border:1.5px white solid;
+}
 
-  .auth-image-side {
-    flex: 1;
-    background: url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
-    position: relative;
-  }
+input::placeholder{
+color:rgba(255,255,255,0.7);
+}
 
-  .auth-image-side::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-  }
+input:focus{
+background-color:rgba(0,0,0,0.43);
+color:white;
+outline:none;
+}
 
-  .login-container {
-    width: 100%;
-    max-width: 420px;
-  }
+/* MOBILE LAYOUT */
 
-  @media (max-width: 900px) {
-    .auth-image-side {
-      display: none;
-    }
-  }
+.auth-wrapper{
+min-height:calc(100vh - 70px);
+display:flex;
+align-items:center;
+justify-content:center;
+background:url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
+position:relative;
+padding:2rem;
+}
+
+.auth-wrapper::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55));
+z-index:0;
+}
+
+.auth-form-side{
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2;
+}
+
+.login-container{
+width:100%;
+max-width:420px;
+padding:2.5rem;
+background:rgba(243,243,243,0.05);
+color:white;
+backdrop-filter:blur(9px);
+border-radius:16px;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+.auth-image-side{
+display:none;
+}
+
+/* DESKTOP LAYOUT */
+
+@media (min-width:900px){
+
+.auth-wrapper{
+background:none;
+padding:0;
+align-items:stretch;
+}
+
+.auth-wrapper::before{
+display:none;
+}
+
+.auth-form-side{
+flex:1;
+padding:3rem;
+background:#ffffff;
+}
+
+.login-container{
+background:#ffffff;
+color:#111;
+backdrop-filter:none;
+box-shadow:none;
+border-radius:0;
+padding:0;
+}
+
+/* FIX TEXT COLOR ON DESKTOP */
+
+.login-container h1,
+.login-container label,
+.login-container p{
+color:#111 !important;
+}
+
+.login-container a{
+color:#0d6efd !important;
+}
+
+input{
+color:#111;
+border:1.5px #ccc solid;
+}
+
+input::placeholder{
+color:#777;
+}
+
+input:focus{
+background:#f3f3f3;
+color:#111;
+}
+
+.auth-image-side{
+flex:1;
+display:block;
+background:url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
+position:relative;
+}
+
+.auth-image-side::after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.3);
+}
+
+}
+
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="auth-wrapper">
-  <!-- Left: Form -->
-  <div class="auth-form-side">
-    
-    <div class="login-container animate-fade-in">
-          {% if messages %}
-        <div class="container-custom mt-3">
-          {% for message in messages %}
-             <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-             </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-      <div class="mb-5">
-        <h1 class="h2 fw-bold mb-2">Welcome back</h1>
-        <p class="text-muted">Please enter your details to sign in.</p>
-      </div>
 
-      <form method="post" action="{% url 'sign_in' %}">
-        {% csrf_token %}
+<div class="auth-form-side">
 
-        <div class="mb-4">
-          <label class="form-label fw-medium">Email or Username</label>
-          <input type="text" name="email" class="form-control form-control-lg bg-light border-0"
-            placeholder="Enter your email" required autocapitalize="off">
-        </div>
+<div class="login-container animate-fade-in">
 
-        <div class="mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="form-label fw-medium mb-0">Password</label>
-            <a href="{% url 'forget-id-pass' %}" class="small text-primary text-decoration-none">Forgot password?</a>
-          </div>
-          <input type="password" name="password" class="form-control form-control-lg bg-light border-0"
-            placeholder="••••••••" required>
-        </div>
+{% if messages %}
+<div class="container-custom mt-3">
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
+{{ message }}
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+</div>
+{% endif %}
 
-        <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">Sign in</button>
+<div class="mb-5 text-center text-md-start">
+<h1 class="h2 fw-bold mb-2">Welcome back</h1>
+<p>Please enter your details to sign in.</p>
+</div>
 
-        <p class="text-center text-muted small">
-          Don't have an account?
-          <a href="{% url 'sign_up' %}" class="text-primary fw-semibold text-decoration-none">Sign up</a>
-        </p>
-      </form>
-    </div>
-  </div>
+<form method="post" action="{% url 'sign_in' %}">
+{% csrf_token %}
 
-  <!-- Right: Image -->
-  <div class="auth-image-side">
-    <div class="position-absolute top-0 start-0 p-5 z-2 text-white">
-      <h2 class="display-6 fw-bold mb-3 text-white">Share your story with the world.</h2>
-      <p class="lead opacity-75 text-white text-center">Join our community of writers and readers</p>
-    </div>
-  </div>
+<div class="mb-4">
+<label class="form-label fw-medium">Email or Username</label>
+<input type="text"
+name="email"
+placeholder="Enter your email"
+required
+autocapitalize="off">
+</div>
+
+<div class="mb-4">
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+<label class="form-label fw-medium mb-0">Password</label>
+
+<a href="{% url 'forget-id-pass' %}"
+class="small fw-bold text-decoration-none">
+Forgot password?
+</a>
+</div>
+
+<input type="password"
+name="password"
+placeholder="••••••••"
+required>
+
+</div>
+
+<button type="submit" class="btn btn-primary btn-lg w-100 mb-4">
+Sign in
+</button>
+
+<p class="text-center small">
+Don't have an account?
+<a href="{% url 'sign_up' %}"
+class="fw-bolder text-decoration-none">
+Sign up
+</a>
+</p>
+
+</form>
+
+</div>
+</div>
+
+<div class="auth-image-side">
+
+<div class="position-absolute top-0 start-0 p-5 z-2 text-white">
+<h2 class="display-6 fw-bold mb-3 text-white">
+Share your story with the world.
+</h2>
+
+<p class="lead opacity-75 text-white text-center">
+Join our community of writers and readers
+</p>
+
+</div>
+
+</div>
+
 </div>
 {% endblock %}

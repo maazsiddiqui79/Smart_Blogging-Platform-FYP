@@ -1,197 +1,241 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Create Account | Smart Blogger{% endblock %}
+{% block title %}Sign In | Smart Blogger{% endblock %}
 
 {% block style %}
 <style>
-  .signup-wrapper {
-    min-height: calc(100vh - 70px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 1rem;
-    background: #f8fafc;
+  :root {
+    /* Glassmorphism Variables for Mobile */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
   }
 
-  .signup-card {
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    max-width: 950px;
-    width: 100%;
+  .auth-wrapper {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    position: relative;
     overflow: hidden;
   }
 
-  /* LEFT SIDE IMAGE CONTAINER */
-  .signup-info {
-    background: url("{% static 'assets/register-bg.jpg' %}") center/cover no-repeat;
-    position: relative;
-    color: white;
-  }
-
-  .signup-info::before {
-    content: "";
+  /* --- MOBILE DESIGN (Default) --- */
+  
+  /* Full Background Image Overlay for Mobile */
+  .auth-bg-mobile {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
+    z-index: 0;
+  }
+  
+  /* Blurry Dark Overlay to make the form pop */
+  .auth-bg-mobile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
   }
 
-  .signup-info-content {
+  /* Form Container Wrapper */
+  .auth-form-side {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
   }
 
-  .signup-card input,
-  .signup-card textarea {
-    background: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 10px;
-    padding: 0.65rem 0.9rem;
+  /* Glassmorphism Card */
+  .login-container {
+    width: 100%;
+    max-width: 400px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem;
+    /* Smooth entrance animation */
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .signup-card input:focus,
-  .signup-card textarea:focus {
-    border-color: #6366f1 !important;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15) !important;
+  /* Premium Inputs & Buttons */
+  .form-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #333;
   }
 
-  .signup-btn {
-    border-radius: 12px;
-    padding: 0.7rem;
+  .custom-input {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .custom-input:focus {
+    background: #fff !important;
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15) !important;
+    outline: none;
+  }
+
+  .custom-btn {
+    border-radius: 0.75rem;
+    padding: 0.85rem;
     font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+  }
+  
+  .custom-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+  }
+
+  .auth-image-side {
+    display: none; /* Hidden on mobile */
+  }
+
+  @keyframes slideUpFade {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- DESKTOP DESIGN (Screens > 900px) --- */
+  
+  @media (min-width: 900px) {
+    .auth-bg-mobile {
+      display: none; /* Turn off mobile background */
+    }
+
+    .auth-wrapper {
+      background: #ffffff; /* Clean white background */
+    }
+
+    .auth-form-side {
+      flex: 0 0 50%;
+      padding: 3rem;
+    }
+
+    /* Remove Glassmorphism effect on desktop for a cleaner flat UI */
+    .login-container {
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      max-width: 420px;
+    }
+
+    /* Show Right Side Image */
+    .auth-image-side {
+      display: flex;
+      flex: 0 0 50%;
+      background: url("{% static 'assets/Login.avif' %}") center/cover no-repeat;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Gradient overlay for desktop image */
+    .auth-image-side::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    .image-side-content {
+      position: relative;
+      z-index: 2;
+      padding: 4rem;
+      text-align: center;
+      color: #fff;
+    }
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="signup-wrapper">
+<div class="auth-wrapper">
+  
+  <!-- Mobile Background Overlay (Only visible on small screens) -->
+  <div class="auth-bg-mobile"></div>
 
-  <div class="signup-card animate-fade-in">
-    <div class="row g-0">
-
-      <!-- LEFT SIDE IMAGE PANEL -->
-      <div class="col-md-5 signup-info d-none d-md-flex align-items-center">
-        <div class="p-5 signup-info-content">
-          <h2 class="fw-bold mb-4 text-white">Start your journey today.</h2>
-
-          <ul class="list-unstyled d-flex flex-column gap-3 opacity-75">
-            <li>
-              <i class="bi bi-check-circle-fill me-2 text-success"></i>
-              Publish unlimited stories
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill me-2 text-success"></i>
-              Build your audience
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill me-2 text-success"></i>
-              Engage with community
-            </li>
-          </ul>
+  <!-- Left Side: Form -->
+  <div class="auth-form-side">
+    <div class="login-container">
+      
+      <!-- Django Messages -->
+      {% if messages %}
+        <div class="mt-2 mb-4">
+          {% for message in messages %}
+             <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3 small" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+          {% endfor %}
         </div>
+      {% endif %}
+      
+      <!-- Header -->
+      <div class="mb-5 text-center text-md-start">
+        <h1 class="h2 fw-bold mb-2">Welcome back</h1>
+        <p class="text-muted">Please enter your details to sign in.</p>
       </div>
 
-      <!-- RIGHT SIDE FORM -->
-      <div class="col-md-7 p-5">
+      <!-- Form Elements -->
+      <form method="post" action="{% url 'sign_in' %}">
+        {% csrf_token %}
 
-        <div class="text-center mb-5">
-          <h2 class="fw-bold">Create Account</h2>
-          <p class="text-muted">Enter your details to register.</p>
+        <div class="mb-4">
+          <label class="form-label">Email or Username</label>
+          <input type="text" name="email" class="custom-input form-control"
+            placeholder="Enter your email" required autocapitalize="off">
         </div>
 
-        <form method="post" action="{% url 'sign_up' %}">
-          {% csrf_token %}
-
-          <div class="row g-3">
-
-            <div class="col-12">
-              <label class="form-label small fw-bold text-uppercase text-muted">
-                Core Details
-              </label>
-            </div>
-
-            <div class="col-md-6">
-              <input type="text" name="username"
-                     class="form-control"
-                     placeholder="Username" required>
-            </div>
-
-            <div class="col-md-6">
-              <input type="email" name="email"
-                     class="form-control"
-                     placeholder="Email Address" required>
-            </div>
-
-            <div class="col-12">
-              <input type="password" name="password"
-                     class="form-control"
-                     placeholder="Create Password" required>
-            </div>
-
-            <div class="col-12 mt-4">
-              <label class="form-label small fw-bold text-uppercase text-muted">
-                Profile (Optional)
-              </label>
-            </div>
-
-            <div class="col-12">
-              <input type="text" name="full_name"
-                     class="form-control"
-                     placeholder="Full Name">
-            </div>
-
-            <div class="col-12">
-              <textarea name="bio"
-                        class="form-control"
-                        rows="2"
-                        placeholder="Tell us about yourself..."></textarea>
-            </div>
-
-            <div class="col-md-6">
-              <input type="url" name="website"
-                     class="form-control"
-                     placeholder="Website URL">
-            </div>
-
-            <div class="col-md-6">
-              <input type="url" name="instagram_link"
-                     class="form-control"
-                     placeholder="Instagram URL">
-            </div>
-
-            <div class="col-md-6">
-              <input type="url" name="x_link"
-                     class="form-control"
-                     placeholder="X (Twitter) URL">
-            </div>
-
-            <div class="col-md-6">
-              <input type="url" name="git_link"
-                     class="form-control"
-                     placeholder="GitHub URL">
-            </div>
-
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0">Password</label>
+            <a href="{% url 'forget-id-pass' %}" class="small text-primary text-decoration-none fw-medium">Forgot password?</a>
           </div>
+          <input type="password" name="password" class="custom-input form-control"
+            placeholder="••••••••" required>
+        </div>
 
-          <div class="mt-5">
-            <button type="submit"
-                    class="btn btn-primary w-100 signup-btn">
-              Create Account
-            </button>
-          </div>
+        <button type="submit" class="btn btn-primary custom-btn w-100 mb-4">
+          Sign in
+        </button>
 
-          <p class="text-center mt-4 small text-muted">
-            Already have an account?
-            <a href="{% url 'sign_in' %}"
-               class="fw-semibold text-decoration-none">
-              Sign in
-            </a>
-          </p>
+        <p class="text-center text-muted small mb-0">
+          Don't have an account?
+          <a href="{% url 'sign_up' %}" class="text-primary fw-semibold text-decoration-none">Sign up</a>
+        </p>
+      </form>
+      
+    </div>
+  </div>
 
-        </form>
-
-      </div>
+  <!-- Right Side: Image (Only visible on Desktop) -->
+  <div class="auth-image-side">
+    <div class="image-side-content">
+      <h2 class="display-6 fw-bold mb-3">Share your story with the world.</h2>
+      <p class="lead opacity-75 mb-0">Join our community of writers and readers</p>
     </div>
   </div>
 

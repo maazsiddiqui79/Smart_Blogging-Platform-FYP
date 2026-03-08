@@ -6,55 +6,208 @@
 {% block style %}
 <style>
 
-  .hero-section {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding: 5rem 0;
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-    z-index: 1; /* prevents overlap */
-  }
+.hero-section{
+background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
+padding:8rem 0;
+padding-top:2rem;
+border-bottom:1px solid var(--border-color);
+position:relative;
+overflow:hidden;
+}
 
-  .card-img-top {
-    height: 220px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
+/* Idea Network */
 
-  .card-premium:hover .card-img-top {
-    transform: scale(1.05);
-  }
+.idea-network{
+position:absolute;
+right:-60px;
+top:40px;
+width:720px;
+height:420px;
+opacity:.35;
+pointer-events:none;
+}
 
-  .card-image-wrapper {
-    overflow: hidden;
-    border-top-left-radius: var(--radius-xl);
-    border-top-right-radius: var(--radius-xl);
-  }
+/* Glass Editor */
 
-  .author-avatar {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+.editor-preview{
+backdrop-filter:blur(18px);
+background:rgba(255,255,255,0.6);
+border:1px solid rgba(255,255,255,.6);
+border-radius:18px;
+box-shadow:0 20px 40px rgba(0,0,0,.08);
+padding:1.2rem;
+max-width:320px;
+position:absolute;
+right:190px;
+top:70px;
+/*animation:floatCard 6s ease-in-out infinite;*/
+z-index:3;
+}
 
-  /* FIX STICKY OVERLAP */
-  .sidebar-wrapper {
-    position: sticky;
-    top: 120px;
-  }
+.editor-header{
+display:flex;
+gap:6px;
+margin-bottom:10px;
+}
 
-  /* MOBILE ORDER FIX */
-  @media (max-width: 992px) {
-    .sidebar-col {
-      order: -1; /* moves sidebar above blog feed */
-      margin-bottom: 2rem;
-    }
+.editor-dot{
+width:10px;
+height:10px;
+border-radius:50%;
+}
 
-    .sidebar-wrapper {
-      position: relative;
-      top: unset;
-    }
-  }
+.editor-dot:nth-child(1){background:#ff5f56}
+.editor-dot:nth-child(2){background:#ffbd2e}
+.editor-dot:nth-child(3){background:#27c93f}
+
+.editor-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.editor-text{
+font-size:12px;
+color:#475569;
+line-height:1.5;
+}
+
+.editor-actions{
+margin-top:10px;
+display:flex;
+gap:8px;
+}
+
+.editor-actions span{
+font-size:11px;
+padding:3px 8px;
+border-radius:6px;
+background:#f1f5f9;
+}
+
+/* Floating topic cards */
+
+.mini-card{
+position:absolute;
+padding:8px 14px;
+background:white;
+border-radius:12px;
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+font-size:12px;
+font-weight:500;
+animation:floatSmall 7s ease-in-out infinite;
+}
+
+.card1{top:120px;right:460px;}
+.card2{top:210px;right:380px;}
+.card3{top:60px;right:280px;}
+.card4{top:260px;right:180px;}
+
+@keyframes floatCard{
+0%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
+100%{transform:translateY(0)}
+}
+
+@keyframes floatSmall{
+0%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+100%{transform:translateY(0)}
+}
+
+/* Typing animation */
+
+.typing-wrapper{
+font-size:1.25rem;
+font-weight:500;
+margin-bottom:1.5rem;
+color:#334155;
+height:30px;
+}
+
+.typing-cursor{
+border-right:2px solid #6366f1;
+margin-left:2px;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,100%{opacity:1}
+50%{opacity:0}
+}
+
+/* CTA */
+
+.hero-cta{
+display:flex;
+gap:1rem;
+}
+
+.hero-cta .btn{
+padding:.8rem 1.6rem;
+font-weight:600;
+border-radius:12px;
+}
+
+/* Cards */
+
+.card-img-top{
+height:220px;
+object-fit:cover;
+transition:transform .3s ease;
+}
+
+.card-premium:hover .card-img-top{
+transform:scale(1.05);
+}
+
+.card-image-wrapper{
+overflow:hidden;
+border-top-left-radius:var(--radius-xl);
+border-top-right-radius:var(--radius-xl);
+}
+
+.author-avatar{
+width:24px;
+height:24px;
+object-fit:cover;
+border-radius:50%;
+}
+
+/* Sidebar sticky */
+
+.sidebar-wrapper{
+position:sticky;
+top:120px;
+}
+
+/* Mobile */
+
+@media (max-width:992px){
+
+.sidebar-col{
+order:-1;
+margin-bottom:2rem;
+}
+
+.sidebar-wrapper{
+position:relative;
+top:unset;
+}
+
+.idea-network{
+display:none;
+}
+
+.editor-preview{
+display:none;
+}
+
+.mini-card{
+display:none;
+}
+
+}
 
 </style>
 {% endblock %}
@@ -62,120 +215,285 @@
 {% block body %}
 
 <section class="hero-section">
-  <div class="container-custom">
-    <div class="row align-items-center">
-      <div class="col-lg-7">
-        <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-bold">
-          New Era of Blogging
-        </span>
-        <h1 class="display-3 fw-bold mb-4">
-          Where Good Ideas <br>
-          <span class="text-gradient">Find You.</span>
-        </h1>
-        <p class="lead text-muted mb-5" style="max-width: 500px;">
-          Read and share new perspectives on about any topic.
-        </p>
-      </div>
-    </div>
-  </div>
+
+<!-- Idea network visualization -->
+
+<svg class="idea-network" viewBox="0 0 720 420">
+
+<line x1="15" y1="320" x2="220" y2="120" stroke="#94a3b8"/>
+<line x1="220" y1="120" x2="360" y2="200" stroke="#94a3b8"/>
+<line x1="360" y1="200" x2="520" y2="110" stroke="#94a3b8"/>
+<line x1="360" y1="200" x2="480" y2="300" stroke="#94a3b8"/>
+<line x1="220" y1="120" x2="260" y2="400" stroke="#94a3b8"/>
+<line x1="520" y1="110" x2="640" y2="210" stroke="#94a3b8"/>
+
+<circle cx="15" cy="320" r="7" fill="#6366f1"/>
+<circle cx="220" cy="120" r="9" fill="#6366f1"/>
+<circle cx="360" cy="200" r="7" fill="#6366f1"/>
+<circle cx="520" cy="110" r="7" fill="#6366f1"/>
+<circle cx="480" cy="300" r="7" fill="#6366f1"/>
+<circle cx="260" cy="400" r="7" fill="#6366f1"/>
+<circle cx="640" cy="210" r="7" fill="#6366f1"/>
+
+</svg>
+
+<div class="container-custom">
+<div class="row align-items-center">
+
+<div class="col-lg-7">
+
+<span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-bold">
+New Era of Blogging
+</span>
+
+<h1 class="display-3 fw-bold mb-4">
+Where Good Ideas <br>
+<span class="text-gradient">Find You.</span>
+</h1>
+
+<div class="typing-wrapper">
+Write about <span id="typing-text"></span><span class="typing-cursor"></span>
+</div>
+
+<p class="lead text-muted mb-4" style="max-width:500px;">
+Read and share new perspectives on about any topic.
+</p>
+
+<div class="hero-cta">
+
+<a href="{% url 'create_blog' %}" class="btn btn-primary">
+Start Writing
+</a>
+
+<a href="#latest" class="btn btn-outline-dark">
+Explore Blogs
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-5 position-relative">
+
+
+<!-- Editor preview -->
+
+<div class="editor-preview">
+
+<div class="editor-header">
+<div class="editor-dot"></div>
+<div class="editor-dot"></div>
+<div class="editor-dot"></div>
+</div>
+
+<div class="editor-title">New Blog Draft</div>
+
+<div class="editor-text">
+The future of storytelling spans geopolitics, culture, technology and personal experiences shared across the internet.
+</div>
+
+<div class="editor-actions">
+<span>Publish</span>
+<span>Preview</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
 </section>
 
+
 <div class="container-custom py-5">
-  <div class="row g-5">
+<div class="row g-5">
 
-    <!-- BLOG FEED -->
-    <div class="col-lg-8">
+<!-- Blog Feed -->
 
-      <h3 class="fw-bold mb-4">Latest Stories</h3>
+<div class="col-lg-8">
 
-      <div class="row g-4">
-        {% for blog in blogs %}
-        <div class="col-md-6">
-          <article class="card-premium h-100 d-flex flex-column">
-            <a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark flex-grow-1">
-              <div class="card-image-wrapper">
-                {% if blog.cover_image %}
-                <img src="{{ blog.cover_image.url }}" class="card-img-top">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
-                  <i class="bi bi-image fs-1 opacity-25"></i>
-                </div>
-                {% endif %}
-              </div>
-              <div class="card-body p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold">{{ blog.title|truncatechars:50 }}</h5>
-                <p class="text-muted small flex-grow-1">
-                  {{ blog.short_description|truncatewords:20 }}
-                </p>
-              </div>
-            </a>
+<h3 id="latest" class="fw-bold mb-4">Latest Stories</h3>
 
-            
-            <div class="card-footer bg-transparent border-top p-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <a href="{% url 'public_profile' blog.author.username %}"
-                  class="d-flex align-items-center text-decoration-none group-hover">
-                  {% if blog.author.profile_image %}
-                  <img src="{{ blog.author.profile_image.url }}" class="author-avatar me-2">
-                  {% else %}
-                  <div
-                    class="author-avatar bg-secondary text-white d-flex align-items-center justify-content-center me-2"
-                    style="font-size: 10px;">
-                    {{ blog.author.username|first|upper }}
-                  </div>
-                  {% endif %}
-                  <span class="small fw-medium text-dark">{{ blog.author.username }}</span>
-                  {% if blog.author.email_verified %}
-                  <i class="bi bi-patch-check-fill verified-badge ms-1" style="font-size: 12px;"></i>
-                  {% endif %}
-                </a>
+<div class="row g-4">
 
-                <div class="d-flex gap-3 text-muted small">
-                  <!-- Use 'total_likes' if available in model, else just placeholder logic -->
-                  <span><i class="bi bi-heart me-1"></i> {{ blog.total_likes|default:0 }}</span>
-                  <span><i class="bi bi-chat me-1"></i> {{ blog.total_comments|default:0 }}</span>
-                </div>
-              </div>
-            </div>
-            
-          </article>
-        </div>
-        {% endfor %}
-      </div>
+{% for blog in blogs %}
 
-    </div>
+<div class="col-md-6">
 
-    <!-- SIDEBAR -->
-    <div class="col-lg-4 sidebar-col">
-      <div class="sidebar-wrapper">
+<article class="card-premium h-100 d-flex flex-column">
 
-        <!-- Trending -->
-        <div class="bg-white rounded-4 p-4 shadow-sm border mb-4">
-          <h5 class="fw-bold mb-3">⚡ Trending Now</h5>
-          {% for blog in latest_blogs %}
-          <a href="/access-blog/{{ blog.id }}" class="text-decoration-none d-block mb-3">
-            <h6 class="mb-1 text-dark fw-medium">{{ blog.title|truncatechars:40 }}</h6>
-            <span class="small text-muted">{{ blog.author.username }}</span>
-          </a>
-          {% empty %}
-          <p class="text-muted small">No trending posts yet.</p>
-          {% endfor %}
-        </div>
+<a href="/access-blog/{{ blog.id }}" class="text-decoration-none text-dark flex-grow-1">
 
-        <!-- Recommended -->
-        <div class="bg-white rounded-4 p-4 shadow-sm border">
-          <h5 class="fw-bold mb-3">Recommended Topics</h5>
-          <div class="d-flex flex-wrap gap-2">
-            <span class="badge bg-light text-dark border p-2 fw-normal">Technology</span>
-            <span class="badge bg-light text-dark border p-2 fw-normal">Lifestyle</span>
-            <span class="badge bg-light text-dark border p-2 fw-normal">AI</span>
-          </div>
-        </div>
+<div class="card-image-wrapper">
 
-      </div>
-    </div>
-
-  </div>
+{% if blog.cover_image %}
+<img src="{{ blog.cover_image.url }}" class="card-img-top">
+{% else %}
+<div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+<i class="bi bi-image fs-1 opacity-25"></i>
 </div>
+{% endif %}
+
+</div>
+
+<div class="card-body p-4 d-flex flex-column h-100">
+
+<h5 class="fw-bold">{{ blog.title|truncatechars:50 }}</h5>
+
+<p class="text-muted small flex-grow-1">
+{{ blog.short_description|truncatewords:20 }}
+</p>
+
+</div>
+
+</a>
+
+<div class="card-footer bg-transparent border-top p-3">
+
+<div class="d-flex align-items-center justify-content-between">
+
+<a href="{% url 'public_profile' blog.author.username %}" class="d-flex align-items-center text-decoration-none">
+
+{% if blog.author.profile_image %}
+<img src="{{ blog.author.profile_image.url }}" class="author-avatar me-2">
+{% else %}
+<div class="author-avatar bg-secondary text-white d-flex align-items-center justify-content-center me-2" style="font-size:10px;">
+{{ blog.author.username|first|upper }}
+</div>
+{% endif %}
+
+<span class="small fw-medium text-dark">{{ blog.author.username }}</span>
+
+{% if blog.author.email_verified %}
+<i class="bi bi-patch-check-fill ms-1" style="font-size:12px;"></i>
+{% endif %}
+
+</a>
+
+<div class="d-flex gap-3 text-muted small">
+
+<span>
+<i class="bi bi-heart me-1"></i>
+{{ blog.total_likes|default:0 }}
+</span>
+
+<span>
+<i class="bi bi-chat me-1"></i>
+{{ blog.total_comments|default:0 }}
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<!-- Sidebar -->
+
+<div class="col-lg-4 sidebar-col">
+
+<div class="sidebar-wrapper">
+
+<div class="bg-white rounded-4 p-4 shadow-sm border mb-4">
+
+<h5 class="fw-bold mb-3">⚡ Trending Now</h5>
+
+{% for blog in latest_blogs %}
+
+<a href="/access-blog/{{ blog.id }}" class="text-decoration-none d-block mb-3">
+
+<h6 class="mb-1 text-dark fw-medium">
+{{ blog.title|truncatechars:40 }}
+</h6>
+
+<span class="small text-muted">
+{{ blog.author.username }}
+</span>
+
+</a>
+
+{% empty %}
+
+<p class="text-muted small">No trending posts yet.</p>
+
+{% endfor %}
+
+</div>
+
+<div class="bg-white rounded-4 p-4 shadow-sm border">
+
+<h5 class="fw-bold mb-3">Recommended Topics</h5>
+
+<div class="d-flex flex-wrap gap-2">
+
+<span class="badge bg-light text-dark border p-2 fw-normal">Technology</span>
+<span class="badge bg-light text-dark border p-2 fw-normal">Lifestyle</span>
+<span class="badge bg-light text-dark border p-2 fw-normal">AI</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const words=[
+"AI",
+"Programming",
+"Geopolitics",
+"Content Creation",
+"Lifestyle",
+"Cybersecurity"
+];
+
+let i=0;
+let j=0;
+let current="";
+let isDeleting=false;
+
+function type(){
+
+current=words[i];
+
+if(!isDeleting){
+document.getElementById("typing-text").textContent=current.substring(0,j++);
+if(j>current.length){
+isDeleting=true;
+setTimeout(type,1200);
+return;
+}
+}
+else{
+document.getElementById("typing-text").textContent=current.substring(0,j--);
+if(j===0){
+isDeleting=false;
+i=(i+1)%words.length;
+}
+}
+
+setTimeout(type,isDeleting?40:80);
+}
+
+type();
+
+</script>
 
 {% endblock %}

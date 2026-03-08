@@ -5,304 +5,599 @@
 
 {% block style %}
 <style>
-  .dashboard-container {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-  }
 
-  .dashboard-sidebar {
-    position: sticky;
-    top: 90px;
-    background: #fff;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-sm);
-  }
+body{
+background:linear-gradient(to bottom right,#eef2f7,#dbe4f0);
+}
 
-  .sidebar-section-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
+.dashboard-container{
+padding-top:2rem;
+padding-bottom:4rem;
+}
 
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    color: var(--text-dark);
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
+/* glass sidebar */
 
-  .sidebar-link:hover {
-    background-color: var(--bg-light);
-    color: var(--primary);
-    transform: translateX(4px);
-  }
+.dashboard-sidebar{
+position:sticky;
+top:90px;
+padding:1.5rem;
+border-radius:18px;
+background:rgba(255,255,255,0.55);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.35);
+box-shadow:
+0 10px 25px rgba(0,0,0,0.08),
+inset 0 1px 0 rgba(255,255,255,0.6);
+margin-bottom:1.5rem;
+}
 
-  .sidebar-link i {
-    margin-right: 0.75rem;
-  }
+.sidebar-link{
+display:flex;
+align-items:center;
+padding:.7rem 1rem;
+border-radius:10px;
+transition:.25s;
+text-decoration:none;
+color:#1e293b;
+font-weight:500;
+margin-bottom:.4rem;
+}
 
-  .dashboard-header {
-    position: relative;
-    overflow: hidden;
-    border-radius: 28px;
-    padding: 3rem;
-    margin-bottom: 2rem;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(45px);
-    -webkit-backdrop-filter: blur(45px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow:
-      0 30px 70px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-    color: #111;
-  }
+.sidebar-link i{
+margin-right:.6rem;
+}
 
-  body {
-    background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0);
-  }
+.sidebar-link:hover{
+background:rgba(255,255,255,0.7);
+color:#2563eb;
+transform:translateX(4px);
+}
 
-  /* ================= BLOG GRID ================= */
+/* mobile quick menu */
 
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.4rem;
-  }
+.mobile-menu{
+display:flex;
+justify-content:space-between;
+background:white;
+border-radius:14px;
+padding:.8rem;
+margin-bottom:1rem;
+border:1px solid #e2e8f0;
+}
 
-  .blog-card {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    transition: 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
+.mobile-menu a{
+flex:1;
+text-align:center;
+text-decoration:none;
+color:#334155;
+font-size:.8rem;
+}
 
-  .blog-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
-  }
+.mobile-menu i{
+display:block;
+font-size:18px;
+margin-bottom:3px;
+}
 
-  .blog-image {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-  }
+/* trending */
 
-  .blog-body {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
+.dashboard-sidebar1{
+padding:1.5rem;
+border-radius:18px;
+background:rgba(255,255,255,0.55);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.35);
+box-shadow:
+0 10px 25px rgba(0,0,0,0.08),
+inset 0 1px 0 rgba(255,255,255,0.6);
+margin-bottom:1.5rem;
+}
 
-  .blog-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    line-height: 1.3;
-  }
+.trending-card{
+display:flex;
+gap:1rem;
+background:rgba(255,255,255,0);
+border-radius:16px;
+padding:1rem;
+border:1px solid #e2e8f0;
+}
 
-  .blog-desc {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-bottom: 0.8rem;
-    line-height: 1.3;
-    flex-grow: 1;
-  }
+.trending-img{
+width:60px;
+height:70px;
+object-fit:cover;
+border-radius:12px;
+}
 
-  /* ===== FIXED FOOTER ALIGNMENT ===== */
+/* header */
 
-  .blog-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    padding-top: 0.6rem;
-    margin-top: auto;
-  }
+.dashboard-header{
+position:relative;
+overflow:hidden;
+border-radius:24px;
+padding:2.5rem;
+margin-bottom:2rem;
+background:rgba(255,255,255,0.35);
+backdrop-filter:blur(30px);
+border:1px solid rgba(255,255,255,0.6);
+box-shadow:
+0 15px 35px rgba(0,0,0,0.1);
+}
 
-  .author-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+.dashboard-stats{
+display:flex;
+gap:1rem;
+margin-top:1rem;
+flex-wrap:wrap;
+}
 
-  .author-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
+.stat-card{
+flex:1;
+min-width:110px;
+padding:.8rem;
+border-radius:10px;
+background:rgba(255,255,255,0.5);
+text-align:center;
+}
 
-  .verified-badge {
-    color: #1d9bf0;
-    font-size: 13px;
-  }
+/* search */
 
-  .blog-stats {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--text-muted);
-  }
+.search-bar{
+margin-bottom:1.5rem;
+}
 
-  .blog-stats i {
-    font-size: 0.85rem;
-  }
+/* categories */
 
-  @media (max-width: 992px) {
-    .blog-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
+.category-chips{
+display:flex;
+gap:.6rem;
+flex-wrap:wrap;
+margin-bottom:1.6rem;
+}
 
-  @media (max-width: 576px) {
-    .blog-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+.chip{
+padding:.4rem .9rem;
+border-radius:20px;
+background:white;
+border:1px solid #e2e8f0;
+font-size:.8rem;
+text-decoration:none;
+color:#334155;
+}
+
+.chip:hover{
+background:#2563eb;
+color:white;
+}
+
+/* blog grid */
+
+.blog-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:1.4rem;
+}
+
+.blog-card{
+background:white;
+border-radius:16px;
+overflow:hidden;
+border:1px solid #e2e8f0;
+display:flex;
+flex-direction:column;
+transition:.3s;
+}
+
+.blog-card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.blog-image{
+width:100%;
+height:170px;
+object-fit:cover;
+}
+
+.blog-body{
+padding:1rem;
+display:flex;
+flex-direction:column;
+flex:1;
+}
+
+.blog-title{
+font-size:.95rem;
+font-weight:600;
+margin-bottom:.4rem;
+}
+
+.blog-desc{
+font-size:.82rem;
+color:#64748b;
+margin-bottom:.6rem;
+flex-grow:1;
+}
+
+.blog-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px solid #f1f5f9;
+padding-top:.5rem;
+font-size:.8rem;
+}
+
+.author-box{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.author-avatar{
+width:28px;
+height:28px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.blog-stats{
+display:flex;
+gap:10px;
+color:#64748b;
+}
+
+@media(max-width:992px){
+.blog-grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+@media(max-width:576px){
+.blog-grid{
+grid-template-columns:1fr;
+}
+}
+
 </style>
 {% endblock %}
 
 {% block body %}
+
 <div class="container dashboard-container">
-  <div class="row g-4">
+<div class="row g-4">
 
-    <div class="col-lg-3 d-none d-lg-block">
-      <aside class="dashboard-sidebar">
-        <div class="sidebar-section-title">Menu</div>
+<!-- Sidebar Desktop -->
 
-        <a href="{% url 'home' %}" class="sidebar-link">
-          <i class="bi bi-house-door"></i> Home Feed
-        </a>
+<div class="col-lg-3 d-none d-lg-block">
 
-        <a href="{% url 'user_profile' %}" class="sidebar-link">
-          <i class="bi bi-person"></i> My Profile
-        </a>
+<aside class="dashboard-sidebar">
 
-        <a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
-          <i class="bi bi-bookmark"></i> Bookmarks
-        </a>
+<a href="{% url 'home' %}" class="sidebar-link">
+<i class="bi bi-house-door"></i> Home
+</a>
 
-        <a href="{% url 'create_blog' %}" class="sidebar-link">
-          <i class="bi bi-pencil-square"></i> Write New
-        </a>
-      </aside>
-    </div>
+<a href="{% url 'user_profile' %}" class="sidebar-link">
+<i class="bi bi-person"></i> Profile
+</a>
 
-    <div class="col-lg-9">
+<a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+<i class="bi bi-bookmark"></i> Bookmarks
+</a>
 
-      <div class="dashboard-header">
-        <h1 class="display-5">Hello, {{ request.user.full_name }}!</h1>
-        <p class="lead opacity-90 mb-0">
-          Here's what's happening in your network.
-        </p>
-      </div>
+<a href="{% url 'create_blog' %}" class="sidebar-link">
+<i class="bi bi-pencil-square"></i> Write Blog
+</a>
 
-      <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between mb-4">
-        <h4 class="fw-bold mb-0">Latest Blogs</h4>
+</aside>
 
-        <form class="flex-grow-1" style="max-width: 400px;" action="{% url 'search_blogs' %}" method="GET">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="bi bi-search text-muted"></i>
-            </span>
-            <input type="search" name="q" class="form-control border-start-0 ps-0"
-              placeholder="Search topics, writers..." value="{{ request.GET.q|default:'' }}">
-            <button class="btn btn-primary fw-medium" type="submit">
-              Search
-            </button>
-          </div>
-        </form>
-      </div>
+{% if trending_blog %}
+<div class="dashboard-sidebar1">
 
-      <div class="blog-grid">
-        {% for blog in blogs %}
-        <div class="blog-card">
+<h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
 
-          <a href="{% url 'access_blog' blog.id %}">
-            {% if blog.cover_image %}
-            <img src="{{ blog.cover_image.url }}" class="blog-image" alt="{{ blog.title }}">
-            {% else %}
-            <img src="{% static 'assets/default-blog.jpg' %}" class="blog-image">
-            {% endif %}
-          </a>
+<a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
 
-          <div class="blog-body">
+<div class="trending-card">
 
-            <div class="mb-1">
-              <span class="badge bg-light text-dark border">{{ blog.category|default:"General" }}</span>
-              <span class="small text-muted ms-2">{{ blog.created_at|date:"M d, Y" }}</span>
-            </div>
+{% if trending_blog.cover_image %}
+<img src="{{ trending_blog.cover_image.url }}" class="trending-img">
+{% endif %}
 
-            <a href="{% url 'access_blog' blog.id %}" class="text-decoration-none text-dark">
-              <div class="blog-title">
-                {{ blog.title|truncatechars:55 }}
-              </div>
-            </a>
+<div>
+<h6>{{ trending_blog.title }}</h6>
+<small class="text-muted">🔥 {{ trending_blog.likes.count }} likes</small>
+</div>
 
-            <div class="blog-desc">
-              {{ blog.short_description|truncatewords:15 }}
-            </div>
+</div>
 
-            <div class="blog-footer border-top">
+</a>
 
-              <a href="{% url 'public_profile' blog.author.username %}"
-                 class="author-box text-decoration-none">
+</div>
+{% endif %}
 
-                {% if blog.author.profile_image %}
-                <img src="{{ blog.author.profile_image.url }}" class="author-avatar">
-                {% else %}
-                <div class="author-avatar bg-secondary text-white d-flex align-items-center justify-content-center"
-                     style="font-size: 11px;">
-                  {{ blog.author.username|first|upper }}
-                </div>
-                {% endif %}
+</div>
 
-                <span class="small fw-medium text-dark">
-                  {{ blog.author.username }}
-                </span>
 
-                {% if blog.author.email_verified %}
-                <i class="bi bi-patch-check-fill verified-badge"></i>
-                {% endif %}
+<!-- Main Content -->
 
-              </a>
+<div class="col-lg-9">
 
-              <div class="blog-stats">
-                <span><i class="bi bi-heart"></i> {{ blog.likes.count }}</span>
-                <span><i class="bi bi-chat"></i> {{ blog.comments.count }}</span>
-              </div>
+<div class="dashboard-header">
 
-            </div>
+<h2>Hello, {{ request.user.full_name }} 👋</h2>
+<p>Welcome back to Smart Blogger</p>
 
-          </div>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center py-5">
-          <h5 class="text-muted">No blogs found.</h5>
-        </div>
-        {% endfor %}
-      </div>
+<div class="dashboard-stats">
 
-    </div>
-  </div>
+<div class="stat-card">
+<strong>{{ blogs.paginator.count }}</strong>
+<br>Blogs
+</div>
+
+<div class="stat-card">
+<strong>{{ bookmarked_blogs|length }}</strong>
+<br>Bookmarks
+</div>
+
+<div class="stat-card">
+<strong>{{ request.user.followers.count }}</strong>
+<br>Followers
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Mobile Menu -->
+
+<div class="mobile-menu d-lg-none">
+
+<a href="{% url 'home' %}">
+<i class="bi bi-house-door"></i>
+Home
+</a>
+
+<a href="{% url 'user_profile' %}">
+<i class="bi bi-person"></i>
+Profile
+</a>
+
+<a href="#" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+<i class="bi bi-bookmark"></i>
+Bookmarks
+</a>
+
+<a href="{% url 'create_blog' %}">
+<i class="bi bi-pencil-square"></i>
+Write
+</a>
+
+</div>
+
+
+<!-- Trending Blog Mobile -->
+
+{% if trending_blog %}
+<div class="dashboard-sidebar1 d-lg-none">
+
+<h5 class="fw-bold mb-3">🔥 Trending Blog</h5>
+
+<a href="{% url 'access_blog' trending_blog.id %}" class="text-decoration-none text-dark">
+
+<div class="trending-card">
+
+{% if trending_blog.cover_image %}
+<img src="{{ trending_blog.cover_image.url }}" class="trending-img">
+{% endif %}
+
+<div>
+<h6>{{ trending_blog.title }}</h6>
+<small class="text-muted">🔥 {{ trending_blog.likes.count }} likes</small>
+</div>
+
+</div>
+
+</a>
+
+</div>
+{% endif %}
+
+
+<!-- Search -->
+
+<div class="search-bar">
+
+<form method="GET">
+
+<div class="input-group">
+
+<input
+type="search"
+name="q"
+class="form-control"
+placeholder="Search blogs..."
+value="{{ request.GET.q|default:'' }}"
+>
+
+<button class="btn btn-primary">Search</button>
+
+</div>
+
+</form>
+
+</div>
+
+<!-- categories -->
+
+<div class="category-chips">
+
+<a href="?category=all" class="chip">All</a>
+<a href="?category=DevOps" class="chip">DevOps</a>
+<a href="?category=Programming" class="chip">Programming</a>
+<a href="?category=Cybersecurity" class="chip">Cybersecurity</a>
+<a href="?category=Artificial Intelligence" class="chip">Artificial Intelligence</a>
+
+</div>
+
+<h4 class="fw-bold mb-4">Latest Blogs</h4>
+
+<div class="blog-grid">
+
+{% for blog in blogs %}
+
+<div class="blog-card">
+
+<a href="{% url 'access_blog' blog.id %}">
+
+{% if blog.cover_image %}
+<img src="{{ blog.cover_image.url }}" class="blog-image">
+{% else %}
+<img src="{% static 'assets/default-blog.jpg' %}" class="blog-image">
+{% endif %}
+
+</a>
+
+<div class="blog-body">
+
+<div class="blog-title">{{ blog.title }}</div>
+
+<div class="blog-desc">
+{{ blog.short_description|truncatewords:18 }}
+</div>
+
+<div class="blog-footer">
+
+<a href="{% url 'public_profile' blog.author.username %}" class="author-box text-decoration-none text-dark">
+
+{% if blog.author.profile_image %}
+<img src="{{ blog.author.profile_image.url }}" class="author-avatar">
+{% endif %}
+
+<span>{{ blog.author.username }}</span>
+
+</a>
+
+<div class="blog-stats">
+
+<span>❤️ {{ blog.likes.count }}</span>
+
+<a href="{% url 'add_blog_bm' blog.id %}">
+{% if blog in bookmarked_blogs %}
+<i class="bi bi-bookmark-fill text-primary"></i>
+{% else %}
+<i class="bi bi-bookmark"></i>
+{% endif %}
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- BookMark Modal -->
+ <!-- Bookmark Modal -->
+
+<div class="modal fade" id="bookmarkModal" tabindex="-1" aria-hidden="true">
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title">📑 Your Bookmarks</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+</div>
+
+<div class="modal-body">
+
+{% if bookmarked_blogs %}
+
+<div class="row g-3">
+
+{% for blog in bookmarked_blogs %}
+
+<div class="col-md-6">
+
+<div class="card h-100">
+
+<a href="{% url 'access_blog' blog.id %}">
+
+{% if blog.cover_image %}
+<img src="{{ blog.cover_image.url }}" class="card-img-top" style="height:150px;object-fit:cover;">
+{% else %}
+<img src="{% static 'assets/default-blog.jpg' %}" class="card-img-top" style="height:150px;object-fit:cover;">
+{% endif %}
+
+</a>
+
+<div class="card-body">
+
+<h6 class="card-title">{{ blog.title }}</h6>
+
+<p class="card-text text-muted small">
+{{ blog.short_description|truncatewords:12 }}
+</p>
+
+</div>
+
+<div class="card-footer d-flex justify-content-between align-items-center">
+
+<small class="text-muted">
+❤️ {{ blog.likes.count }} likes
+</small>
+
+<a href="{% url 'add_blog_bm' blog.id %}">
+<i class="bi bi-bookmark-fill text-primary"></i>
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="text-center py-4">
+
+<i class="bi bi-bookmark fs-2 text-muted"></i>
+
+<p class="text-muted mt-2">
+You haven't bookmarked any blogs yet.
+</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 {% endblock %}

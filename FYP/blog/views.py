@@ -241,11 +241,33 @@ def home(request):
     )
 
 from django.db.models import OuterRef, Subquery
-
 @login_required
 def dashboard(request):
-    blog_list = Blog.objects.filter(status="PUBLISHED").order_by("-created_at")
 
+    blog_list = Blog.objects.filter(
+        status="PUBLISHED"
+    ).order_by("-created_at")
+
+    # category filter
+    category = request.GET.get("category")
+    if category and category != "all":
+        blog_list = blog_list.filter(category=category)
+
+    # search
+    query = request.GET.get("q")
+    if query:
+        blog_list = blog_list.filter(title__icontains=query)
+
+    # trending blog (most likes)
+    trending_blog = (
+        Blog.objects
+        .filter(status="PUBLISHED")
+        .annotate(likes_count=Count("likes"))
+        .order_by("-likes_count")
+        .first()
+    )
+
+    # pagination
     paginator = Paginator(blog_list, 8)
     page_number = request.GET.get("page")
     blogs = paginator.get_page(page_number)
@@ -254,31 +276,35 @@ def dashboard(request):
     following_users = user.following.all()
 
     latest_blogs = []
+
     for author in following_users:
+
         blog = (
             Blog.objects
             .filter(author=author, status="PUBLISHED")
             .order_by("-created_at")
             .first()
         )
+
         if blog:
             latest_blogs.append(blog)
 
-    # Bookmarked blogs of user
     bookmarked_blogs = Blog.objects.filter(
         bookmarked_by__user=request.user
     ).distinct()
 
     return render(
         request,
-        'dashboard.html',
+        "dashboard.html",
         {
-            'blogs': blogs,
-            'latest_blogs': latest_blogs,
-            'bookmarked_blogs': bookmarked_blogs,
+            "blogs": blogs,
+            "latest_blogs": latest_blogs,
+            "bookmarked_blogs": bookmarked_blogs,
+            "trending_blog": trending_blog,
+            "selected_category": category,
         }
     )
-
+    
 @login_required
 def create_blog_func(request):
     """
@@ -642,7 +668,7 @@ def add_blog_bm(request, id):
             blog=blog
         )
 
-    return redirect("access_blog", id=blog.id)
+    return redirect(request.META.get('HTTP_REFERER', 'access_blog'), id=blog.id)
 # ========================================================
 #                   SOCIAL & PROFILE LAYER
 # ========================================================
