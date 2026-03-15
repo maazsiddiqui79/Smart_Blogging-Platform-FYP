@@ -281,6 +281,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Blog performance line chart (views over time)
         const viewsCanvas = document.getElementById('viewsChart');
         if (viewsCanvas) {
             fetch("{% url 'analytics_data_api' %}")
@@ -321,48 +322,60 @@
                 });
         }
 
-    const engCtx = document.getElementById('engagementChart').getContext('2d');
-    new Chart(engCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Views', 'Likes', 'Comments'],
-            datasets: [{
-                label: 'Metrics',
-                data: [{{ total_views }}, {{ total_likes }}, {{ total_comments }}],
-        backgroundColor: ['#3b82f6', '#ec4899', '#f59e0b'],
-        borderRadius: 6
-            }]
-        },
-        options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            y: { beginAtZero: true }
+        // Engagement comparison bar chart
+        const engCanvas = document.getElementById('engagementChart');
+        if (engCanvas) {
+            const engCtx = engCanvas.getContext('2d');
+            new Chart(engCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Views', 'Likes', 'Comments'],
+                    datasets: [{
+                        label: 'Metrics',
+                        data: [{{ total_views }}, {{ total_likes }}, {{ total_comments }}],
+                        backgroundColor: ['#3b82f6', '#ec4899', '#f59e0b'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
         }
-    }
-    });
 
-    const trafficHourCtx = document.getElementById('trafficHourChart').getContext('2d');
-    new Chart(trafficHourCtx, {
-        type: 'bar',
-        data: {
-            labels: ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'],
-            datasets: [{
-                label: 'Views',
-                data: {{ traffic_by_hour| safe }
-    },
-        backgroundColor: '#10b981',
-        borderRadius: 4
-            }]
-        },
-        options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-    }
+        // Traffic by hour bar chart
+        const trafficCanvas = document.getElementById('trafficHourChart');
+        if (trafficCanvas) {
+            const trafficHourCtx = trafficCanvas.getContext('2d');
+            const trafficData = {{ traffic_by_hour|safe }};
+            new Chart(trafficHourCtx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        '12AM', '1AM', '2AM', '3AM', '4AM', '5AM',
+                        '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
+                        '12PM', '1PM', '2PM', '3PM', '4PM', '5PM',
+                        '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'
+                    ],
+                    datasets: [{
+                        label: 'Views',
+                        data: trafficData,
+                        backgroundColor: '#10b981',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
     });
-
-});
 </script>
