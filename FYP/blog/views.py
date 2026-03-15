@@ -256,8 +256,22 @@ def dashboard(request):
 
     # search
     query = request.GET.get("q")
+    query = request.GET.get("q")
     if query:
-        blog_list = blog_list.filter(title__icontains=query)
+        query_list = query.split()
+        combined_q = Q()
+        for word in query_list:
+            combined_q |= (
+                Q(title__icontains=word) |
+            Q(keywords__name__icontains=word) |
+            Q(category__icontains=word)
+        )
+    blog_list = blog_list.filter(combined_q).distinct()
+    print("blog_list",blog_list)
+    print("query ",query)
+    print("query list",query_list)
+
+         
 
     # trending blog (most likes)
     trending_blog = (
@@ -487,7 +501,6 @@ def access_blog_slug(request, slug):
 
     
     
-@login_required
 def edit_blog(request, blog_id):
     """
     Handles editing of an existing blog post.
@@ -507,10 +520,21 @@ def edit_blog(request, blog_id):
             blog.cover_image = request.FILES["cover_image"]
 
         blog.save()
+
+        # Handle M2M keywords
+        keyword_names = request.POST.get("keywords", "")
+        keyword_list = [k.strip() for k in keyword_names.split(",") if k.strip()]
+        keyword_objects = []
+        for name in keyword_list:
+            obj, _ = BlogKeyword.objects.get_or_create(name=name)
+            keyword_objects.append(obj)
+        blog.keywords.set(keyword_objects)
+
         messages.success(request, "Blog updated successfully.")
 
     return redirect(request.META.get("HTTP_REFERER", "/user-profile/"))
 
+    
 
 def search_blogs(request):
     """
@@ -704,7 +728,7 @@ def public_profile(request, username):
         .aggregate(total=Sum("total_comments"))
         .get("total") or 0
     )
-    print(author_likes)
+    
     blogs = Blog.objects.filter(
         author=author,
         status="PUBLISHED"
