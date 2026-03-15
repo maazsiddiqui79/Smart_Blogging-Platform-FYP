@@ -208,10 +208,12 @@
                 <label class="form-label fw-semibold small text-muted">
                   Keywords
                 </label>
-                <input type="text" 
-                       name="keywords"
-                       class="form-control"
-                       value="{{ blog.keywords }}">
+                <div class="border rounded p-2 bg-white d-flex flex-wrap gap-2 align-items-center keyword-container" id="keyword-container-{{ blog.id }}" style="min-height: 42px; cursor: text;">
+                  <input type="text" class="keyword-input border-0 flex-grow-1" data-blog-id="{{ blog.id }}" style="outline: none; min-width: 100px;" value="{{ blog.keywords }}"
+                   placeholder="Add a keyword">
+                </div>
+                <input type="hidden" name="keywords" id="keywords-hidden-{{ blog.id }}" value="{{ blog.keywords|default_if_none:'' }}">
+                <div class="form-text small">Press Enter or comma to add a keyword.</div>
               </div>
 
               <div class="mb-3">
@@ -312,5 +314,90 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
+});
+</script>
+
+<style>
+.keyword-chip {
+    background-color: #212529;
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.keyword-chip .remove-chip {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1;
+}
+.keyword-chip .remove-chip:hover {
+    color: #f87171;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const inputs = document.querySelectorAll(".keyword-input");
+
+  function initKeywords(blogId) {
+    const hiddenInput = document.getElementById("keywords-hidden-" + blogId);
+    if (!hiddenInput) return;
+    
+    const container = document.getElementById("keyword-container-" + blogId);
+    const input = document.querySelector(".keyword-input[data-blog-id='" + blogId + "']");
+    let initialValue = hiddenInput.value || input.value || "";
+    let keywords = initialValue ? initialValue.split(",").map(k => k.trim()).filter(k => k) : [];
+    
+    // Clear visible input so it works as a chip creator, not a static text display
+    input.value = "";
+
+    function renderChips() {
+      container.querySelectorAll(".keyword-chip").forEach(chip => chip.remove());
+      
+      keywords.forEach((keyword, index) => {
+        const chip = document.createElement("span");
+        chip.className = "keyword-chip";
+        chip.innerHTML = `${keyword} <span class="remove-chip" data-index="${index}">&times;</span>`;
+        container.insertBefore(chip, input);
+      });
+      
+      hiddenInput.value = keywords.join(", ");
+    }
+
+    renderChips();
+
+    container.addEventListener("click", () => input.focus());
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+        const val = input.value.trim().replace(/,/g, "");
+        if (val && !keywords.includes(val)) {
+          keywords.push(val);
+          renderChips();
+        }
+        input.value = "";
+      } else if (e.key === "Backspace" && input.value === "" && keywords.length > 0) {
+        keywords.pop();
+        renderChips();
+      }
+    });
+
+    container.addEventListener("click", function(e) {
+      if (e.target.classList.contains("remove-chip")) {
+        const index = e.target.getAttribute("data-index");
+        keywords.splice(index, 1);
+        renderChips();
+      }
+    });
+  }
+
+  inputs.forEach(input => {
+    initKeywords(input.getAttribute("data-blog-id"));
+  });
 });
 </script>

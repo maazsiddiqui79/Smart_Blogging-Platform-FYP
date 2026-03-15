@@ -111,21 +111,34 @@
     </div>
 </div>
 
-<!-- Charts -->
-<div class="row g-4 mb-4">
-    <div class="col-lg-4">
-        <div class="chart-container h-100">
-            <h6 class="fw-bold mb-3">Views Growth</h6>
-            <canvas id="viewsChart"></canvas>
+<!-- Blog Performance Chart -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="chart-container">
+            <h5 class="fw-bold mb-4">📊 Blog Performance</h5>
+            {% if chart_labels %}
+            <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="viewsChart"></canvas>
+            </div>
+            {% else %}
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-graph-up text-muted" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-0 fw-medium">No analytics data available yet.</p>
+            </div>
+            {% endif %}
         </div>
     </div>
-    <div class="col-lg-4">
+</div>
+
+<!-- Other Charts -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
         <div class="chart-container h-100">
             <h6 class="fw-bold mb-3">Engagement Comparison</h6>
             <canvas id="engagementChart"></canvas>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="chart-container h-100">
             <h6 class="fw-bold mb-3">Traffic by Hour</h6>
             <canvas id="trafficHourChart"></canvas>
@@ -268,31 +281,45 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const viewsCtx = document.getElementById('viewsChart').getContext('2d');
-        new Chart(viewsCtx, {
-            type: 'line',
-            data: {
-                labels: {{ chart_labels| safe }},
-        datasets: [{
-            label: 'Views Growth',
-            data: {{ chart_views_data| safe }},
-        borderColor: '#4f46e5',
-        backgroundColor: 'rgba(79, 70, 229, 0.1)',
-        borderWidth: 2,
-        fill: true,
-        tension: 0.3
-            }]
-        },
-        options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            y: { beginAtZero: true }
+        const viewsCanvas = document.getElementById('viewsChart');
+        if (viewsCanvas) {
+            fetch("{% url 'analytics_data_api' %}")
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.labels || data.labels.length === 0) {
+                        return;
+                    }
+                    const viewsCtx = viewsCanvas.getContext('2d');
+                    new Chart(viewsCtx, {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Views Growth',
+                                data: data.views,
+                                borderColor: '#4f46e5',
+                                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                })
+                .catch(() => {
+                    // Fail silently to avoid impacting other profile sections
+                });
         }
-    }
-    });
 
     const engCtx = document.getElementById('engagementChart').getContext('2d');
     new Chart(engCtx, {

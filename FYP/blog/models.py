@@ -123,11 +123,7 @@ class Blog(models.Model):
     cover_image = models.ImageField(upload_to="blogs/covers/", null=True, blank=True)
 
     # Classification & Search
-    keywords = models.ManyToManyField(
-        "BlogKeyword",
-        blank=True,
-        related_name="blogs"
-    )
+    keywords = models.CharField(max_length=255, blank=True)
 
     category = models.CharField(max_length=100, blank=True)
     likes = models.ManyToManyField(User, related_name='liked_blogs', blank=True)

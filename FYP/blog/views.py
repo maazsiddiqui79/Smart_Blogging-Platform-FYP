@@ -1,12 +1,12 @@
 import random
 import threading
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count, Sum, F
-from django.db.models.functions import ExtractHour
+from django.db.models.functions import ExtractHour, TruncDate
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator
@@ -256,22 +256,47 @@ def dashboard(request):
 
     # search
     query = request.GET.get("q")
-    query = request.GET.get("q")
     if query:
-        query_list = query.split()
+
+        stop_words = {
+            "a","an","the",
+            "is","am","are","was","were","be","been","being",
+            "do","does","did","doing",
+            "have","has","had","having",
+            "will","would","shall","should","can","could","may","might","must",
+            "and","or","but","if","because","as","while","although",
+            "of","at","by","for","with","about","against","between","into","through",
+            "during","before","after","above","below","to","from","up","down",
+            "in","out","on","off","over","under","again","further","then","once",
+            "here","there","when","where","why","how",
+            "all","any","both","each","few","more","most","other","some","such",
+            "no","nor","not","only","own","same","so","than","too","very",
+            "s","t","just","don","should","now"
+        }
+
+        # clean query words
+        query_list = [
+            word.lower()
+            for word in query.split()
+            if word.lower() not in stop_words and len(word) > 2
+        ]
+
         combined_q = Q()
+
         for word in query_list:
             combined_q |= (
                 Q(title__icontains=word) |
-            Q(keywords__name__icontains=word) |
-            Q(category__icontains=word)
-        )
-    blog_list = blog_list.filter(combined_q).distinct()
-    print("blog_list",blog_list)
-    print("query ",query)
-    print("query list",query_list)
+                Q(keywords__icontains=word) |
+                Q(category__icontains=word)
+            )
 
-         
+        if query_list:
+            blog_list = blog_list.filter(combined_q).distinct()
+
+        print("query list", query_list)
+
+    print("blog_list", blog_list)
+    print("query ", query)
 
     # trending blog (most likes)
     trending_blog = (
@@ -328,6 +353,7 @@ def dashboard(request):
         }
     )
     
+        
 @login_required
 def create_blog_func(request):
     """
@@ -359,7 +385,8 @@ def create_blog_func(request):
             content=content,
             category=category,
             status=status,
-            cover_image=cover_image
+            cover_image=cover_image,
+            keywords=keywords_raw if keywords_raw else ""
         )
         # Increment the author's total post count
         request.user.total_posts +=1
@@ -378,13 +405,7 @@ def create_blog_func(request):
             blog.published_at = timezone.now()
             blog.save(update_fields=["published_at"])
 
-        # Process and associate keywords with the blog
-        if keywords_raw:
-            keyword_list = [k.strip() for k in keywords_raw.split(",") if k.strip()]
-            for word in keyword_list:
-                # Get or create the keyword and add it to the blog's keywords
-                keyword_obj, _ = BlogKeyword.objects.get_or_create(name=word)
-                blog.keywords.add(keyword_obj)
+        # Keywords already associated in Blog.objects.create
 
         
 
@@ -446,6 +467,8 @@ def change_visibility(request, id,status):
     return redirect('user_profile')
     
     
+from .models import BlogView
+
 @login_required
 def access_blog(request, id):
     blog = get_object_or_404(Blog, id=id)
@@ -479,7 +502,6 @@ def access_blog(request, id):
                 request.session.save()
             user_session_key = request.session.session_key
             
-            from .models import BlogView
             BlogView.objects.create(blog=blog, session_key=user_session_key)
             
         blog.refresh_from_db()
@@ -521,14 +543,9 @@ def edit_blog(request, blog_id):
 
         blog.save()
 
-        # Handle M2M keywords
-        keyword_names = request.POST.get("keywords", "")
-        keyword_list = [k.strip() for k in keyword_names.split(",") if k.strip()]
-        keyword_objects = []
-        for name in keyword_list:
-            obj, _ = BlogKeyword.objects.get_or_create(name=name)
-            keyword_objects.append(obj)
-        blog.keywords.set(keyword_objects)
+        # Handle keywords
+        blog.keywords = request.POST.get("keywords", "")
+        blog.save()
 
         messages.success(request, "Blog updated successfully.")
 
@@ -663,8 +680,8 @@ def user_profile(request):
     if total_views > 0:
         engagement_rate = round(float((total_likes + total_comments) / total_views) * 100.0, 1)
 
-    recent_blogs_for_chart = user_blogs.filter(status='PUBLISHED').order_by('published_at')[:10]
-    chart_labels = [b.published_at.strftime('%b %d') if b.published_at else 'Unknown' for b in recent_blogs_for_chart]
+    recent_blogs_for_chart = user_blogs.filter(status="PUBLISHED").order_by("published_at")[:10]
+    chart_labels = [b.published_at.strftime("%b %d") if b.published_at else "Unknown" for b in recent_blogs_for_chart]
     chart_views_data = [b.views for b in recent_blogs_for_chart]
 
     sort_by = request.GET.get('sort_by', 'recent')
@@ -707,6 +724,40 @@ def user_profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+
+@login_required
+def analytics_data_api(request):
+    """
+    Returns JSON analytics data for the logged-in user's blogs.
+    Aggregates BlogView events per day to feed the profile analytics chart.
+    """
+    user_blog_views = BlogView.objects.filter(blog__author=request.user)
+
+    # Aggregate views per day
+    daily_views = (
+        user_blog_views
+        .annotate(day=TruncDate("created_at"))
+        .values("day")
+        .annotate(count=Count("id"))
+        .order_by("day")
+    )
+
+    labels = []
+    views = []
+
+    for entry in daily_views:
+        day = entry["day"]
+        if day is not None:
+            labels.append(day.strftime("%b %d"))
+            views.append(entry["count"])
+
+    return JsonResponse(
+        {
+            "labels": labels,
+            "views": views,
+        }
+    )
 
 
 

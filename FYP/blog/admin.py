@@ -229,7 +229,7 @@ class BlogAdmin(admin.ModelAdmin):
         }),
     )
 
-    filter_horizontal = ("keywords",)
+    filter_horizontal = ()
 
     actions = (
         "publish_blogs",
