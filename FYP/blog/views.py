@@ -363,6 +363,7 @@ def create_blog_func(request):
     - Associates keywords with the blog.
     - Notifies the author's followers about the new post in a separate thread.
     """
+    
     if request.method == 'POST':
         # Retrieve blog data from the POST request
         title = request.POST.get('title')
