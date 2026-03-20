@@ -1,0 +1,319 @@
+  /* ================= GLOBAL FIX ================= */
+  html,
+  body {
+      width: 100%;
+      overflow-x: hidden;
+  }
+
+  /* ================= HERO ================= */
+  .fullscreen-img {
+      width: 100%;
+      min-height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+  }
+
+  .fullscreen-img::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+              rgba(0, 0, 0, 0.35),
+              rgba(0, 0, 0, 0.55));
+  }
+
+  .hero-content {
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2rem 3rem;
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-content h1 {
+      color: #fff;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: .6rem;
+  }
+
+  .hero-content h3 {
+      color: #e5e7eb;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      opacity: 0.9;
+  }
+
+  /* ================= BOOKMARK ================= */
+  .bookmark-on-image {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      border-radius: 50%;
+      padding: 10px 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+      z-index: 5;
+      transition: 0.2s ease;
+  }
+
+  .bookmark-on-image:hover {
+      transform: scale(1.1);
+  }
+
+  /* ================= BLOG CONTENT ================= */
+  .blog-content {
+      max-width: 1050px;
+      margin: 2.5rem auto;
+      padding: 3rem;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      line-height: 1.8;
+      font-size: 1.05rem;
+  }
+
+  /* ================= LIKE ================= */
+  .like-panel {
+      position: fixed;
+      left: 16px;
+      bottom: 40px;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .18);
+      z-index: 2100;
+      transition: 0.2s ease;
+  }
+
+  .like-panel:hover {
+      transform: translateY(-3px);
+  }
+
+  .like-panel span {
+      font-size: 1rem;
+      font-weight: 700;
+  }
+
+  /* ================= COMMENTS ================= */
+  .comment-form textarea {
+      border-radius: 10px;
+      padding: 10px;
+  }
+
+  .card {
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-title {
+      font-weight: 600;
+  }
+
+  .card-text {
+      font-size: 0.95rem;
+  }
+
+
+  /* READ MORE */
+  .read-more-btn {
+      margin-top: 15px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: #111;
+      color: #fff;
+  }
+
+  /* ================= CHATBOT (UPGRADED LIKE CREATE BLOG) ================= */
+
+/* Floating Button */
+.chatbot-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #252323;
+    color: #f5f1ed;
+    border: none;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease-in-out;
+}
+
+.chatbot-toggle:hover {
+    background-color: #a99985;
+    color: #000;
+}
+
+/* PANEL */
+.chatbot-panel {
+    position: fixed;
+    bottom: -100%;
+    right: 20px;
+
+    width: min(700px, 95vw);   /* responsive fix */
+    max-height: 80vh;
+
+    background: #ffffff;
+    border-radius: 16px 16px 8px 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: column;
+
+    transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+    z-index: 9998;
+}
+
+/* ACTIVE (slide up) */
+.chatbot-panel.active {
+    bottom: 95px;
+}
+
+/* HEADER */
+.chatbot-header {
+    padding: 1rem;
+    font-weight: 600;
+    background: #f5f1ed;
+    color: #000;
+    border-radius: 16px 16px 0 0;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* BODY */
+.chatbot-body {
+    padding: 1rem;
+    flex: 1;
+    overflow-y: auto;
+    font-size: 0.95rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    background-color: #fafafa;
+}
+
+/* MESSAGE BUBBLES */
+.chat-message {
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 100%;
+    line-height: 1.4;
+    word-wrap: break-word;
+    margin: 0;
+}
+
+/* BOT */
+.chat-bot {
+    background-color: #cfdbe7;
+    color: #212529;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+
+/* USER */
+.chat-user {
+    background-color: #252323;
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* FOOTER */
+.chatbot-footer {
+    padding: 0.8rem;
+    border-top: 1px solid #e0e0e0;
+
+    display: flex;
+    gap: 0.5rem;
+
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+}
+
+.chatbot-footer textarea {
+    flex: 1;
+    resize: none;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    outline: none;
+    font-family: inherit;
+}
+
+.chatbot-footer textarea:focus {
+    border-color: #252323;
+}
+
+.chatbot-footer button {
+    background: #252323;
+    color: #f5f1ed;
+    border: none;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.chatbot-footer button:hover {
+    background: #403d3d;
+}
+
+/* COPY BUTTON */
+.copy-btn {
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #252323;
+    color: #fff;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background: #000;
+}
+
+.chat-text {
+    margin-bottom: 4px;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    .chatbot-panel {
+        left: 20px;
+        right: 20px;
+        width: auto;
+        height: 50vh;
+        max-height: 50vh;
+    }
+}

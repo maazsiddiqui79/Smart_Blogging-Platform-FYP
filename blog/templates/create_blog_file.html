@@ -51,8 +51,7 @@
             value="{{ request.scheme }}://{{ request.get_host }}{% url 'access_blog_slug' blog.slug %}"
             readonly
             id="publishedLink"
-            >{{ request.scheme }}://{{ request.get_host }}{% url
-            'access_blog_slug' blog.slug %}</span
+            >{{ request.scheme }}://{{ request.get_host }}{% url 'access_blog_slug' blog.id %}</span
           >
         </p>
 
@@ -108,18 +107,6 @@
         <label class="form-check-label" for="colorWhite">White</label>
       </div>
 
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="color"
-          id="colorNone"
-          value="NONE"
-          checked
-        />
-        <label class="form-check-label" for="colorNone">None</label>
-      </div>
-
       <small class="text-muted d-block mt-2">
         <strong>Black:</strong> Choose this for a bold, premium look with high
         contrast. Avoid if your content uses dark images or needs a light,
@@ -129,11 +116,6 @@
       <small class="text-muted d-block mt-1">
         <strong>White:</strong> Best for clean, readable layouts and long-form
         content. Avoid if you want a dramatic or dark-themed presentation.
-      </small>
-
-      <small class="text-muted d-block mt-1">
-        <strong>None:</strong> Uses the default theme styling. Choose this if
-        you don’t want to override the system or page design.
       </small>
     </div>
 
