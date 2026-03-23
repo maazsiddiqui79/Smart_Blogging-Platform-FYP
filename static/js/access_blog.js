@@ -9,7 +9,7 @@ function formatResponse(text) {
     .replace(/\n/g, "<br>");
 }
 
-const API_KEY = "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";
+const API_KEY = "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";
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const chatBody = document.querySelector(".chatbot-body");

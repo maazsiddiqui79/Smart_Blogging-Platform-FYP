@@ -759,6 +759,7 @@ def analytics_data_api(request):
             "views": views,
         }
     )
+    
 
 
 
@@ -919,6 +920,12 @@ def email_verify(request):
 def guide(request): 
     
     return render(request,'guide.html')
+# ========================================================
+#                   SOCIAL & PROFILE LAYER
+# ========================================================
+@login_required
+def chatbot_page_view(request):
+    return render(request,'chatbot_page.html')
 
 
 
@@ -960,133 +967,6 @@ def privacy(request):
 
 def custom_404_view(request, exception=None):
     
-    return HttpResponse("""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Page Not Available | Smart Blogger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
-
-  <style>
-    body {
-      background: #f8f9fc;
-      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont;
-      color: #1f2937;
-    }
-
-    .error-wrapper {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .error-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 3rem 2.5rem;
-      max-width: 520px;
-      width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      text-align: center;
-    }
-
-    .error-code {
-      font-size: 4.5rem;
-      font-weight: 800;
-      color: #0d6efd;
-      letter-spacing: 2px;
-    }
-
-    .error-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-top: 0.5rem;
-    }
-
-    .error-desc {
-      font-size: 0.95rem;
-      color: #6b7280;
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .info-box {
-      background: #f1f5ff;
-      border-left: 4px solid #0d6efd;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
-    .btn-home {
-      margin-top: 2rem;
-      padding: 0.6rem 1.6rem;
-      border-radius: 30px;
-      font-weight: 500;
-    }
-
-    .footer-note {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="error-wrapper">
-    <div class="error-card">
-
-      <div class="error-code">404</div>
-
-      <div class="error-title">
-        Page Not Found
-      </div>
-
-      <p class="error-desc">
-        The page you are trying to access does not exist, has been removed,
-        or is temporarily unavailable. This can happen if the link is outdated
-        or the content has been moved.
-      </p>
-
-      <div class="info-box">
-        <strong>What you can do:</strong>
-        <ul class="mb-0 mt-2">
-          <li>Check the URL for typing errors</li>
-          <li>Return to the homepage and continue browsing</li>
-          <li>Access content from your dashboard</li>
-        </ul>
-      </div>
-
-      <a href="/" class="btn btn-primary btn-home">
-        Go Back to Home
-      </a>
-
-      <div class="footer-note">
-        Smart Blogger · Intelligent Blogging Platform
-      </div>
-
-    </div>
-  </div>
-
-</body>
-</html>
-
-""", status=404)
+    return render(request,'error404.html')
 
 from django.db.models import Sum, F
-
-
-
-

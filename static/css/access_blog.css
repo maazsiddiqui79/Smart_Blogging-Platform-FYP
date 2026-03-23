@@ -210,7 +210,7 @@
     padding: 1rem;
     flex: 1;
     overflow-y: auto;
-    font-size: 0.95rem;
+    font-size: 0.80rem;
 
     display: flex;
     flex-direction: column;
@@ -224,7 +224,7 @@
     padding: 10px 14px;
     border-radius: 12px;
     max-width: 100%;
-    line-height: 1.4;
+    
     word-wrap: break-word;
     margin: 0;
 }

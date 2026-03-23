@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+<link rel="stylesheet" href="{% static 'css/chatbot_page.css' %}" />
+
+<div class="blog-ai-page">
+  <div class="blog-ai-header">
+    <div class="header-left">
+      <h2 class="ai-title">First Year Blog Assistant ✨</h2>
+      <p class="ai-subtitle">
+        Welcome {{ request.user.full_name }} — paste a blog URL <br />to extract
+        insights and ask anything.
+      </p>
+    </div>
+    <div class="header-right"></div>
+  </div>
+
+  <!-- STATUS TEXT -->
+  <div id="analyze-status" class="analyze-status hidden">Analyzing... 0%</div>
+
+  <!-- CHAT AREA -->
+  <div class="blog-ai-chat-area" id="chat-area">
+    <div class="chat-container"></div>
+  </div>
+
+  <!-- BOTTOM SECTION -->
+  <div class="blog-ai-bottom-anchor">
+    <div class="bottom-row">
+      <!-- CHAT INPUT -->
+      <div class="input-wrapper">
+        <textarea
+          id="question-input"
+          class="chat-textarea"
+          placeholder="Ask a question..."
+          disabled
+        ></textarea>
+
+        <button id="send-btn" class="btn btn-send" disabled>➤</button>
+      </div>
+
+      <!-- URL BOX -->
+      <div class="url-box">
+        <input
+          type="url"
+          id="url-input"
+          class="url-input"
+          placeholder="Paste blog URL..."
+          autocomplete="off"
+        />
+        <button id="analyze-btn" class="btn btn-primary">Analyze</button>
+      </div>
+    </div>
+
+    <div class="disclaimer">AI can make mistakes.</div>
+  </div>
+</div>
+
+<script src="{% static 'js/chatbot_page.js' %}"></script>
+{% endblock %}

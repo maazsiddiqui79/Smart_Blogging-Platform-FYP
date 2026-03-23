@@ -28,6 +28,8 @@ urlpatterns = [
     path('privacy/', views.privacy, name='privacy'),
     path('add_blog_bm/<int:id>/', views.add_blog_bm, name='add_blog_bm'),
     path('api/analytics-data/', views.analytics_data_api, name='analytics_data_api'),
+    path('ai-assistant/', views.chatbot_page_view, name='ai_assistant'),
+
     
 ]
 

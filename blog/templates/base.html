@@ -46,6 +46,9 @@
           <a href="/dashboard/" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
             <i class="bi bi-house me-1"></i> Home
           </a>
+          <a href="/ai-assistant/" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
+            <i class="bi bi-robot"></i></i> ai-assistant
+          </a>
           <a href="/guide/" class="nav-link {% if request.path == '/guide/' %}active{% endif %}">
             <i class="bi bi-journal-text me-1"></i> Guide
           </a>
@@ -96,6 +99,7 @@
     <div class="collapse d-md-none bg-white border-bottom" id="mobileMenu">
       <div class="container-custom py-3 d-flex flex-column gap-3">
         <a href="/dashboard/" class="nav-link"><i class="bi bi-house me-2"></i> Home</a>
+        <a href="/ai-assistant/" class="nav-link"><i class="bi bi-robot"></i></i>ai-assistant</a>
         <a href="/guide/" class="nav-link"><i class="bi bi-journal-text me-2"></i> Guide</a>
 
         {% if request.user.is_authenticated %}

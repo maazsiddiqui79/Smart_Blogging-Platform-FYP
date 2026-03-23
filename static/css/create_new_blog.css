@@ -69,7 +69,7 @@
     padding: 1rem;
     flex: 1;
     overflow-y: auto;
-    font-size: 0.95rem;
+    font-size: 0.80rem;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -81,7 +81,7 @@
     padding: 10px 14px;
     border-radius: 12px;
     max-width: 100%;
-    line-height: 1.4;
+    line-height: 1;
     word-wrap: break-word;
     margin: 0;
     /* Ensures dynamically added tags don't break layout */
@@ -144,23 +144,24 @@
 /*--------------------------- CHAT BOT END --------------------*/
 /*--------------------------- COPY BTN --------------------*/
 .copy-btn {
-  margin-top: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
-  border: none;
-  border-radius: 6px;
-  background: #252323;
-  color: #fff;
-  cursor: pointer;
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #252323;
+    color: #fff;
+    cursor: pointer;
 }
 
 .copy-btn:hover {
-  background: #000;
+    background: #000;
 }
 
 .chat-text {
-  margin-bottom: 4px;
+    margin-bottom: 4px;
 }
+
 /*--------------------------- COPY BTN END --------------------*/
 
 /*--------------------------- PUBLISH MESSAGE --------------------*/
