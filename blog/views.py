@@ -9,6 +9,7 @@ from django.db.models import Q, Count, Sum, F,OuterRef, Subquery
 from django.db.models.functions import ExtractHour, TruncDate
 from django.utils import timezone
 from django.utils.html import strip_tags
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.core.paginator import Paginator
 from .Notify_followers import Notify_follower
 from .models import Blog, BlogKeyword, Comment, Bookmark, BlogView
@@ -861,7 +862,14 @@ def add_blog_bm(request, id):
             blog=blog
         )
 
-    return redirect(request.META.get('HTTP_REFERER', 'access_blog'), id=blog.id)
+    referer = request.META.get('HTTP_REFERER')
+    if referer and url_has_allowed_host_and_scheme(
+        url=referer,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return redirect(referer)
+    return redirect("access_blog", id=blog.id)
 # ========================================================
 #                   SOCIAL & PROFILE LAYER
 # ========================================================
