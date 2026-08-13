@@ -79,7 +79,7 @@ function formatResponse(text) {
 }
 
 // ---------------- GROQ CONFIG ----------------
-const API_KEY = "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";
+const API_KEY = "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";
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.1-8b-instant";
 

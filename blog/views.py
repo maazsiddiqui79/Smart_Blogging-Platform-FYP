@@ -5,17 +5,15 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Count, Sum, F
+from django.db.models import Q, Count, Sum, F,OuterRef, Subquery
 from django.db.models.functions import ExtractHour, TruncDate
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator
-
-# Local Application Imports
+from .Notify_followers import Notify_follower
 from .models import Blog, BlogKeyword, Comment, Bookmark, BlogView
 from .forms import ProfileUpdateForm, CommentForm
 from .mail_file import MAIL_SENDIND
-from .Notify_followers import Notify_follower
 
 # ========================================================
 #                   AUTHENTICATION SYSTEM
@@ -241,7 +239,8 @@ def home(request):
         }
     )
 
-from django.db.models import OuterRef, Subquery
+
+
 @login_required
 def dashboard(request):
 
@@ -468,7 +467,9 @@ def change_visibility(request, id,status):
     return redirect('user_profile')
     
     
-from .models import BlogView
+
+
+
 
 @login_required
 def access_blog(request, id):
@@ -581,11 +582,7 @@ def search_blogs(request):
 #                   SOCIAL & PROFILE LAYER
 # ========================================================
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Blog
-from .forms import ProfileUpdateForm
+
 
 
 @login_required
@@ -817,8 +814,11 @@ def follow_user(request, username):
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-from django.db.models import F
-from django.db.models import Sum
+
+
+
+
+
 
 @login_required
 def like_blog(request, id):
@@ -837,10 +837,7 @@ def like_blog(request, id):
 
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
-from django.db.models import F
-from .models import Blog
+
 
 
 
@@ -956,7 +953,9 @@ def delete_acc(request):
     
     return redirect("user_profile")
     
-# ------------------------------------------------------------------------------------
+# ======================================================
+#        USER TERMS & CONDITIONS AND PRIVACY POLICY
+# ======================================================
 def terms_n_condtion(request):
     return render(request,'terms.html')
 
@@ -969,4 +968,4 @@ def custom_404_view(request, exception=None):
     
     return render(request,'error404.html')
 
-from django.db.models import Sum, F
+

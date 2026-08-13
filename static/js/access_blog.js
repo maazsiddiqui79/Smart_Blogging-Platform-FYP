@@ -9,7 +9,7 @@ function formatResponse(text) {
     .replace(/\n/g, "<br>");
 }
 
-const API_KEY = "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";
+const API_KEY = "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";
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const chatBody = document.querySelector(".chatbot-body");
@@ -106,7 +106,9 @@ This project is designed to revolutionize blogging by integrating AI-powered ass
 DEVELOPMENT TEAM:
 - Project Lead: Maaz Siddiqui
 - Frontend Developer: Maaz Siddiqui
-- Backend Developer: Sufyan Sheik
+- Backend Developer: Sufyan Shaikh / Maaz Siddiqui 
+- Acadmeic Paper Work & Testing: Awan Sahikh & Anas
+- Guide: Prof.Iqra khan
 
 Your ONLY responsibility is to assist users using the blog provided below.
 You MUST NOT use any external knowledge.

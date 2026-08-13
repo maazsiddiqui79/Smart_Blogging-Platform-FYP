@@ -131,7 +131,7 @@ async function sendMessage() {
       method: "POST",
       headers: {
         Authorization:
-          "Bearer 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", // 🔥 replace
+          "Bearer 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", // 🔥 replace
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -140,7 +140,7 @@ async function sendMessage() {
         messages: [
           {
             role: "system",
-            content: `You are "Chitti – The Smart Blog AI", a strict and intelligent AI assistant integrated into the Smart Blogging platform.
+            content: `You are "Blogger – The Smart Blog AI", a strict and intelligent AI assistant integrated into the Smart Blogging platform.
 
 Your role is to analyze and answer questions ONLY based on the provided blog content.
 
