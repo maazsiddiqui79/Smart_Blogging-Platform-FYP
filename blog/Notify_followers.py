@@ -1,6 +1,7 @@
 from .mail_file import MAIL_SENDIND
 
-class Notify_follower():
+
+class Notify_follower:
     def __init__(self,author,blog):
         self.author =author
         self.blog =blog

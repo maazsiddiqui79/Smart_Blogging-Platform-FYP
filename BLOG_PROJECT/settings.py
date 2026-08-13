@@ -29,7 +29,6 @@ ALLOWED_HOSTS = ["127.0.0.1","192.168.1.12", "localhost"]
 
 
 
-import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

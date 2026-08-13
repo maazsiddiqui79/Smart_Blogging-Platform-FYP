@@ -1,10 +1,11 @@
 # Create your models here.
-from django.utils.text import slugify
-from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.auth.base_user import BaseUserManager
 import uuid
+
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
+from django.utils.text import slugify
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
@@ -42,9 +43,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Authentication
     objects = UserManager()
 
-    username = models.CharField(max_length=150, unique=True)#
-    email = models.EmailField(unique=True)#
-    password_updated_at = models.DateTimeField(null=True, blank=True)#
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    password_updated_at = models.DateTimeField(null=True, blank=True)
 
     # Role & Status
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="USER")
@@ -53,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email_verified = models.BooleanField(default=False)
 
     # Profile
-    full_name = models.CharField(max_length=255, blank=True) #
+    full_name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True) ##
     profile_image = models.ImageField(upload_to="profiles/", null=True, blank=True)
     website = models.URLField(blank=True) ##

@@ -1,5 +1,7 @@
 from django import forms
-from .models import User, Comment
+
+from .models import Comment, User
+
 
 class ProfileUpdateForm(forms.ModelForm):
     """

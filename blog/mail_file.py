@@ -1,7 +1,8 @@
 import smtplib
 
+
 # Hello
-class MAIL_SENDIND():
+class MAIL_SENDIND:
     def __init__(self, revicers_email, indent, username=None, otp=None,**kwargs):
 
         self.revicers_email = revicers_email

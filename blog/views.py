@@ -1,19 +1,21 @@
 import random
 import threading
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, get_user_model, logout as auth_logout
+from django.contrib.auth import get_user_model, login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Count, Sum, F,OuterRef, Subquery
+from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import ExtractHour, TruncDate
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.html import strip_tags
-from django.core.paginator import Paginator
-from .Notify_followers import Notify_follower
-from .models import Blog, BlogKeyword, Comment, Bookmark, BlogView
-from .forms import ProfileUpdateForm, CommentForm
+
+from .forms import CommentForm, ProfileUpdateForm
 from .mail_file import MAIL_SENDIND
+from .models import Blog, BlogView, Bookmark, Comment
+from .Notify_followers import Notify_follower
 
 # ========================================================
 #                   AUTHENTICATION SYSTEM
@@ -112,23 +114,23 @@ def fogretcred(request):
             # Check if passwords match
             if password == re_password:
                 if not password or not re_password or not password.strip() or not re_password.strip():
-                    messages.error(request,f"Enter your credentials to proceed.")
+                    messages.error(request,"Enter your credentials to proceed.")
                     return redirect('forget-id-pass')
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
-                    messages.error(request,f"User Not Found")
+                    messages.error(request,"User Not Found")
                     return redirect('forget-id-pass')
                 
                 # Set the new password
                 user.set_password(password)
                 x = MAIL_SENDIND(revicers_email=email,indent=unique_attr)
-                messages.success(request,f"Mail Sent")
+                messages.success(request,"Mail Sent")
                 # print(x.revicers_email)
                 user.save()
                 return redirect('forget-id-pass')
             else:
-                messages.error(request,f"Password Mismatch")
+                messages.error(request,"Password Mismatch")
                 return redirect('forget-id-pass')
         
     return render(request, 'fogretcred.html')
@@ -143,7 +145,7 @@ def sign_in(request):
         password:str = request.POST.get('password')
         if not email or not password:
             if not email.strip() or not password.strip():
-                messages.error(request,f"Enter your credentials to proceed.")
+                messages.error(request,"Enter your credentials to proceed.")
                 return redirect('sign_in')            
             
         
@@ -209,7 +211,6 @@ def sign_up(request):
 #                   CORE BLOG LOGIC
 # ========================================================
 
-from django.db.models import Count
 
 def home(request):
     blog_list = Blog.objects.filter(
@@ -270,7 +271,7 @@ def dashboard(request):
             "here","there","when","where","why","how",
             "all","any","both","each","few","more","most","other","some","such",
             "no","nor","not","only","own","same","so","than","too","very",
-            "s","t","just","don","should","now"
+            "s","t","just","don","now"
         }
 
         # clean query words

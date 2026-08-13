@@ -1,4 +1,3 @@
-import os
 
 path = r'c:\Users\siddi\Desktop\Vibe-Code-Test\FYP\blog\views.py'
 with open(path, 'r', encoding='utf-8') as f:
@@ -10,13 +9,7 @@ for i, line in enumerate(lines):
         stripped = line.strip()
         if not stripped:
             new_lines.append('\n')
-        elif stripped.startswith('#'):
-            new_lines.append('    ' + stripped + '\n')
-        elif stripped.startswith('category ='):
-            new_lines.append('    ' + stripped + '\n')
-        elif stripped.startswith('if '):
-            new_lines.append('    ' + stripped + '\n')
-        elif stripped.startswith('query ='):
+        elif stripped.startswith('#') or stripped.startswith('category =') or stripped.startswith('if ') or stripped.startswith('query ='):
             new_lines.append('    ' + stripped + '\n')
         elif stripped.startswith('blog_list ='):
             new_lines.append('        ' + stripped + '\n')
