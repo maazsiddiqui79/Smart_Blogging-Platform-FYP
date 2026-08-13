@@ -2,7 +2,30 @@
 
 ---
 
-## 📖 Overview
+## 📑 Table of Contents
+
+- [📖 Overview](#-overview)
+- [🎯 Objectives](#-objectives)
+- [✨ Key Features](#-key-features)
+  - [🤖 AI Chatbot System](#-ai-chatbot-system)
+  - [📊 Blog Analytics Dashboard](#-blog-analytics-dashboard)
+  - [📚 Blog Platform Features](#-blog-platform-features)
+- [🧠 System Workflow](#-system-workflow)
+- [📊 Analytics Features](#-analytics-features)
+- [🏗 System Architecture](#-system-architecture)
+- [🖥️ Project Screenshots](#️-project-screenshots)
+- [🛠 Technology Stack](#-technology-stack)
+- [⚙️ Installation & Setup](#️-installation--setup)
+- [📂 Project Modules](#-project-modules)
+- [🚀 Future Enhancements](#-future-enhancements)
+- [👥 Team Members](#-team-members)
+- [🎓 Project Information](#-project-information)
+- [📌 Project Status](#-project-status)
+- [📜 License](#-license)
+
+---
+
+# 📖 Overview
 
 An **AI-powered blog platform** integrated with an intelligent chatbot that answers user questions using blog content as its primary knowledge base.
 
@@ -136,15 +159,567 @@ User Interaction
 
 ---
 
+# 🖥️ Project Screenshots
+
+This section showcases the major interfaces and features implemented in the Smart Blogging Platform.
+
+<table>
+<tr>
+
+<td width="50%" valign="top">
+
+## 🔐 Account Recovery – Change Password
+
+Allows users to securely change their account password after completing the required recovery process.
+
+<img src="Project%20Screenshots/Account%20Recovery%20%E2%80%93%20Change%20Password.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔑 Account Recovery – Forgot Password
+
+Provides users with an account recovery option when they forget their password.
+
+<img src="Project%20Screenshots/Account%20Recovery%20%E2%80%93%20Forgot%20Password.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 👤 Account Recovery – Forgot Username
+
+Allows users to recover their username through the account recovery system.
+
+<img src="Project%20Screenshots/Account%20Recovery%20%E2%80%93%20Forgot%20Username.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🤖 AI Assistant – Content Suggestions
+
+AI-powered assistance for generating or suggesting content ideas for bloggers.
+
+<img src="Project%20Screenshots/AI%20Assistant%20Content%20Suggestions.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🤖 AI Assistant – Content Suggestions
+
+Additional view of the AI-powered content suggestion functionality.
+
+<img src="Project%20Screenshots/AI%20Assistant%20Content%20Suggestions1.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔎 Blog Search and Filtering
+
+Allows users to search for blogs and filter available content to find relevant posts more efficiently.
+
+<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🔎 Blog Search and Filtering – Results
+
+Displays search and filtering results based on the user's selected criteria.
+
+<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering1.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔎 Blog Search and Filtering – Interface
+
+Additional view of the blog discovery and filtering interface.
+
+<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering2.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🔎 Blog Search and Filtering – Content Discovery
+
+Additional view demonstrating blog search and content filtering.
+
+<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering3.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 👨‍💻 Blogger Profile Details
+
+Displays detailed information about a blogger and their profile.
+
+<img src="Project%20Screenshots/blogger%20profile%20details.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 💬 Chitti AI Chatbot Integration
+
+Integration of the Chitti AI chatbot into the blogging platform for conversational interaction.
+
+<img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 💬 Chitti AI Chatbot – Interaction
+
+Demonstrates the chatbot interaction interface and AI-generated responses.
+
+<img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration1.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 💬 Chitti AI Chatbot – Response Interface
+
+Additional view of the Chitti AI chatbot functionality.
+
+<img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration2.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 💭 Comments Section
+
+Allows readers to participate in discussions and interact with blog content through comments.
+
+<img src="Project%20Screenshots/Comments%20Section.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 📝 Create Account
+
+Registration interface for creating a new user account on the platform.
+
+<img src="Project%20Screenshots/create%20acc%20pg.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 📝 Create Account – Additional View
+
+Additional interface for the user registration and account creation process.
+
+<img src="Project%20Screenshots/create%20acc%20pg2.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## ✍️ Create Blog Post – CKEditor
+
+Provides bloggers with a rich text editor for creating and formatting blog posts using CKEditor.
+
+<img src="Project%20Screenshots/Create%20Blog%20Post%20Interface%20with%20CKEditor.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## ✍️ Create Blog Post – CKEditor
+
+Additional view of the blog creation and rich text editing interface.
+
+<img src="Project%20Screenshots/Create%20Blog%20Post%20Interface%20with%20CKEditor1.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## ⚙️ Edit User Profile Settings
+
+Allows users to update and manage their profile information and account settings.
+
+<img src="Project%20Screenshots/Edit%20User%20Profile%20Settings.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🧠 First Blog Assistant Tool
+
+Demonstrates the first AI-powered assistant tool designed to help bloggers with blog-related tasks.
+
+<img src="Project%20Screenshots/First%20Blog%20Assistant%20Tool.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🧠 First Blog Assistant Tool – Additional View
+
+Additional view of the first AI-powered blog assistant functionality.
+
+<img src="Project%20Screenshots/First%20Blog%20Assistant%20Tool1.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 👥 Followers and Following
+
+Allows users to manage and view their followers and the users they follow.
+
+<img src="Project%20Screenshots/followers%20and%20following.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 📖 Individual Blog Post View
+
+Displays an individual blog post with its content and reader interaction features.
+
+<img src="Project%20Screenshots/Individual%20Blog%20Post%20View.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 📖 Individual Blog Post View – Additional View
+
+Additional view of an individual blog post and its associated content.
+
+<img src="Project%20Screenshots/Individual%20Blog%20Post%20View1.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🔥 Latest Stories and Trending Section
+
+Displays the latest stories and trending content to help users discover popular and recent blog posts.
+
+<img src="Project%20Screenshots/Latest%20Stories%20and%20Trending%20Section.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 👤 Public Author Profile
+
+Public-facing author profile displaying information and content associated with a blogger.
+
+<img src="Project%20Screenshots/Public%20Author%20Profile.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🔒 Security Settings and Email Verification
+
+Provides security-related account settings and email verification functionality.
+
+<img src="Project%20Screenshots/Security%20Settings%20and%20Email%20Verification.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔒 Security Settings and Email Verification
+
+Additional view of the account security and email verification features.
+
+<img src="Project%20Screenshots/Security%20Settings%20and%20Email%20Verification1.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🏠 SmartBlogger Landing Page
+
+Main landing page introducing the SmartBlogger platform and its core functionality.
+
+<img src="Project%20Screenshots/SmartBlogger%20Landing%20Page.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🏠 SmartBlogger Landing Page – Features
+
+Additional view highlighting the platform's features and user experience.
+
+<img src="Project%20Screenshots/SmartBlogger%20Landing%20Page1.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 🏠 SmartBlogger Landing Page – Additional View
+
+Additional section of the SmartBlogger landing page.
+
+<img src="Project%20Screenshots/SmartBlogger%20Landing%20Page2.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 📊 User Analytics Dashboard
+
+Centralized analytics dashboard providing insights into user engagement and platform activity.
+
+<img src="Project%20Screenshots/User%20Analytics%20Dashboard.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 📊 User Analytics Dashboard – Analytics View
+
+Additional view of the analytics dashboard and user engagement information.
+
+<img src="Project%20Screenshots/User%20Analytics%20Dashboard1.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔖 User Bookmarks
+
+Displays the user's saved or bookmarked blog content for quick access.
+
+<img src="Project%20Screenshots/User%20Bookmarks%20Model.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 📊 User Dashboard Overview
+
+Provides users with a centralized dashboard for accessing account information, activity, and platform features.
+
+<img src="Project%20Screenshots/User%20Dashboard%20Overview.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+## 🔐 User Sign-In Page
+
+Login interface allowing registered users to securely access their accounts.
+
+<img src="Project%20Screenshots/User%20Sign-In%20Page.png" width="100%">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" valign="top">
+
+## 📝 Your Blog
+
+Displays the user's own blog content and provides access to their published posts.
+
+<img src="Project%20Screenshots/your%20bolg.png" width="100%">
+
+</td>
+
+<td width="50%" valign="top">
+
+</td>
+
+</tr>
+
+</table>
+
+---
+
 # 🛠 Technology Stack
 
 | Layer | Technology |
 |------|-------------|
-| Frontend | HTML, CSS, JavaScript, NextJS |
+| Frontend | HTML, CSS, JavaScript |
 | Backend | Python, Django |
-| Database | Firebase |
+| Database | SQL,Supabase |
 | AI Processing | NLP-based Retrieval |
 | Analytics | Custom Engagement Tracking |
+
+---
+
+# ⚙️ Installation & Setup
+
+Follow the steps below to run the Smart Blogging Platform locally.
+
+## 1. Clone the Repository
+
+Clone the project from GitHub:
+
+```bash
+git clone https://github.com/maazsiddiqui79/Smart_Blogging-Platform-FYP.git
+````
+
+Navigate to the project directory:
+
+```bash
+cd Smart_Blogging-Platform-FYP
+```
+
+## 2. Create a Virtual Environment
+
+Create a Python virtual environment:
+
+```bash
+python -m venv venv
+```
+
+## 3. Activate the Virtual Environment
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### macOS / Linux
+
+```bash
+source venv/bin/activate
+```
+
+## 4. Install Dependencies
+
+Install all required Python packages from `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+## 5. Apply Database Migrations
+
+Run the following command to create and update the required database tables:
+
+```bash
+python manage.py migrate
+```
+
+## 6. Create a Superuser
+
+To access the Django administration panel, create a superuser:
+
+```bash
+python manage.py createsuperuser
+```
+
+Enter the requested username, email address, and password.
+
+## 7. Start the Development Server
+
+Start the Django development server:
+
+```bash
+python manage.py runserver
+```
+
+## 8. Open the Application
+
+Open your browser and visit:
+
+```text
+http://127.0.0.1:8000/
+```
+
+The Smart Blogging Platform should now be running locally.
+
+## 9. 🛑 Stopping the Server
+
+To stop the development server, press:
+```text
+CTRL + C
+```
 
 ---
 
@@ -181,6 +756,12 @@ User Interaction
 | **Awan Shaikh** | Report Coordinator |
 | **Anas Shaikh** | Documentation Assistant |
 
+### Project Lead
+
+**Maaz Siddiqui**
+- GitHub: [@maazsiddiqui79](https://github.com/maazsiddiqui79)
+- Portfolio: [themaaz.online](https://www.themaaz.online/)
+  
 ---
 
 # 🎓 Project Information
@@ -191,7 +772,20 @@ User Interaction
 
 ---
 
-# 📄 License
+# 📌 Project Status
 
-This project is developed for **academic purposes only**.
+**Status:** Completed
 
+This project was developed as a academic Final Year Diploma Project in Computer Engineering.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+You are free to use, copy, modify, merge, publish, distribute, sublicense copies of the project, subject to the terms of the MIT License.
+
+See the [LICENSE](LICENSE) file for the complete license.
+
+---
