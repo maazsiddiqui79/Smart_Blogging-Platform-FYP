@@ -20,7 +20,7 @@
 - [🚀 Future Enhancements](#-future-enhancements)
 - [👥 Team Members](#-team-members)
 - [🎓 Project Information](#-project-information)
-- [📌 Project Status](#-project-status)
+//- [📌 Project Status](#-project-status)
 - [📜 License](#-license)
 
 ---
@@ -309,7 +309,7 @@ The major database relationships can be summarized as follows:
                                 │
              ┌──────────────────┼──────────────────┐
              │                  │                  │
-             ▼                  ▼                  ▼
+             ▼                  ▼    display              ▼
         ┌─────────┐        ┌──────────┐      ┌──────────┐
         │  Blog   │        │ Comment  │      │ Bookmark │
         └────┬────┘        └──────────┘      └────┬─────┘
@@ -345,20 +345,6 @@ Allows users to securely change their account password after completing the requ
 
 <td width="50%" valign="top">
 
-## 🔑 Account Recovery – Forgot Password
-
-Provides users with an account recovery option when they forget their password.
-
-<img src="Project%20Screenshots/Account%20Recovery%20%E2%80%93%20Forgot%20Password.png" width="100%">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td width="50%" valign="top">
-
 ## 👤 Account Recovery – Forgot Username
 
 Allows users to recover their username through the account recovery system.
@@ -366,6 +352,10 @@ Allows users to recover their username through the account recovery system.
 <img src="Project%20Screenshots/Account%20Recovery%20%E2%80%93%20Forgot%20Username.png" width="100%">
 
 </td>
+
+</tr>
+
+<tr>
 
 <td width="50%" valign="top">
 
@@ -376,23 +366,6 @@ AI-powered assistance for generating or suggesting content ideas for bloggers.
 <img src="Project%20Screenshots/AI%20Assistant%20Content%20Suggestions.png" width="100%">
 
 </td>
-
-</tr>
-
-
-
-<tr>
-
-<td width="50%" valign="top">
-
-## 🔎 Blog Search and Filtering – Results
-
-Displays search and filtering results based on the user's selected criteria.
-
-<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering1.png" width="100%">
-
-</td>
-
 <td width="50%" valign="top">
 
 ## 🔎 Blog Search and Filtering – Interface
@@ -409,16 +382,6 @@ Additional view of the blog discovery and filtering interface.
 
 <td width="50%" valign="top">
 
-## 🔎 Blog Search and Filtering – Content Discovery
-
-Additional view demonstrating blog search and content filtering.
-
-<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering3.png" width="100%">
-
-</td>
-
-<td width="50%" valign="top">
-
 ## 👨‍💻 Blogger Profile Details
 
 Displays detailed information about a blogger and their profile.
@@ -426,20 +389,17 @@ Displays detailed information about a blogger and their profile.
 <img src="Project%20Screenshots/blogger%20profile%20details.png" width="100%">
 
 </td>
-
-</tr>
-
-<tr>
-
 <td width="50%" valign="top">
 
 ## 💬 Chitti AI Chatbot Integration
 
-Integration of the Chitti AI chatbot into the blogging platform for conversational interaction.
-
 <img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration.png" width="100%">
 
 </td>
+
+</tr>
+
+<tr>
 
 <td width="50%" valign="top">
 
@@ -450,21 +410,6 @@ Demonstrates the chatbot interaction interface and AI-generated responses.
 <img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration1.png" width="100%">
 
 </td>
-
-</tr>
-
-<tr>
-
-<td width="50%" valign="top">
-
-## 💬 Chitti AI Chatbot – Response Interface
-
-Additional view of the Chitti AI chatbot functionality.
-
-<img src="Project%20Screenshots/Chitti%20AI%20Chatbot%20Integration2.png" width="100%">
-
-</td>
-
 <td width="50%" valign="top">
 
 ## 💭 Comments Section
@@ -474,7 +419,6 @@ Allows readers to participate in discussions and interact with blog content thro
 <img src="Project%20Screenshots/Comments%20Section.png" width="100%">
 
 </td>
-
 </tr>
 
 <tr>
@@ -553,16 +497,6 @@ Demonstrates the first AI-powered assistant tool designed to help bloggers with 
 
 <td width="50%" valign="top">
 
-## 🧠 First Blog Assistant Tool – Additional View
-
-Additional view of the first AI-powered blog assistant functionality.
-
-<img src="Project%20Screenshots/First%20Blog%20Assistant%20Tool1.png" width="100%">
-
-</td>
-
-<td width="50%" valign="top">
-
 ## 👥 Followers and Following
 
 Allows users to manage and view their followers and the users they follow.
@@ -570,11 +504,6 @@ Allows users to manage and view their followers and the users they follow.
 <img src="Project%20Screenshots/followers%20and%20following.png" width="100%">
 
 </td>
-
-</tr>
-
-<tr>
-
 <td width="50%" valign="top">
 
 ## 📖 Individual Blog Post View
@@ -585,6 +514,9 @@ Displays an individual blog post with its content and reader interaction feature
 
 </td>
 
+</tr>
+
+<tr>
 <td width="50%" valign="top">
 
 ## 📖 Individual Blog Post View – Additional View
@@ -592,20 +524,6 @@ Displays an individual blog post with its content and reader interaction feature
 Additional view of an individual blog post and its associated content.
 
 <img src="Project%20Screenshots/Individual%20Blog%20Post%20View1.png" width="100%">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td width="50%" valign="top">
-
-## 🔥 Latest Stories and Trending Section
-
-Displays the latest stories and trending content to help users discover popular and recent blog posts.
-
-<img src="Project%20Screenshots/Latest%20Stories%20and%20Trending%20Section.png" width="100%">
 
 </td>
 
@@ -618,20 +536,10 @@ Public-facing author profile displaying information and content associated with 
 <img src="Project%20Screenshots/Public%20Author%20Profile.png" width="100%">
 
 </td>
-
 </tr>
 
+
 <tr>
-
-<td width="50%" valign="top">
-
-## 🔒 Security Settings and Email Verification
-
-Provides security-related account settings and email verification functionality.
-
-<img src="Project%20Screenshots/Security%20Settings%20and%20Email%20Verification.png" width="100%">
-
-</td>
 
 <td width="50%" valign="top">
 
@@ -643,10 +551,6 @@ Additional view of the account security and email verification features.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td width="50%" valign="top">
 
 ## 🏠 SmartBlogger Landing Page
@@ -657,32 +561,9 @@ Main landing page introducing the SmartBlogger platform and its core functionali
 
 </td>
 
-<td width="50%" valign="top">
-
-## 🏠 SmartBlogger Landing Page – Features
-
-Additional view highlighting the platform's features and user experience.
-
-<img src="Project%20Screenshots/SmartBlogger%20Landing%20Page1.png" width="100%">
-
-</td>
-
 </tr>
-
 <tr>
-
-<td width="50%" valign="top">
-
-## 🏠 SmartBlogger Landing Page – Additional View
-
-Additional section of the SmartBlogger landing page.
-
-<img src="Project%20Screenshots/SmartBlogger%20Landing%20Page2.png" width="100%">
-
-</td>
-
-<td width="50%" valign="top">
-
+<td>
 ## 📊 User Analytics Dashboard
 
 Centralized analytics dashboard providing insights into user engagement and platform activity.
@@ -690,10 +571,6 @@ Centralized analytics dashboard providing insights into user engagement and plat
 <img src="Project%20Screenshots/User%20Analytics%20Dashboard.png" width="100%">
 
 </td>
-
-</tr>
-
-<tr>
 
 <td width="50%" valign="top">
 
@@ -704,17 +581,6 @@ Additional view of the analytics dashboard and user engagement information.
 <img src="Project%20Screenshots/User%20Analytics%20Dashboard1.png" width="100%">
 
 </td>
-
-<td width="50%" valign="top">
-
-## 🔖 User Bookmarks
-
-Displays the user's saved or bookmarked blog content for quick access.
-
-<img src="Project%20Screenshots/User%20Bookmarks%20Model.png" width="100%">
-
-</td>
-
 </tr>
 
 <tr>
@@ -925,14 +791,10 @@ CTRL + C
 **Project Type:** Final Year Diploma Project  
 **Department:** Computer Engineering  
 **Institution:** M.H. Saboo Siddik College  
-
----
-
-# 📌 Project Status
-
 **Status:** Completed
 
-This project was developed as a academic Final Year Diploma Project in Computer Engineering.
+This project was developed as an academic Final Year Diploma Project in Computer Engineering.
+
 
 ---
 
