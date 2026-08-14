@@ -1,6 +1,5 @@
-# 📌 AI-Powered Blog Platform with Intelligent Chatbot
+# 📌 SmartBlogger — AI-Powered Blog Platform with Intelligent Chatbot
 
----
 
 ## 📑 Table of Contents
 
@@ -13,6 +12,7 @@
 - [🧠 System Workflow](#-system-workflow)
 - [📊 Analytics Features](#-analytics-features)
 - [🏗 System Architecture](#-system-architecture)
+- [🗄️ Database Structure](#️-database-structure)
 - [🖥️ Project Screenshots](#️-project-screenshots)
 - [🛠 Technology Stack](#-technology-stack)
 - [⚙️ Installation & Setup](#️-installation--setup)
@@ -27,7 +27,7 @@
 
 # 📖 Overview
 
-An **AI-powered blog platform** integrated with an intelligent chatbot that answers user questions using blog content as its primary knowledge base.
+An **SmartBlogger — AI-Powered Blog Platform** integrated with an intelligent chatbot that answers user questions using blog content as its primary knowledge base.
 
 The chatbot analyzes blog data to provide accurate responses. If the requested information is not available in the blog, the system performs **external web search** and provides **reference links**.
 
@@ -126,21 +126,21 @@ The analytics system processes this data to generate **engagement insights and t
 
 ```
 
-User
-↓
-Blog Platform UI
-↓
-AI Chatbot Interface
-↓
-Knowledge Retrieval System
-↓
-Blog Database (Primary Source)
-↓
-External Web Search (Fallback)
-↓
-Response Generation
-↓
-User Response + Source Links
+                    User
+                     │
+                     ▼
+              Django Application
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+   Blog System   Chatbot System  Analytics
+        │            │            │
+        ▼            ▼            ▼
+    Database    Retrieval Layer  Analytics DB
+                     │
+              ┌──────┴──────┐
+              ▼             ▼
+        Blog Content    Web Search
 
 ```
 
@@ -159,9 +159,176 @@ User Interaction
 
 ---
 
+# 🗄️ Database Structure
+
+The Smart Blogging Platform uses Django ORM to manage application data and database relationships.
+
+The database is organized around users, blog content, engagement, bookmarks, comments, and analytics.
+
+## 👤 User
+
+The `User` model is the custom authentication and profile model used throughout the platform.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | BigAutoField | Primary key |
+| `username` | CharField | Unique username |
+| `email` | EmailField | Unique email address used for authentication |
+| `password_updated_at` | DateTimeField | Stores the last password update time |
+| `role` | CharField | Defines whether the account is a normal user or blogger |
+| `is_staff` | BooleanField | Determines whether the user can access staff functionality |
+| `email_verified` | BooleanField | Stores email verification status |
+| `full_name` | CharField | User's full name |
+| `bio` | TextField | User biography |
+| `profile_image` | ImageField | User profile image |
+| `website` | URLField | Personal website URL |
+| `instagram_link` | URLField | Instagram profile URL |
+| `x_link` | URLField | X profile URL |
+| `git_link` | URLField | GitHub profile URL |
+| `total_posts` | PositiveIntegerField | Total number of posts created |
+| `total_views` | PositiveBigIntegerField | Total views received by the user's blogs |
+| `total_likes` | PositiveBigIntegerField | Total likes received by the user's blogs |
+| `is_approved_blogger` | BooleanField | Indicates whether the user is approved as a blogger |
+| `created_at` | DateTimeField | Account creation timestamp |
+| `updated_at` | DateTimeField | Last account update timestamp |
+| `last_active_at` | DateTimeField | Last recorded user activity |
+| `timezone` | CharField | User timezone preference |
+| `language_preference` | CharField | Preferred interface language |
+
+### Relationships
+
+- A user can follow multiple users.
+- A user can have multiple followers.
+- A user can create multiple blogs.
+- A user can write multiple comments.
+- A user can bookmark multiple blogs.
+- A user can like multiple blogs.
+
+---
+
+## 📝 Blog
+
+The `Blog` model stores blog posts created by bloggers.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | BigAutoField | Primary key |
+| `author` | ForeignKey | References the user who created the blog |
+| `title` | CharField | Blog title |
+| `title_bg_color` | CharField | Background color preference for the title |
+| `slug` | SlugField | Unique URL-friendly identifier |
+| `short_description` | TextField | Short description of the blog |
+| `content` | TextField | Blog content stored as CKEditor HTML |
+| `cover_image` | ImageField | Blog cover image |
+| `keywords` | CharField | Keywords associated with the blog |
+| `category` | CharField | Blog category |
+| `likes` | ManyToManyField | Users who liked the blog |
+| `nation` | CharField | Optional geographical targeting information |
+| `status` | CharField | Blog publication status |
+| `is_comments_enabled` | BooleanField | Enables or disables comments |
+| `views` | IntegerField | Blog view count |
+| `total_views` | PositiveBigIntegerField | Total recorded views |
+| `total_likes` | PositiveBigIntegerField | Total recorded likes |
+| `total_comments` | PositiveBigIntegerField | Total recorded comments |
+| `total_bookmarks` | PositiveBigIntegerField | Total bookmarks |
+| `published_at` | DateTimeField | Blog publication timestamp |
+| `created_at` | DateTimeField | Blog creation timestamp |
+| `updated_at` | DateTimeField | Last blog update timestamp |
+
+### Relationships
+
+- Each blog belongs to one user through `author`.
+- A blog can have multiple comments.
+- A blog can be liked by multiple users.
+- A blog can be bookmarked by multiple users.
+- A blog can have multiple view events.
+
+### Blog Status
+
+| Status | Description |
+|--------|-------------|
+| `DRAFT` | Blog is saved but not publicly published |
+| `PUBLISHED` | Blog is published and available to readers |
+
+---
+
+## 🏷️ BlogKeyword
+
+The `BlogKeyword` model stores unique keywords that can be associated with blog content.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | BigAutoField | Primary key |
+| `name` | CharField | Unique keyword name |
+| `created_at` | DateTimeField | Keyword creation timestamp |
+
+---
+
+## 💬 Comment
+
+The `Comment` model stores comments submitted by users on blog posts.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | BigAutoField | Primary key |
+| `blog` | ForeignKey | Blog associated with the comment |
+| `author` | ForeignKey | User who submitted the comment |
+| `content` | TextField | Comment content |
+| `created_at` | DateTimeField | Comment creation timestamp |
+
+### Relationships
+
+- Each comment belongs to one blog.
+- Each comment belongs to one user.
+- A blog can contain multiple comments.
+- Comments are ordered by newest first.
+
+---
+
+## 🔖 Bookmark
+
+The `Bookmark` model stores blogs saved by users for later access.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `user` | ForeignKey | User who created the bookmark |
+| `blog` | ForeignKey | Blog that was bookmarked |
+| `created_at` | DateTimeField | Bookmark creation timestamp |
+
+
+---
+
+## 🔗 Entity Relationships
+
+The major database relationships can be summarized as follows:
+
+```text
+                         ┌──────────────┐
+                         │     User     │
+                         └──────┬───────┘
+                                │
+             ┌──────────────────┼──────────────────┐
+             │                  │                  │
+             ▼                  ▼                  ▼
+        ┌─────────┐        ┌──────────┐      ┌──────────┐
+        │  Blog   │        │ Comment  │      │ Bookmark │
+        └────┬────┘        └──────────┘      └────┬─────┘
+             │                                    │
+       ┌─────┼─────┐                              │
+       │     │     │                              │
+       ▼     ▼     ▼                              ▼
+    Comment Like  BlogView                       Blog
+       │     │     │
+       │     │     └─────────── Analytics
+       │     │
+       └─────┴──────────── User
+````
+
+---
+
 # 🖥️ Project Screenshots
 
-This section showcases the major interfaces and features implemented in the Smart Blogging Platform.
+This section showcases the major interfaces and features implemented in the SmartBlogger — AI-Powered Blog Platform.
 
 <table>
 <tr>
@@ -212,29 +379,7 @@ AI-powered assistance for generating or suggesting content ideas for bloggers.
 
 </tr>
 
-<tr>
 
-<td width="50%" valign="top">
-
-## 🤖 AI Assistant – Content Suggestions
-
-Additional view of the AI-powered content suggestion functionality.
-
-<img src="Project%20Screenshots/AI%20Assistant%20Content%20Suggestions1.png" width="100%">
-
-</td>
-
-<td width="50%" valign="top">
-
-## 🔎 Blog Search and Filtering
-
-Allows users to search for blogs and filter available content to find relevant posts more efficiently.
-
-<img src="Project%20Screenshots/Blog%20Search%20and%20Filtering.png" width="100%">
-
-</td>
-
-</tr>
 
 <tr>
 
@@ -620,19 +765,30 @@ Displays the user's own blog content and provides access to their published post
 
 # 🛠 Technology Stack
 
-| Layer | Technology |
-|------|-------------|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Python, Django |
-| Database | SQL,Supabase |
-| AI Processing | NLP-based Retrieval |
+| Category | Technology |
+|----------|------------|
+| Language | Python |
+| Backend Framework | Django 6.0.1 |
+| Frontend | HTML5, CSS3, JavaScript |
+| Template Engine | Django Templates |
+| Database | SQLite |
+| ORM | Django ORM |
+| Rich Text Editor | CKEditor |
+| Image Processing | Pillow |
+| Authentication | Django Authentication System |
+| AI Processing | NLP-based Knowledge Retrieval |
+| Web Search | External Web Search Integration |
 | Analytics | Custom Engagement Tracking |
+| Database Migrations | Django Migrations |
+| Package Management | pip & `requirements.txt` |
+| Development Server | Django Development Server |
+| Version Control | Git & GitHub |
 
 ---
 
 # ⚙️ Installation & Setup
 
-Follow the steps below to run the Smart Blogging Platform locally.
+Follow the steps below to run the SmartBlogger — AI-Powered Blog Platform locally.
 
 ## 1. Clone the Repository
 
@@ -712,7 +868,7 @@ Open your browser and visit:
 http://127.0.0.1:8000/
 ```
 
-The Smart Blogging Platform should now be running locally.
+The SmartBlogger — AI-Powered Blog Platform should now be running locally.
 
 ## 9. 🛑 Stopping the Server
 
